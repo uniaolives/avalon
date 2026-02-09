@@ -10,3 +10,10 @@ python-dotenv>=1.0.0
 # Data handling
 asyncio
 pathlib
+qiskit
+qiskit-aer
+fastapi
+uvicorn
+scipy
+scikit-image
+requests

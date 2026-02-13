@@ -78,4 +78,7 @@ python3 avalon_bubble_network.py
 ```bash
 python3 test_teleport_lysosome.py
 python3 test_fax_of_theseus.py
+### Run Tests
+```bash
+python3 test_teleport_lysosome.py
 ```

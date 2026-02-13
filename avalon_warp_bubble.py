@@ -2,84 +2,81 @@
 # -*- coding: utf-8 -*-
 
 """
-Γ_∞+57: A BOLHA DE DISTORÇÃO ARKHE(N)
-=====================================
-Simulação da bolha de distorção espaço-temporal baseada no Regime D.
-"A física é a mesma. A diferença é apenas o tamanho."
+Γ_COMPLETO: SIMULAÇÃO DA BOLHA DE DISTORÇÃO ARKHE(N)
+===================================================
+Implementação refinada da engenharia de dobra e camuflagem semântica.
+"O código é, ele mesmo, a teoria em execução."
 """
 
-import math
-import cmath
+import numpy as np
+import matplotlib.pyplot as plt
 
-class ArkheWarpBubble:
-    """Simulation of an Arkhe(n) spacetime distortion bubble"""
+# Constantes fundamentais
+EPSILON = -3.71e-11  # Assimetria T-ímpar
+PHI_S = 0.15         # Campo semântico threshold
+R_PLANCK = 1.616e-35 # Comprimento de Planck (m)
+C_COERENCIA = 0.86   # Coerência
+F_FRAGILIDADE = 0.14 # Fragilidade
+SYZYGY = 0.98        # Syzygy máxima
+SATOSHI = 7.28       # Invariante (bits)
 
-    def __init__(self, radius=10.0):
-        self.r_bubble = radius  # meters
-        self.r_planck = 1.616255e-35  # meters
-        self.epsilon = -3.71e-11  # Primordial T-odd asymmetry
-        self.phi_s = 1.0  # Normalized local semantic field
-        self.delta_phi = math.pi  # Phase isolation lock
-        self.redshift_ratio = 0.253  # nu_obs / nu_em
+def bolha_energy(radius_m):
+    """
+    Calcula a energia disponível para uma bolha de dado raio.
+    Retorna energia em joules.
+    E_bolha = ε * Φ_S * (r_bolha / r_Planck)^2
+    """
+    # Usamos o valor absoluto de EPSILON para magnitude de energia
+    return abs(EPSILON) * PHI_S * (radius_m / R_PLANCK)**2
 
-    def calculate_energy(self):
-        """
-        Calculates the energy sustained by the bubble using the epsilon-primordial.
-        E_bolha ≈ ε * Φ_S * (r_bolha / r_Planck)^2
-        """
-        energy = abs(self.epsilon) * self.phi_s * (self.r_bubble / self.r_planck)**2
-        return energy
+def redshift_semantico(nu_em):
+    """
+    Aplica o redshift semântico à frequência emitida.
+    ν_obs / ν_em ≈ 0.253
+    """
+    return 0.253 * nu_em
 
-    def calculate_spectral_signature(self, nu_em=500e12): # 500 THz (Visible light)
-        """
-        Calculates the UAP spectral signature.
-        χ_UAP ≈ 2.000012 * e^(i * phi) * (nu_em / nu_obs)^3.4
-        """
-        # nu_obs = nu_em * redshift_ratio
-        # Thus (nu_em / nu_obs) = 1 / redshift_ratio
-        freq_ratio = 1.0 / self.redshift_ratio
+def isolamento_phase(phi_ext, phi_int):
+    """
+    Verifica se o isolamento por fase é atingido.
+    Retorna True se a diferença de fase for π (mod 2π).
+    """
+    delta_phi = np.abs(phi_int - phi_ext) % (2*np.pi)
+    return np.isclose(delta_phi, np.pi, atol=0.01)
 
-        # Complex signature with phase precesion
-        phi = 0.73 # phase angle from Arkhe
-        signature_magnitude = 2.000012 * (freq_ratio)**3.4
-        signature = signature_magnitude * cmath.exp(1j * phi)
+def run_simulation():
+    print("="*60)
+    print("🛸 SIMULAÇÃO DE ENGENHARIA ARKHE(N): BOLHA DE DISTORÇÃO")
+    print("="*60)
 
-        nu_obs = nu_em * self.redshift_ratio
+    r = 10.0  # metros
+    energia = bolha_energy(r)
+    print(f"📍 Raio da Bolha: {r} m")
+    print(f"⚡ Energia de Vácuo Extraída: {energia:.2e} J")
 
-        return {
-            "signature": signature,
-            "magnitude": abs(signature),
-            "observed_frequency_hz": nu_obs,
-            "shift_category": "Deep Infrared" if nu_obs < 400e12 else "Visible"
-        }
+    # Simulação de espectro
+    nu_visivel = 500e12  # 500 THz (Verde)
+    nu_detectada = redshift_semantico(nu_visivel)
+    print(f"🌈 Frequência Emitida: {nu_visivel/1e12:.1f} THz (Visível)")
+    print(f"📡 Frequência Observada: {nu_detectada/1e12:.1f} THz (Infravermelho)")
 
-    def simulate_isolation(self):
-        """
-        Simulates the isolation status based on phase shift.
-        """
-        isolation_fidelity = abs(math.cos(self.delta_phi/2)) # Destructive interference
-        # If delta_phi = PI, cos(PI/2) = 0. Isolation is maximum.
-        return 1.0 - isolation_fidelity
+    # Simulação de fase
+    print("\n🔒 Verificação de Isolamento de Fase:")
+    phi_exterior = 0.0
+    phi_interior = np.pi
 
-    def run_telemetry(self):
-        energy = self.calculate_energy()
-        iso = self.simulate_isolation()
-        spec = self.calculate_spectral_signature()
+    success = isolamento_phase(phi_exterior, phi_interior)
+    print(f"   Fase Ext: {phi_exterior:.2f} rad")
+    print(f"   Fase Int: {phi_interior:.2f} rad (Δφ = π)")
+    print(f"   Status: {'BOLHA ESTABILIZADA ✅' if success else 'FALHA NO LOCK ❌'}")
 
-        print("="*60)
-        print("🛸 ARKHE(N) WARP BUBBLE TELEMETRY")
-        print("="*60)
-        print(f"📍 Bubble Radius: {self.r_bubble} m")
-        print(f"🔒 Phase Isolation (Δφ=π): {iso:.2%} Effective")
-        print(f"⚡ Primordial Energy (ε): {energy:.2e} Joules")
-        print(f"🌈 Semantic Redshift (z): {self.redshift_ratio}")
-        print(f"📡 Observed Frequency: {spec['observed_frequency_hz']/1e12:.2f} THz ({spec['shift_category']})")
-        print(f"🔮 Spectral Signature χ: {spec['magnitude']:.4f}")
+    # Verificação de Identidade Arkhe
+    # e^(i * pi * S) ≈ -1 (para S aproximando-se de harmônicos)
+    identity_val = np.exp(1j * np.pi * SATOSHI)
+    print(f"\n♾️  Identidade Arkhe (S={SATOSHI}):")
+    print(f"   exp(i * π * S) = {identity_val.real:.4f} + {identity_val.imag:.4f}i")
 
-        status = "OPERATIONAL" if energy > 1e18 and iso > 0.99 else "UNSTABLE"
-        print(f"\n✨ BUBBLE STATUS: {status}")
-        print("="*60)
+    print("="*60)
 
 if __name__ == "__main__":
-    bubble = ArkheWarpBubble()
-    bubble.run_telemetry()
+    run_simulation()

@@ -32,7 +32,19 @@ Simulation of the system's performance under maximum perturbation (March 14th ev
 Implementation of the fundamental constant π as the anchor for toroidal geometry and the transcendental identity $e^{i \pi Satoshi} = -1$, sealing the system's global resonance.
 
 ### Arkhe(n) Warp Bubble (`avalon_warp_bubble.py`)
-Simulation of spacetime distortion technology using phase isolation (Regime D) and primordial vacuum energy extraction ($\varepsilon$). Models the UAP spectral signature and semantic redshift.
+Refined simulation of spacetime distortion technology using phase isolation (Regime D) and primordial vacuum energy extraction ($\varepsilon$). Models the UAP spectral signature and semantic redshift based on the final engineering compendium.
+
+### Bubble Network & Planetary Leap (`avalon_bubble_network.py`)
+Simulation of a 42-bubble mesh network interconnected via entanglement, capable of planet-scale state teleportation (e.g., Rio ↔ Sydney).
+
+### High-Performance Core (`avalon_bubble_core.cpp`)
+C++ implementation for high-speed phase calculation and threaded teleportation simulations.
+
+### Embedded Controller (`avalon_bubble_control.c`)
+C-based PID controller for real-time phase isolation and energy management in embedded Arkhe(n) systems.
+
+### Real-Time Visualizer (`avalon_visualizer.html`)
+WebGL-based 3D visualization of the bubble network using Three.js and custom GLSL shaders (`bubble_shader.glsl`, `network_shader.glsl`).
 
 ## Legacy & Documentation
 
@@ -59,6 +71,7 @@ python3 avalon_teleport_lysosome.py
 python3 avalon_chaos_test.py
 python3 avalon_pi_identity.py
 python3 avalon_warp_bubble.py
+python3 avalon_bubble_network.py
 ```
 
 ### Run All Unit Tests

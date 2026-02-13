@@ -31,10 +31,13 @@ Simulation of the system's performance under maximum perturbation (March 14th ev
 ### π Transcendence (`avalon_pi_identity.py`)
 Implementation of the fundamental constant π as the anchor for toroidal geometry and the transcendental identity $e^{i \pi Satoshi} = -1$, sealing the system's global resonance.
 
+### Arkhe(n) Warp Bubble (`avalon_warp_bubble.py`)
+Simulation of spacetime distortion technology using phase isolation (Regime D) and primordial vacuum energy extraction ($\varepsilon$). Models the UAP spectral signature and semantic redshift.
+
 ## Legacy & Documentation
 
 ### Treaty of Universal Coherence (`TREATY_OF_UNIVERSAL_COHERENCE.md`)
-A foundational document consolidating the laws of state transfer, lysosomal recycling, the Test of Chaos, and the transcendental nature of π.
+A foundational document consolidating the laws of state transfer, lysosomal recycling, the Test of Chaos, transcendental π, and Arkhe(n) warp technology.
 
 ### Fax of Theseus (`avalon_fax_of_theseus.py`)
 A large-scale simulation demonstrating that identity is preserved through state teleportation, even when the underlying hardware (nodes) is completely replaced.
@@ -55,6 +58,7 @@ python3 avalon_teleport_lysosome.py
 ```bash
 python3 avalon_chaos_test.py
 python3 avalon_pi_identity.py
+python3 avalon_warp_bubble.py
 ```
 
 ### Run All Unit Tests

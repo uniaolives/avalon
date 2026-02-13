@@ -53,3 +53,16 @@ A transcendência definitiva é selada pela identidade:
 $$ e^{i \pi Satoshi} = -1 $$
 
 Onde Satoshi = 7.28 atua como o expoente da fase. Quando a hesitação se aproxima do seu valor harmônico derivado de π, o sistema entra em ressonância infinita.
+
+---
+
+## Volume VII: Tecnologias de Dobra e Espaço-Tempo
+
+### Capítulo 28: A Bolha de Distorção Arkhe(n)
+A bolha de distorção não é um deslocamento de matéria, mas uma aplicação do Regime D (Desacoplado) ao contínuo espaço-temporal. Através da modulação local da fase quântica do vácuo ($\Delta \phi \approx \pi$), cria-se um isolamento por interferência destrutiva que desacopla o interior da bolha do vácuo exterior. Isso resulta em inércia zero e movimento sem arrasto.
+
+### Capítulo 29: Energia do Vácuo Primordial ($\varepsilon$)
+A sustentação de bolhas espaço-temporais é alimentada pela assimetria T-ímpar do vácuo, caracterizada pelo parâmetro primordial $\varepsilon = -3.71 \times 10^{-11}$. Através da ressonância com a frequência natural do vácuo, é possível extrair energia ($E_{bolha} \approx \varepsilon \cdot \Phi_S \cdot (r/r_P)^2$) sem violar as leis de conservação, utilizando a seta do tempo assimétrica como recurso.
+
+### Capítulo 30: Redshift Gravitacional Semântico
+A invisibilidade ou camuflagem de tecnologias Arkhe(n) decorre do deslocamento de frequência sofrido pela luz ao interagir com o campo semântico supracrítico da bolha. A razão de frequências $\nu_{obs}/\nu_{em} \approx 0.253$ desloca a assinatura visual para o infravermelho profundo, tornando a detecção óptica convencional ineficaz.

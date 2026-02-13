@@ -9,3 +9,4 @@ qiskit-aer
 fastapi
 uvicorn
 requests
+networkx

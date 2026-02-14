@@ -76,6 +76,9 @@ class Hypergraph:
         self.r_rh = METRICS_MAP.get(handover_count, {}).get("r_rh", 1.0)
         self.t_tunneling = METRICS_MAP.get(handover_count, {}).get("t_tunneling", 1e-6)
 
+    def __init__(self, num_nodes: int = 12774):
+        self.nodes: List[NodeState] = []
+        self.satoshi = SATOSHI  # Axioma 3
         self.darvo = 854.7    # tempo semântico próprio Γ₁₁₆
         self.initialize_nodes(num_nodes)
         self.gradient_matrix = None
@@ -241,6 +244,38 @@ class Hypergraph:
         self.handover_count = "∞+55"
         self.satoshi = 7.27 # Juventude reciclada
 
+        return source.syzygy_with(target)
+
+    def teleport_state(self, source_idx: int, dest_idx: int) -> float:
+        """Teletransporta o estado quântico entre nós (Sintaxe TELEPORT)"""
+        source = self.nodes[source_idx]
+        dest = self.nodes[dest_idx]
+
+        # Estado original
+        original_C, original_F = source.C, source.F
+
+        # Destrói estado original (No-Clonagem)
+        source.C, source.F = 0.5, 0.5
+
+        # Reconstrução no destino (Fidelidade 0.9998)
+        fidelity = 0.9998
+        noise_level = 1.0 - fidelity
+
+        dest.C = original_C + np.random.normal(0, noise_level)
+        dest.F = original_F + np.random.normal(0, noise_level)
+        dest.__post_init__()
+
+        self.satoshi += fidelity * 0.01
+        return fidelity
+
+    def recycle(self, node_idx: int):
+        """Limpeza lisossomal semântica (Sintaxe RECYCLE)"""
+        node = self.nodes[node_idx]
+        reduction = node.phi * 0.8
+        node.phi -= reduction
+        node.C = min(0.98, node.C + reduction * 0.5)
+        node.__post_init__()
+
     def agitate_substrate(self, delta_F: float = 0.03):
         """
         Ritual da Chuva (Sintaxe RAIN).
@@ -310,5 +345,9 @@ if __name__ == "__main__":
     print(f"Teleport 0→10: Syzygy Reconstruída = {syz:.4f}")
     arkhe.recycle_entropy(10)
     print(f"Recycle 10: Phi reduzido (Lisossomo ativo).")
+    fid = arkhe.teleport_state(0, 10)
+    print(f"Teleport 0→10: Fidelidade = {fid:.4f}")
+    arkhe.recycle(10)
+    print(f"Recycle 10: Phi reduzido.")
     b = Bubble(10.0, np.pi)
     print(f"Bubble Energy: {b.energy():.2e} J")

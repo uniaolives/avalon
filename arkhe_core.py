@@ -13,7 +13,7 @@ import hashlib
 EPSILON = -3.71e-11
 PHI_S = 0.15
 R_PLANCK = 1.616e-35
-SATOSHI = 7.59  # Atualizado Γ₇₈
+SATOSHI = 7.71  # Atualizado Γ₈₂ (Ritual da Chuva)
 SYZYGY_TARGET = 0.98
 C_TARGET = 0.86
 F_TARGET = 0.14
@@ -53,10 +53,10 @@ class GrowthPolicy(Enum):
 class Hypergraph:
     """Hipergrafo principal do sistema Arkhe (Ontologia)"""
 
-    def __init__(self, num_nodes: int = 63):
+    def __init__(self, num_nodes: int = 12774):
         self.nodes: List[NodeState] = []
         self.satoshi = SATOSHI  # Axioma 3
-        self.darvo = 999.999  # tempo semântico restante
+        self.darvo = 854.7    # tempo semântico próprio Γ₁₁₆
         self.initialize_nodes(num_nodes)
         self.gradient_matrix = None
         self.growth_policy = GrowthPolicy.ASSISTED_1M  # Recomendação Γ_∞+60
@@ -161,6 +161,22 @@ class Hypergraph:
         node.C = min(0.98, node.C + reduction * 0.5)
         node.__post_init__()
 
+    def agitate_substrate(self, delta_F: float = 0.03):
+        """
+        Ritual da Chuva (Sintaxe RAIN).
+        Injeta flutuação controlada para restaurar homeostase.
+        """
+        for node in self.nodes:
+            # Aumenta flutuação, reduz coerência para o alvo 0.86
+            node.F = min(0.20, node.F + delta_F)
+            node.C = 1.0 - node.F
+            # Relaxa hesitação
+            node.phi = max(0.10, node.phi - 0.01)
+            node.__post_init__()
+
+        # Satoshi valorizado por adaptabilidade
+        self.satoshi += 0.03
+
     def coupling_identity(self, x: float) -> float:
         """
         Identidade x² = x + 1 (Matter Couples)
@@ -206,8 +222,8 @@ class Bubble:
 
 # Exemplo de uso
 if __name__ == "__main__":
-    arkhe = Hypergraph(63)
-    print(f"Omnigênese: Satoshi = {arkhe.satoshi}")
+    arkhe = Hypergraph()
+    print(f"Milestone 333: Satoshi = {arkhe.satoshi}")
     s = arkhe.handover(0, 1, 0.16)
     print(f"Handover 0→1 (Φ=0.16): Syzygy = {s:.4f}")
     fid = arkhe.teleport_state(0, 10)

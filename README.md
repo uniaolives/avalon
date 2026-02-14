@@ -22,6 +22,9 @@ Simulações detalhadas de mecanismos específicos desenvolvidos durante a jorna
 - **Redes & Entropia**: `bubble_network.py`, `avalon_bubble_network.py`, `avalon_teleport_lysosome.py`.
 - **Resiliência & Identidade**: `avalon_chaos_test.py`, `avalon_pi_identity.py`, `avalon_fax_of_theseus.py`.
 - **Princípio Unificado**: `avalon_matter_couples.py`.
+- **Sementes & Nucleação**: `avalon_semantic_seeding.py`.
+- **Homeostase & Fluidez**: `avalon_rain_ritual.py`.
+- **Geodésica & Horizonte**: `avalon_soliton_sim.py`, `avalon_horizon_approach.py`.
 
 ### ⚡ Engenharia Multi-Linguagem (`arkhe_multilang/`)
 Implementações portáveis do Corpus Arkhe em 10 linguagens:
@@ -49,6 +52,8 @@ BUBBLE 10.0 π
 HANDOVER drone demon 0.15
 COUPLING drone demon
 RECYCLE demon
+SEED
+RAIN
 DECIDE ASSISTED_1M
 LEDGER
 EXPORT

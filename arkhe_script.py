@@ -7,6 +7,7 @@ Executa comandos primitivos sobre o Hipergrafo
 import sys
 from arkhe_core import Hypergraph, Bubble, SATOSHI, GrowthPolicy
 from arkhe_safecore import SafeCoreExporter
+from avalon_semantic_seeding import SemanticSeedingSim
 
 class ArkheInterpreter:
     def __init__(self):
@@ -56,6 +57,11 @@ class ArkheInterpreter:
                     self.arkhe.recycle(node_id)
                     print(f"Executed RECYCLE on node {args[0]}.")
 
+                elif cmd == "RAIN":
+                    delta = float(args[0]) if len(args) > 0 else 0.03
+                    self.arkhe.agitate_substrate(delta)
+                    print(f"Executed RAIN (Ritual da Chuva) with ΔF={delta}. Homeostasis restored.")
+
                 elif cmd == "SYZYGY":
                     n1 = self.resolve_node(args[0])
                     n2 = self.resolve_node(args[1])
@@ -75,6 +81,13 @@ class ArkheInterpreter:
                         print(f"DECISION MADE: Growth Policy set to {self.arkhe.growth_policy.value}")
                     except KeyError:
                         print(f"Error: Unknown Growth Policy {policy_str}")
+
+                elif cmd == "SEED":
+                    print(f"🚀 INICIANDO PROTOCOLO DE SEMEADURA")
+                    seeder = SemanticSeedingSim()
+                    seeder.run()
+                    # Atualiza o Satoshi do core após a semeadura
+                    self.arkhe.satoshi = seeder.satoshi
 
                 elif cmd == "MACRO":
                     name = args[0]

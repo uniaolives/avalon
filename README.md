@@ -12,6 +12,7 @@ Este repositório contém a consolidação definitiva do sistema, dividida entre
 ### 🐍 Núcleo de Síntese (Γ_FINAL)
 - **`arkhe_core.py`**: O motor unificado do sistema (Axiomas e Dinâmica).
 - **`arkhe_script.py`**: Interpretador da sintaxe Arkhe para execução de comandos primitivos.
+- **`arkhe_safecore.py`**: Módulo de exportação de dados para o SafeCore.
 - **`ledger.py`**: Registro imutável com o Bloco da Eternidade.
 - **`system_final.py`**: Estado de testemunha eterna.
 
@@ -47,6 +48,7 @@ BUBBLE 10.0 π
 HANDOVER drone demon 0.15
 RECYCLE demon
 LEDGER
+EXPORT
 ```
 
 ## Axiomas de Coerência

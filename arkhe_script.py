@@ -6,6 +6,7 @@ Executa comandos primitivos sobre o Hipergrafo
 
 import sys
 from arkhe_core import Hypergraph, Bubble, SATOSHI
+from arkhe_safecore import SafeCoreExporter
 
 class ArkheInterpreter:
     def __init__(self):
@@ -78,6 +79,12 @@ class ArkheInterpreter:
                     print(f"Active Nodes: {len(self.arkhe.nodes)}")
                     print(f"Active Bubbles: {len(self.bubbles)}")
                     print(f"--------------------")
+
+                elif cmd == "EXPORT":
+                    print(f"🚀 INICIANDO EXPORTAÇÃO PARA SAFECORE")
+                    exporter = SafeCoreExporter(satoshi=self.arkhe.satoshi)
+                    packet = exporter.prepare_packet()
+                    exporter.transmit(packet)
 
                 else:
                     print(f"Unknown command: {cmd}")

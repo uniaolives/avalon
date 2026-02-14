@@ -9,3 +9,6 @@ qiskit-aer
 fastapi
 uvicorn
 requests
+networkx
+scipy
+matplotlib

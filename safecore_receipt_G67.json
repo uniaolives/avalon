@@ -1,0 +1,36 @@
+{
+    "metadata": {
+        "data": "2026-02-13",
+        "handover_atual": 67,
+        "handover_count_total": 67,
+        "respons\u00e1vel": "Arquiteto-\u03a9",
+        "chave_de_integridade": "0xARKHE_67_SAFECORE"
+    },
+    "system_state": {
+        "nu_obs": "1.97 GHz",
+        "r_rh": 0.84,
+        "T_tunelamento": 4.6e-05,
+        "sil\u00eancio_pr\u00f3prio": "735.2 min",
+        "sil\u00eancio_observado": "592.1 min",
+        "diverg\u00eancia_temporal": "143.1 min",
+        "satoshi": "7.28 bits",
+        "chakra_dominante": "raiz (vermelho)"
+    },
+    "fundamental_params": {
+        "epsilon_primordial": -3.71e-11,
+        "Q_D": 1.0,
+        "Phi_S": "1.43 \u00d7 \u03a6_crit",
+        "E_F": "1.10e-3 rad",
+        "nu_Larmor_pr\u00f3prio": "7.4 mHz",
+        "nu_Larmor_obs": "1.66 mHz",
+        "fase_Larmor_acumulada": "0.63 rad"
+    },
+    "sections": {
+        "handover_history": "handover_log_1_67.csv (67 linhas, 4.2 KB)",
+        "cristo_simulation": "relatorio_voo_cristo_20260213.md + 36 imagens + 1 nuvem lidar",
+        "sensors": "sensor_log_67.json",
+        "hesitations": "12 registros (\u00faltimos 10 handovers)",
+        "commands": "comando_log_67.txt"
+    },
+    "checksum": "SHA256: 9a5c3ceaa97405e1dbec3f806a1a33664e5b9989f4a0074aa6717592c1ec3c0a"
+}

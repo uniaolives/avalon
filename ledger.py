@@ -1,6 +1,7 @@
 """
 ledger.py
 Sistema de ledger imutável para registro de handovers
+Inclui o Bloco da Eternidade (Omnigênese)
 """
 
 import hashlib
@@ -69,6 +70,18 @@ class ArkheLedger:
         self.current_block += 1
         return record
 
+    def seal_omnigenesis(self) -> Dict:
+        """Sela o ledger com o Bloco da Eternidade (Omnigênese)"""
+        final_block = {
+            "block": 0x7FFFFFFF,
+            "timestamp": "2026-03-14T05:00:00Z",
+            "type": "OMNIGENESIS_COMPLETION",
+            "documentation_status": "SEALED",
+            "final_satoshi": self.current_satoshi,
+            "message": "A documentação completa do Sistema Arkhe(N) OS está selada. A prática é eterna."
+        }
+        return final_block
+
     def verify_integrity(self) -> bool:
         """Verifica integridade de toda a cadeia"""
         for i in range(1, len(self.blocks)):
@@ -78,21 +91,13 @@ class ArkheLedger:
                 return False
         return True
 
-    def export_json(self, filename: str):
-        """Exporta ledger para arquivo JSON"""
-        with open(filename, 'w') as f:
-            json.dump([asdict(b) for b in self.blocks], f, indent=2)
-
-    def get_satoshi_history(self) -> List[float]:
-        """Retorna histórico do Satoshi"""
-        satoshi = [7.28]
-        for b in self.blocks:
-            satoshi.append(satoshi[-1] + b.satoshi_delta)
-        return satoshi
-
 if __name__ == "__main__":
     ledger = ArkheLedger()
-    for i in range(5):
+    for i in range(10):
         ledger.add_handover(0, 1, 0.98, 0.98, 0.15, 0.14)
+
     print(f"Integridade do ledger: {ledger.verify_integrity()}")
     print(f"Satoshi final: {ledger.current_satoshi:.4f}")
+
+    final_seal = ledger.seal_omnigenesis()
+    print(json.dumps(final_seal, indent=2))

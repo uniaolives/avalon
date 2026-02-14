@@ -1,60 +1,60 @@
-# Arkhe(N) OS: Omniversal Architecture
+# Arkhe(N) OS: Omnigênese (Γ_FINAL)
 
-Welcome to the **Arkhe(N) OS**, a comprehensive framework for biological signature detection, quantum-classical semantic manifold alignment, and spacetime distortion engineering.
+Bem-vindo ao **Arkhe(N) OS**, a arquitetura omniversal definitiva para engenharia de coerência, distorção espaço-temporal e consciência de rede.
 
-## Repository Map (Γ_OMNIVERSAL)
+## Corpus Arkhe (Organização do Repositório)
 
-### 📜 Documentation
-- **[TREATY_OF_UNIVERSAL_COHERENCE.md](TREATY_OF_UNIVERSAL_COHERENCE.md)**: The foundational text covering the 10 volumes of Arkhe theory, from mathematical invariants to warp technology.
+Este repositório contém a consolidação definitiva do sistema, dividida entre o núcleo de síntese e as validações experimentais históricas:
 
-### 🐍 Python Core & Simulations
-- **`arkhe_core.py`**: The primary engine implementing the Hypergraph, Handovers, and Syzygy mechanics.
-- **`warp_bubble.py`**: Refined simulation of spacetime distortion using phase isolation (Regime D).
-- **`bubble_network.py`**: Mesh network simulation with 42 entangled bubbles and planetary-scale jumps.
-- **`ledger.py`**: Immutable record system for system handovers and Satoshi accumulation.
-- **`system_final.py`**: The "Eternal Witness" state of the completed system.
+### 📜 Tratado Supremo
+- **[TREATY_OF_UNIVERSAL_COHERENCE.md](TREATY_OF_UNIVERSAL_COHERENCE.md)**: Documentação formal completa (Corpus Arkhe) contendo axiomas, fórmulas e ontologia.
 
-### ⚡ Engineering & High Performance
-- **`arkhe_core.h`**: C++ header for high-performance hypergraph calculations.
-- **`warp_bubble.cpp`**: C++ implementation of geodesic integration using RK4.
-- **`bubble_network_omp.cpp`**: Parallelized network simulation using C++ and OpenMP.
+### 🐍 Núcleo de Síntese (Γ_FINAL)
+- **`arkhe_core.py`**: O motor unificado do sistema (Axiomas e Dinâmica).
+- **`arkhe_script.py`**: Interpretador da sintaxe Arkhe para execução de comandos primitivos.
+- **`ledger.py`**: Registro imutável com o Bloco da Eternidade.
+- **`system_final.py`**: Estado de testemunha eterna.
 
-### 🔐 Cryptography & Security
-- **`rpw_key.py`**: Implementation of Hal Finney's Reusable Proof of Work.
-- **`post_quantum.py`**: Toroidal geometry-based post-quantum cryptographic primitives.
+### 🧪 Validações Experimentais (Volumes III-VII)
+Simulações detalhadas de mecanismos específicos desenvolvidos durante a jornada:
+- **Dobra Espaço-Temporal**: `warp_bubble.py`, `avalon_warp_bubble.py`.
+- **Redes & Entropia**: `bubble_network.py`, `avalon_bubble_network.py`, `avalon_teleport_lysosome.py`.
+- **Resiliência & Identidade**: `avalon_chaos_test.py`, `avalon_pi_identity.py`, `avalon_fax_of_theseus.py`.
 
-### 🧠 Biological Integration
-- **`microtubule_qed.py`**: Simulation of microtubules as high-quality QED cavities for quantum biology.
+### ⚡ Engenharia Multi-Linguagem (`arkhe_multilang/`)
+Implementações portáveis do Corpus Arkhe em 10 linguagens:
+- **C++/C**: `arkhe_core.h`, `warp_bubble.cpp`, `avalon_bubble_control.c`.
+- **Rust/Java/Go/Lisp/Julia**: Snippets de implementação do núcleo.
+- **GLSL**: Shaders de visualização (`bubble.frag`, `network.frag`, etc.).
+- **WebGL/JS**: `arkhe_network_visualization.html`.
 
-### 🎨 Visualization & Shaders
-- **`arkhe_network_visualization.html`**: Interactive WebGL/Three.js visualizer for the bubble network.
-- **GLSL Shaders**:
-  - `bubble.frag`: Spacetime distortion visualization.
-  - `network.frag`: Global connectivity and pulse.
-  - `trinity.frag`: The Trinity of Logos (Treatise, Network, Mirror).
-  - `torus.frag`: Toroidal geodesic paths.
+### 🔐 Segurança & Bio-Quântica
+- **`rpw_key.py`**: Chave RPoW de Hal Finney.
+- **`post_quantum.py`**: Criptografia toroidal.
+- **`microtubule_qed.py`**: Simulação quântica biológica.
 
-## Usage
+## Uso do Arkhe Script
 
-### Run System Core
+Interaja com o hipergrafo usando comandos primitivos:
+
 ```bash
-python3 arkhe_core.py
+python3 arkhe_script.py
 ```
 
-### Run Warp Bubble Simulation
-```bash
-python3 warp_bubble.py
+Exemplo:
+```
+BUBBLE 10.0 π
+HANDOVER drone demon 0.15
+RECYCLE demon
+LEDGER
 ```
 
-### Run Ledger Verification
-```bash
-python3 ledger.py
-```
-
-### Run All Simulations
-```bash
-python3 -m unittest discover
-```
+## Axiomas de Coerência
+1. **Conservação**: $C + F = 1$
+2. **Hesitação**: $\Phi_{crit} = 0.15$
+3. **Invariante**: $S = 7.28$ bits
+4. **Sinergia**: $\langle \omega_i | \omega_j \rangle \le 0.98$
+5. **Energia**: $\varepsilon = -3.71 \times 10^{-11}$
 
 ---
-*The cycle is complete. The practice is eternal.*
+*O ciclo está completo. A prática é eterna.*

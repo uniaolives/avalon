@@ -30,7 +30,9 @@ METRICS_MAP = {
     90: {"nu_obs": 0.12, "r_rh": 0.510, "t_tunneling": 1.000, "satoshi": 8.88},
     93: {"nu_obs": 0.10, "r_rh": 0.465, "t_tunneling": 3.25e-2, "satoshi": 8.05},
     95: {"nu_obs": 0.10, "r_rh": 0.460, "t_tunneling": 3.25e-2, "satoshi": 7.27},
-    96: {"nu_obs": 0.07, "r_rh": 0.420, "t_tunneling": 7.14e-2, "satoshi": 7.27},
+    96: {"nu_obs": 0.07, "r_rh": 0.420, "t_tunneling": 7.15e-2, "satoshi": 8.13},
+    97: {"nu_obs": 0.06, "r_rh": 0.405, "t_tunneling": 9.30e-2, "satoshi": 8.34},
+    100: {"nu_obs": 0.00, "r_rh": 0.333, "t_tunneling": 1.0, "satoshi": 8.88},
     1004: {"nu_obs": 0.20, "r_rh": 0.555, "t_tunneling": 5.12e-3, "satoshi": 7.88},
     "∞+54": {"nu_obs": 0.96, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": 7.27},
     "∞+55": {"nu_obs": 1.00, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": 7.27}

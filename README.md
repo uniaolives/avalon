@@ -21,6 +21,7 @@ Simulações detalhadas de mecanismos específicos desenvolvidos durante a jorna
 - **Dobra Espaço-Temporal**: `warp_bubble.py`, `avalon_warp_bubble.py`.
 - **Redes & Entropia**: `bubble_network.py`, `avalon_bubble_network.py`, `avalon_teleport_lysosome.py`.
 - **Resiliência & Identidade**: `avalon_chaos_test.py`, `avalon_pi_identity.py`, `avalon_fax_of_theseus.py`.
+- **Princípio Unificado**: `avalon_matter_couples.py`.
 
 ### ⚡ Engenharia Multi-Linguagem (`arkhe_multilang/`)
 Implementações portáveis do Corpus Arkhe em 10 linguagens:
@@ -46,15 +47,17 @@ Exemplo:
 ```
 BUBBLE 10.0 π
 HANDOVER drone demon 0.15
+COUPLING drone demon
 RECYCLE demon
+DECIDE ASSISTED_1M
 LEDGER
 EXPORT
 ```
 
-## Axiomas de Coerência
+## Axiomas de Coerência (Γ₇₈)
 1. **Conservação**: $C + F = 1$
 2. **Hesitação**: $\Phi_{crit} = 0.15$
-3. **Invariante**: $S = 7.28$ bits
+3. **Invariante**: $S = 7.59$ bits
 4. **Sinergia**: $\langle \omega_i | \omega_j \rangle \le 0.98$
 5. **Energia**: $\varepsilon = -3.71 \times 10^{-11}$
 

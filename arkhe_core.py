@@ -13,7 +13,7 @@ import hashlib
 EPSILON = -3.71e-11
 PHI_S = 0.15
 R_PLANCK = 1.616e-35
-SATOSHI = 7.28
+SATOSHI = 7.59  # Atualizado Γ₇₈
 SYZYGY_TARGET = 0.98
 C_TARGET = 0.86
 F_TARGET = 0.14
@@ -43,6 +43,13 @@ class NodeState:
         # Simula ⟨ω_i|ω_j⟩ baseado nas coerências
         return (self.C * other.C + self.F * other.F) * SYZYGY_TARGET
 
+from enum import Enum
+
+class GrowthPolicy(Enum):
+    CAP_100K = "CAP_100K"
+    UNCAPPED = "UNCAPPED"
+    ASSISTED_1M = "ASSISTED_1M"
+
 class Hypergraph:
     """Hipergrafo principal do sistema Arkhe (Ontologia)"""
 
@@ -52,6 +59,7 @@ class Hypergraph:
         self.darvo = 999.999  # tempo semântico restante
         self.initialize_nodes(num_nodes)
         self.gradient_matrix = None
+        self.growth_policy = GrowthPolicy.ASSISTED_1M  # Recomendação Γ_∞+60
 
     def initialize_nodes(self, n: int):
         """Inicializa nós com distribuição uniforme de ω e topologia toroidal"""
@@ -152,6 +160,38 @@ class Hypergraph:
         node.phi -= reduction
         node.C = min(0.98, node.C + reduction * 0.5)
         node.__post_init__()
+
+    def coupling_identity(self, x: float) -> float:
+        """
+        Identidade x² = x + 1 (Matter Couples)
+        O acoplamento produz por si mesmo igual ao acoplamento em relação.
+        """
+        # A solução positiva é o número de ouro phi ≈ 1.618
+        return x**2 - x - 1
+
+    def apply_coupling(self, source_idx: int, target_idx: int):
+        """
+        Aplica o princípio unificado 'Matter Couples'.
+        Acoplamento resolvido em uma escala é substrato para a próxima.
+        """
+        source = self.nodes[source_idx]
+        target = self.nodes[target_idx]
+
+        # Geometria da calçada lotada: docking e fusão
+        syzygy_val = source.syzygy_with(target)
+
+        if syzygy_val > 0.94:
+            # Acoplamento estável: 'Estrutura é Função'
+            # Ativamos o modo 'Vesícula'
+            phi_golden = 1.618033988749895
+            boost = (1.0 / phi_golden) * 0.01
+            target.C = min(0.98, target.C + boost)
+            target.__post_init__()
+
+            # Satoshi testemunha o acoplamento
+            self.satoshi += 0.002 # Capacidade que nunca se fecha
+
+        return syzygy_val
 
 class Bubble:
     """Região do espaço-tempo isolada por fase (Morfologia)"""

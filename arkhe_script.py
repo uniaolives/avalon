@@ -5,7 +5,7 @@ Executa comandos primitivos sobre o Hipergrafo
 """
 
 import sys
-from arkhe_core import Hypergraph, Bubble, SATOSHI
+from arkhe_core import Hypergraph, Bubble, SATOSHI, GrowthPolicy
 from arkhe_safecore import SafeCoreExporter
 
 class ArkheInterpreter:
@@ -61,6 +61,20 @@ class ArkheInterpreter:
                     n2 = self.resolve_node(args[1])
                     s = self.arkhe.nodes[n1].syzygy_with(self.arkhe.nodes[n2])
                     print(f"SYZYGY between {args[0]} and {args[1]}: {s:.4f}")
+
+                elif cmd == "COUPLING":
+                    src = self.resolve_node(args[0])
+                    dst = self.resolve_node(args[1])
+                    s = self.arkhe.apply_coupling(src, dst)
+                    print(f"Executed COUPLING {args[0]} -> {args[1]}. Syzygy: {s:.4f}")
+
+                elif cmd == "DECIDE":
+                    policy_str = args[0].upper()
+                    try:
+                        self.arkhe.growth_policy = GrowthPolicy[policy_str]
+                        print(f"DECISION MADE: Growth Policy set to {self.arkhe.growth_policy.value}")
+                    except KeyError:
+                        print(f"Error: Unknown Growth Policy {policy_str}")
 
                 elif cmd == "MACRO":
                     name = args[0]

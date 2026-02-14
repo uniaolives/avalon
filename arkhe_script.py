@@ -56,7 +56,7 @@ class ArkheInterpreter:
 
                 elif cmd == "RECYCLE":
                     node_id = self.resolve_node(args[0])
-                    self.arkhe.recycle(node_id)
+                    self.arkhe.recycle_entropy(node_id)
                     print(f"Executed RECYCLE on node {args[0]}.")
 
                 elif cmd == "RAIN":

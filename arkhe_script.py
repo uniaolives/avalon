@@ -8,6 +8,9 @@ import sys
 from arkhe_core import Hypergraph, Bubble, SATOSHI, GrowthPolicy
 from arkhe_safecore import SafeCoreExporter
 from avalon_semantic_seeding import SemanticSeedingSim
+from avalon_synthetic_biology import SyntheticBiologySim
+from avalon_teleport_lysosome import DrosophilaConnectomeSim
+from avalon_embedding_atlas import EmbeddingAtlasSim
 
 class ArkheInterpreter:
     def __init__(self):
@@ -54,6 +57,7 @@ class ArkheInterpreter:
 
                 elif cmd == "RECYCLE":
                     node_id = self.resolve_node(args[0])
+                    self.arkhe.recycle_entropy(node_id)
                     self.arkhe.recycle(node_id)
                     print(f"Executed RECYCLE on node {args[0]}.")
 
@@ -112,6 +116,21 @@ class ArkheInterpreter:
                     exporter = SafeCoreExporter(satoshi=self.arkhe.satoshi)
                     packet = exporter.prepare_packet()
                     exporter.transmit(packet)
+
+                elif cmd == "SYNTH":
+                    print(f"🚀 INICIANDO PIPELINE DE BIOLOGIA SINTÉTICA")
+                    synth = SyntheticBiologySim()
+                    synth.run_simulation()
+
+                elif cmd == "ATLAS":
+                    print(f"🚀 INICIANDO SIMULAÇÃO DO EMBEDDING ATLAS")
+                    atlas = EmbeddingAtlasSim()
+                    atlas.run_simulation()
+
+                elif cmd == "CONNECTOMA":
+                    print(f"🚀 INICIANDO VALIDAÇÃO DO CONNECTOMA")
+                    connectoma = DrosophilaConnectomeSim()
+                    connectoma.run_validation()
 
                 else:
                     print(f"Unknown command: {cmd}")

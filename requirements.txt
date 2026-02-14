@@ -12,3 +12,6 @@ requests
 networkx
 scipy
 matplotlib
+moderngl
+pygame
+pyrr

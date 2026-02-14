@@ -28,6 +28,7 @@ METRICS_MAP = {
     88: {"nu_obs": 0.20, "r_rh": 0.540, "t_tunneling": 8.74e-3, "satoshi": 7.27}, # Satoshi recalibrado
     89: {"nu_obs": 0.18, "r_rh": 0.525, "t_tunneling": 1.14e-2, "satoshi": 7.27},
     90: {"nu_obs": 0.12, "r_rh": 0.510, "t_tunneling": 1.000, "satoshi": 8.88},
+    93: {"nu_obs": 0.10, "r_rh": 0.465, "t_tunneling": 3.25e-2, "satoshi": 8.05},
     1004: {"nu_obs": 0.20, "r_rh": 0.555, "t_tunneling": 5.12e-3, "satoshi": 7.88},
     "∞+54": {"nu_obs": 0.96, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": 7.27},
     "∞+55": {"nu_obs": 1.00, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": 7.27}

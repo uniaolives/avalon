@@ -10,6 +10,7 @@ from arkhe_safecore import SafeCoreExporter
 from avalon_semantic_seeding import SemanticSeedingSim
 from avalon_synthetic_biology import SyntheticBiologySim
 from avalon_teleport_lysosome import DrosophilaConnectomeSim
+from avalon_embedding_atlas import EmbeddingAtlasSim
 
 class ArkheInterpreter:
     def __init__(self):
@@ -119,6 +120,11 @@ class ArkheInterpreter:
                     print(f"🚀 INICIANDO PIPELINE DE BIOLOGIA SINTÉTICA")
                     synth = SyntheticBiologySim()
                     synth.run_simulation()
+
+                elif cmd == "ATLAS":
+                    print(f"🚀 INICIANDO SIMULAÇÃO DO EMBEDDING ATLAS")
+                    atlas = EmbeddingAtlasSim()
+                    atlas.run_simulation()
 
                 elif cmd == "CONNECTOMA":
                     print(f"🚀 INICIANDO VALIDAÇÃO DO CONNECTOMA")

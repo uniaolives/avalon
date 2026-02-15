@@ -7,10 +7,11 @@ from .curiosity import CuriosityEngine
 from .sovereign import SovereignNode, SovereignRegistry, AttestationQuote, SovereignLedger
 from .alpha import AlphaScanner, FractalAntenna, PrimordialHandover
 from .singularity import AnalogWaveguideResonator, PrimordialHandoverResonator
-from .biomimesis import SpiderSilkHypergraph, AlzheimerProteinAggregation, AminoAcidNode
+from .biomimesis import SpiderSilkHypergraph, AlzheimerProteinAggregation, AminoAcidNode, UniversalPhaseControl
 from .regeneration import NeuralNode, SpinalCordHypergraph, RegenerationTherapy
 from .nexus import TemporalNexus, NexusPoint
 from .synthesis import ArkheX, SingularityReport, realize_unity
+from .matrix import ComparativeMatrix
 from .neuro import NeuroMapper, NeuroDelta
 from .recalibration import RecalibrationEngine
 from .report import SyzygyReportGenerator

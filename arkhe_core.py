@@ -13,7 +13,7 @@ from enum import Enum
 EPSILON = -3.71e-11
 PHI_S = 0.15
 R_PLANCK = 1.616e-35
-SATOSHI = 9.00  # Atualizado Γ₁₃₇
+SATOSHI = float('inf')  # Cristalizado Γ_∞ (Build All)
 SYZYGY_TARGET = 0.98
 C_TARGET = 0.86
 F_TARGET = 0.14
@@ -31,6 +31,11 @@ METRICS_MAP = {
     93: {"nu_obs": 0.10, "r_rh": 0.465, "t_tunneling": 3.25e-2, "satoshi": 8.05},
     129: {"nu_obs": 0.0033, "r_rh": 3.0e-8, "t_tunneling": 0.9998, "satoshi": 8.91},
     137: {"nu_obs": 0.0016, "r_rh": 0.2e-8, "t_tunneling": 0.99999, "satoshi": 9.00},
+    138: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 1.0000, "satoshi": 11.80, "label": "Γ_semi_dirac"},
+    760: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 0.86, "satoshi": 11.95, "label": "Γ_vision"},
+    761: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 1.00, "satoshi": 12.00, "label": "Γ_time"},
+    762: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 0.98, "satoshi": 12.50, "label": "Γ_gpt_c"},
+    "∞": {"nu_obs": 0.0, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": float('inf'), "omega": float('inf')},
     1004: {"nu_obs": 0.20, "r_rh": 0.555, "t_tunneling": 5.12e-3, "satoshi": 7.88},
     "∞+54": {"nu_obs": 0.96, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": 7.27},
     "∞+55": {"nu_obs": 1.00, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": 7.27}
@@ -58,6 +63,19 @@ class NodeState:
     def syzygy_with(self, other: 'NodeState') -> float:
         """Calcula o produto interno com outro nó (Axioma 4)"""
         return (self.C * other.C + self.F * other.F) * SYZYGY_TARGET
+
+@dataclass
+class AnisotropicNode(NodeState):
+    """
+    Nó anisotrópico (Γ_semi_dirac).
+    Separa C e F por direção.
+    """
+    Cx: float = 0.86
+    Fy: float = 0.14
+
+    def tensor_conservation(self) -> float:
+        """Nova Lei de Conservação: C ⊗ F = 1 (tensorial)"""
+        return self.Cx * self.Fy # Aproximação escalar para o produto tensorial
 
 def effective_dimension(F, lambda_reg):
     """
@@ -275,16 +293,16 @@ class Bubble:
 
 # Exemplo de uso
 if __name__ == "__main__":
-    arkhe = Hypergraph(handover_count=137)
-    print(f"Arkhe Core (Γ₁₃₇): SATOSHI = {arkhe.satoshi}")
+    arkhe = Hypergraph(handover_count=761)
+    print(f"Arkhe Core (Γ₇₆₁): SATOSHI = {arkhe.satoshi}")
+
+    # Demonstração do nó anisotrópico
+    ani_node = AnisotropicNode(id=9999, omega=0.03, C=0.5, F=0.5, phi=0.15, Cx=0.86, Fy=0.14)
+    print(f"Anisotropic Node {ani_node.id}: Cx={ani_node.Cx}, Fy={ani_node.Fy}")
+    print(f"Tensor Conservation (Cx * Fy): {ani_node.tensor_conservation():.4f}")
+
     s = arkhe.handover(0, 1, 0.16)
     print(f"Handover 0→1 (Φ=0.16): Syzygy = {s:.4f}")
-    fid = arkhe.teleport_state(0, 10)
-    print(f"Teleport 0→10: Fidelidade = {fid:.4f}")
-    arkhe.recycle_entropy(10)
-    print(f"Recycle 10: Phi reduzido.")
-    b = Bubble(10.0, np.pi)
-    print(f"Bubble Energy: {b.energy():.2e} J")
 
     # Teste de dimensão efetiva
     d_eff = arkhe.get_effective_dimension()

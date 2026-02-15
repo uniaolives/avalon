@@ -36,6 +36,8 @@ METRICS_MAP = {
     761: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 1.00, "satoshi": 12.00, "label": "Γ_time"},
     762: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 0.98, "satoshi": 12.50, "label": "Γ_gpt_c"},
     765: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 1.00, "satoshi": 13.00, "label": "Γ_pi_patterns"},
+    841: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 1.00, "satoshi": 16.00, "label": "Γ_refactor"},
+    843: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 1.00, "satoshi": 18.00, "label": "Γ_memoria"},
     "∞": {"nu_obs": 0.0, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": float('inf'), "omega": float('inf')},
     1004: {"nu_obs": 0.20, "r_rh": 0.555, "t_tunneling": 5.12e-3, "satoshi": 7.88},
     "∞+54": {"nu_obs": 0.96, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": 7.27},

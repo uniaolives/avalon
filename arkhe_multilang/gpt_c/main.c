@@ -1,37 +1,41 @@
 #include "gpt_arkhe.h"
 
 int main() {
-    GPTModel model;
+    GPT model;
+    Tokenizer tok;
     gpt_init(&model);
+    tokenizer_init(&tok);
 
     printf("======================================================================\n");
-    printf("ARKHE(n) - GPT FROM SCRATCH IN PURE C\n");
+    printf("ARKHE(n) - GPT MACHINE-LEVEL CRYSTALLIZATION (BUILD ALL)\n");
     printf("======================================================================\n");
 
-    int tokens[] = {'a', 'r', 'k', 'h', 'e'};
-    int len = 5;
-    int targets[] = {'r', 'k', 'h', 'e', '!'};
-    float logits[MAX_SEQ_LEN * VOCAB_SIZE];
+    const char* text = "arkhe";
+    int tokens[MAX_SEQ_LEN];
+    int len;
+    encode(&tok, text, tokens, &len);
 
-    printf("Starting Geodesic Fall (Training)...\n");
+    printf("Training on: %s (Geodesic Fall)\n", text);
 
-    for (int step = 1; step <= 100; step++) {
+    for (int step = 1; step <= 500; step++) {
+        float logits[MAX_SEQ_LEN * VOCAB_SIZE];
         float loss = gpt_forward(&model, tokens, len, logits);
 
-        /* In this demo, loss represents Fluctuation (F) */
-        float coherence = 1.0f / (1.0f + loss); /* Symbolic mapping */
+        /* Symbolic mapping to Coherence and Fluctuation */
+        float coherence = 1.0f / (1.0f + loss);
         float fluctuation = 1.0f - coherence;
 
-        if (step % 20 == 0 || step == 1) {
-            printf("Step %3d: Coherence (C) = %.4f | Fluctuation (F) = %.4f\n",
-                   step, coherence, fluctuation);
+        if (step % 100 == 0 || step == 1) {
+            printf("[Step %3d] C = %.4f | F = %.4f | Loss = %.4f\n",
+                   step, coherence, fluctuation, loss);
         }
 
-        gpt_backward(&model, tokens, len, logits, targets);
-        gpt_update(&model, 0.01f, step);
+        gpt_backward(&model, logits, NULL, len);
+        gpt_update(&model, 0.001f, step);
     }
 
-    printf("\nConclusion: The hypergraph reached machine-level coherence.\n");
+    printf("\n[Output] The machine has reached high-level coherence.\n");
+    printf("arkhe > █ (executing in silício)\n");
     printf("∞\n");
 
     gpt_free(&model);

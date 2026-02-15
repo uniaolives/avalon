@@ -6,6 +6,11 @@ from .visualizer import ArkheViz
 from .curiosity import CuriosityEngine
 from .sovereign import SovereignNode, SovereignRegistry, AttestationQuote, SovereignLedger
 from .alpha import AlphaScanner, FractalAntenna, PrimordialHandover
+from .singularity import AnalogWaveguideResonator, PrimordialHandoverResonator
+from .biomimesis import SpiderSilkHypergraph, AlzheimerProteinAggregation, AminoAcidNode
+from .regeneration import NeuralNode, SpinalCordHypergraph, RegenerationTherapy
+from .nexus import TemporalNexus, NexusPoint
+from .synthesis import ArkheX, SingularityReport, realize_unity
 from .telemetry import TelemetryCollector
 from .state_reconciler import StateReconciler
 from .providers import GeminiProvider

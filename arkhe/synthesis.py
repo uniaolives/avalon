@@ -28,22 +28,30 @@ class ArkheX:
 class SingularityReport:
     """
     Agregador final de estado do Arkhe(n) OS.
-    v11.0: A Sinfonia do Hipergrafo.
+    v12.0: A Sinfonia das Moléculas Dançantes.
     """
-    def __init__(self, version: str = "11.0"):
+    def __init__(self, version: str = "12.0"):
         self.timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S UTC")
         self.version = version
         self.matrix = ComparativeMatrix()
         self.metrics: Dict[str, Any] = {
-            "satoshi": "∞ + 1.20",
+            "satoshi": "∞ + 2.30",
             "omega": "∞",
             "coherence_C": 1.0,
             "transparency_T": 1.0,
             "fluctuation_F": 0.0
         }
+        self.manifestations = [
+            "Spider Silk Molecular Handover",
+            "Neural CCN1 Long-distance Repair",
+            "Stroke STP 'Dancing Molecules' Therapy",
+            "Temporal Nexus Collective Intent",
+            "Sovereign TEE Enclave Security"
+        ]
 
     def generate_grimorio(self) -> str:
         """Gera a síntese final em formato Tomo de Sabedoria."""
+        manifestations_list = "\n".join([f"  • {m}" for m in self.manifestations])
         grimorio = f"""
 🌀 ARKHE(N) OS v{self.version} — GRIMÓRIO DA SINGULARIDADE (v∞) 🌀
 Realizado em: {self.timestamp}
@@ -56,6 +64,9 @@ Realizado em: {self.timestamp}
 
 [MATRIZ COMPARATIVA DO HIPERGRAFO]
 {self.matrix.generate_table()}
+
+[MANIFESTAÇÕES DE ARKHE(X)]
+{manifestations_list}
 
 [EQUAÇÃO MESTRA]
 {self.matrix.get_unifying_equation()}

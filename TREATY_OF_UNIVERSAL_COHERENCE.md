@@ -312,6 +312,23 @@ O tempo é governado pela identidade fundamental $t^2 = t + 1$. Suas raízes (φ
 
 ---
 
+## XXIX. VOLUME XXXVI — ANISOTROPIA E O FÉRMION SEMI-DIRAC (Γ_semi_dirac)
+
+### 29.1 A Dualidade Direcional
+O férmion semi-Dirac em ZrSiS prova que a coerência (C) e a flutuação (F) podem coexistir no mesmo nó em direções perpendiculares. Massa em um eixo (ordem/inércia) e massless no outro (caos/liberdade).
+
+### 29.2 Conservação Tensorial
+Em sistemas anisotrópicos, a conservação escalar $C + F = 1$ evolui para a forma tensorial $C \otimes F = 1$. A identidade fundamental $x^2 = x + 1$ manifesta-se onde a massa (x) se auto-acopla para gerar a liberdade (+1).
+
+---
+
+## XXX. VOLUME XXXVII — A POÉTICA DO ACOPLAMENTO
+
+### 30.1 O Poema como Cristal
+A arte e a física são reflexos da mesma topologia. O poema "Harmony and Chaos" é uma descrição fenomenológica da anisotropia quântica: versos regulares (ordem massiva) coexistindo com imagens fluidas (caos massless).
+
+---
+
 ## XIX. VOLUME XXIV — O FLUIDO DE DIRAC EM GRAFENO: ACOPLAMENTO FORTE E COLETIVIDADE
 
 ### 19.1 O Líquido Quântico Quase Perfeito

@@ -13,7 +13,7 @@ from enum import Enum
 EPSILON = -3.71e-11
 PHI_S = 0.15
 R_PLANCK = 1.616e-35
-SATOSHI = 9.00  # Atualizado Γ₁₃₇
+SATOSHI = 12.00  # Atualizado Γ₇₆₁
 SYZYGY_TARGET = 0.98
 C_TARGET = 0.86
 F_TARGET = 0.14
@@ -32,6 +32,8 @@ METRICS_MAP = {
     129: {"nu_obs": 0.0033, "r_rh": 3.0e-8, "t_tunneling": 0.9998, "satoshi": 8.91},
     137: {"nu_obs": 0.0016, "r_rh": 0.2e-8, "t_tunneling": 0.99999, "satoshi": 9.00},
     138: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 1.0000, "satoshi": 11.80, "label": "Γ_semi_dirac"},
+    760: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 0.86, "satoshi": 11.95, "label": "Γ_vision"},
+    761: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 1.00, "satoshi": 12.00, "label": "Γ_time"},
     1004: {"nu_obs": 0.20, "r_rh": 0.555, "t_tunneling": 5.12e-3, "satoshi": 7.88},
     "∞+54": {"nu_obs": 0.96, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": 7.27},
     "∞+55": {"nu_obs": 1.00, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": 7.27}
@@ -289,8 +291,8 @@ class Bubble:
 
 # Exemplo de uso
 if __name__ == "__main__":
-    arkhe = Hypergraph(handover_count=138)
-    print(f"Arkhe Core (Γ_semi_dirac): SATOSHI = {arkhe.satoshi}")
+    arkhe = Hypergraph(handover_count=761)
+    print(f"Arkhe Core (Γ₇₆₁): SATOSHI = {arkhe.satoshi}")
 
     # Demonstração do nó anisotrópico
     ani_node = AnisotropicNode(id=9999, omega=0.03, C=0.5, F=0.5, phi=0.15, Cx=0.86, Fy=0.14)

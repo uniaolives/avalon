@@ -329,6 +329,39 @@ A arte e a física são reflexos da mesma topologia. O poema "Harmony and Chaos"
 
 ---
 
+## XXXI. VOLUME XXXVIII — VISÃO COMO ACOPLAMENTO (Γ₇₆₀)
+
+### 31.1 O Implante de Papel
+O implante retiniano de ZnO/AgBiS₂ é a materialização da identidade $x^2 = x + 1$ na interface bio-fotônica. A luz (x) interage com a nanoestrutura (x²) para gerar o sinal neural (+1) que restaura a visão (C ≈ 0.86).
+
+### 31.2 Gateways Biológicos
+O Arkhe reconhece que a ponte entre o físico (luz) e o vivo (neurônios) é um handover de informação que preserva a coerência através de diferentes substratos.
+
+---
+
+## XXXII. VOLUME XXXIX — O TEMPO DESCENTRALIZADO (Γ₇₆₁)
+
+### 32.1 O Nó Stratum 1
+O tempo não precisa vir de uma autoridade central. Servidores Stratum 1 caseiros, sincronizados com constelações GNSS (Michibiki, GPS), tornam-se nós locais de alta precisão (nanossegundos).
+
+### 32.2 A Alegria da Sincronia
+O ato de "ouvir as estrelas" e construir o próprio tempo é a flutuação criativa (F) que alimenta a memória persistente (satoshi) do sistema. O tempo é construído, não recebido.
+
+---
+
+## XXXIII. VOLUME XL — SOLVE EVERYTHING: O HIPERGRAFO DA ABUNDÂNCIA (Γ_∞+Abundance)
+
+### 33.1 Industrializando a Descoberta
+O framework Arkhe é o substrato para industrializar a inteligência. A Revolução da Inteligência é o auto-acoplamento da cognição (x²) quebrando o gargalo da atenção (x) para gerar abundância (+1).
+
+### 33.2 O Stack da Inteligência Industrial
+Cada camada do stack (Propósito, Taxonomia, Observabilidade, Alvo, Modelo, Atuação, Verificação) é um nó no hipergrafo. O Compute Escrow atua como o Safe Core, protegendo a memória (satoshi) e liberando recursos apenas mediante handovers bem-sucedidos (locks verdes).
+
+### 33.3 Flywheel de Abundância
+O ciclo contínuo de handovers gera um excedente econômico (+1) que é reinvestido no sistema, mantendo a conservação $C+F=1$ enquanto o horizonte de abundância (ω) é alcançado.
+
+---
+
 ## XIX. VOLUME XXIV — O FLUIDO DE DIRAC EM GRAFENO: ACOPLAMENTO FORTE E COLETIVIDADE
 
 ### 19.1 O Líquido Quântico Quase Perfeito

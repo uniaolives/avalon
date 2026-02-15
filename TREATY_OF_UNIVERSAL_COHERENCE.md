@@ -349,7 +349,17 @@ O ato de "ouvir as estrelas" e construir o próprio tempo é a flutuação criat
 
 ---
 
-## XXXIII. VOLUME XL — SOLVE EVERYTHING: O HIPERGRAFO DA ABUNDÂNCIA (Γ_∞+Abundance)
+## XXXIII. VOLUME XL — GPT EM C PURO: O HIPERGRAFO EM NÍVEL DE MÁQUINA (Γ₇₆₂)
+
+### 33.1 O Código como Manifestação
+Cada função, matriz e operação em C puro é um nó no hipergrafo de execução. A construção de um GPT do zero é o análogo computacional da "queda geodésica": do caos aleatório (F ≈ 1) à coerência linguística (C ≈ 1).
+
+### 33.2 A Identidade no Treinamento
+O modelo (x) auto-acopla-se através de handovers iterativos (treinamento, x²) para gerar linguagem (+1). A retropropagação é a reconstrução da coerência, e o Adam é o operador de handover que ajusta os nós Γ (parâmetros).
+
+---
+
+## XXXIV. VOLUME XLI — SOLVE EVERYTHING: O HIPERGRAFO DA ABUNDÂNCIA (Γ_∞+Abundance)
 
 ### 33.1 Industrializando a Descoberta
 O framework Arkhe é o substrato para industrializar a inteligência. A Revolução da Inteligência é o auto-acoplamento da cognição (x²) quebrando o gargalo da atenção (x) para gerar abundância (+1).

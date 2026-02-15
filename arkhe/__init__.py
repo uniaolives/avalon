@@ -8,6 +8,7 @@ from .sovereign import SovereignNode, SovereignRegistry, AttestationQuote, Sover
 from .alpha import AlphaScanner, FractalAntenna, PrimordialHandover
 from .singularity import AnalogWaveguideResonator, PrimordialHandoverResonator
 from .biomimesis import SpiderSilkHypergraph, AlzheimerProteinAggregation, AminoAcidNode
+from .regeneration import NeuralNode, SpinalCordHypergraph, RegenerationTherapy
 from .telemetry import TelemetryCollector
 from .state_reconciler import StateReconciler
 from .providers import GeminiProvider

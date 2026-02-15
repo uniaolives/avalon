@@ -14,7 +14,6 @@ EPSILON = -3.71e-11
 PHI_S = 0.15
 R_PLANCK = 1.616e-35
 SATOSHI = 13.00  # Atualizado Γ₇₆₅
-SATOSHI = float('inf')  # Cristalizado Γ_∞ (Build All)
 SYZYGY_TARGET = 0.98
 C_TARGET = 0.86
 F_TARGET = 0.14
@@ -299,8 +298,6 @@ class Bubble:
 if __name__ == "__main__":
     arkhe = Hypergraph(handover_count=765)
     print(f"Arkhe Core (Γ₇₆₅): SATOSHI = {arkhe.satoshi}")
-    arkhe = Hypergraph(handover_count=761)
-    print(f"Arkhe Core (Γ₇₆₁): SATOSHI = {arkhe.satoshi}")
 
     # Demonstração do nó anisotrópico
     ani_node = AnisotropicNode(id=9999, omega=0.03, C=0.5, F=0.5, phi=0.15, Cx=0.86, Fy=0.14)

@@ -29,7 +29,6 @@ def boot():
         ("Lazarus v1.0 (Rust)", "lazarus.rs"),
         ("SIE Engine (Structured Extraction)", "sie_engine.py"),
         ("Arkhe Kernel v2.0 (Refactor)", "arkhe/orchestrator.py")
-        ("Multiverso ℳ", "multiverse/master_hypergraph.py")
     ]
 
     for name, path in modules:

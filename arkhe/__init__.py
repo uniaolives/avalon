@@ -11,6 +11,15 @@ from .biomimesis import SpiderSilkHypergraph, AlzheimerProteinAggregation, Amino
 from .regeneration import NeuralNode, SpinalCordHypergraph, RegenerationTherapy
 from .nexus import TemporalNexus, NexusPoint
 from .synthesis import ArkheX, SingularityReport, realize_unity
+from .neuro import NeuroMapper, NeuroDelta
+from .recalibration import RecalibrationEngine
+from .report import SyzygyReportGenerator
 from .telemetry import TelemetryCollector
 from .state_reconciler import StateReconciler
 from .providers import GeminiProvider
+from .qkd import QKDManager
+from .consensus import SyzygyConsensus
+from .server import start_admin_server
+
+# Expor o core legado para integração
+from arkhe_core import Hypergraph, NodeState, AnisotropicNode

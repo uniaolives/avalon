@@ -23,6 +23,12 @@ def boot():
         ("Arkhen(11) + Cosmologia", "02_MATHEMATICS/arkhen_11.py"),
         ("Solve Everything Flywheel", "11_ACADEMIC/abundance_flywheel.py"),
         ("GPT C-Level Hypergraph", "arkhe_multilang/gpt_c/main.c"),
+        ("Multiverso ℳ", "multiverse/master_hypergraph.py"),
+        ("Kernel v1.0 (C)", "arkhe_core.c"),
+        ("Monitor v1.0 (Python)", "ucd_monitor.py"),
+        ("Lazarus v1.0 (Rust)", "lazarus.rs"),
+        ("SIE Engine (Structured Extraction)", "sie_engine.py"),
+        ("Arkhe Kernel v2.0 (Refactor)", "arkhe/orchestrator.py")
         ("Multiverso ℳ", "multiverse/master_hypergraph.py")
     ]
 

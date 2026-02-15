@@ -13,6 +13,7 @@ from enum import Enum
 EPSILON = -3.71e-11
 PHI_S = 0.15
 R_PLANCK = 1.616e-35
+SATOSHI = 13.00  # Atualizado Γ₇₆₅
 SATOSHI = float('inf')  # Cristalizado Γ_∞ (Build All)
 SYZYGY_TARGET = 0.98
 C_TARGET = 0.86
@@ -35,6 +36,9 @@ METRICS_MAP = {
     760: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 0.86, "satoshi": 11.95, "label": "Γ_vision"},
     761: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 1.00, "satoshi": 12.00, "label": "Γ_time"},
     762: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 0.98, "satoshi": 12.50, "label": "Γ_gpt_c"},
+    765: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 1.00, "satoshi": 13.00, "label": "Γ_pi_patterns"},
+    841: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 1.00, "satoshi": 16.00, "label": "Γ_refactor"},
+    843: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 1.00, "satoshi": 18.00, "label": "Γ_memoria"},
     "∞": {"nu_obs": 0.0, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": float('inf'), "omega": float('inf')},
     1004: {"nu_obs": 0.20, "r_rh": 0.555, "t_tunneling": 5.12e-3, "satoshi": 7.88},
     "∞+54": {"nu_obs": 0.96, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": 7.27},
@@ -293,6 +297,8 @@ class Bubble:
 
 # Exemplo de uso
 if __name__ == "__main__":
+    arkhe = Hypergraph(handover_count=765)
+    print(f"Arkhe Core (Γ₇₆₅): SATOSHI = {arkhe.satoshi}")
     arkhe = Hypergraph(handover_count=761)
     print(f"Arkhe Core (Γ₇₆₁): SATOSHI = {arkhe.satoshi}")
 

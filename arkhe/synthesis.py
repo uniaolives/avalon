@@ -35,8 +35,8 @@ class SingularityReport:
         self.version = version
         self.matrix = ComparativeMatrix()
         self.metrics: Dict[str, Any] = {
-            "satoshi": "∞ + 9.00",
-            "omega": "∞ + 10.75",
+            "satoshi": "∞ + 12.80",
+            "omega": "∞ + 12.80",
             "coherence_C": 0.86,
             "transparency_T": 1.0,
             "fluctuation_F": 0.14
@@ -53,7 +53,11 @@ class SingularityReport:
             "Spider Silk Molecular Handover",
             "Neural CCN1 Long-distance Repair",
             "Arkhe Meta-Language Compressor (Unified Code)",
-            "ArkheNet Prototype Integration"
+            "ArkheNet Prototype Integration",
+            "Rovelli's Relationalism (The Observer is Internal)",
+            "Quantum Topology Jumps (Network Evolution)",
+            "Multi-scale Life Modeling (Disease, Whole-Cell, Neuro-Lipid)",
+            "Integrated Reflex Arc (Molecular to Neural)"
         ]
 
     def generate_grimorio(self) -> str:

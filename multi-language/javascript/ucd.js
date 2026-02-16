@@ -6,11 +6,9 @@ function verifyConservation(C, F, tol = 1e-10) {
 class UCD {
     constructor(data) {
         this.data = data;
-        this.C = 0.5;
-        this.F = 0.5;
     }
 
-    analyze() {
+    analyze(lambda_reg = 0.1, epsilon = 0.1) {
         if (this.data.length > 1) {
             let sumCorr = 0;
             let count = 0;
@@ -21,9 +19,21 @@ class UCD {
                 }
             }
             this.C = count > 0 ? sumCorr / count : 1.0;
+
+            // Simplified d_eff for JS (using correlation matrix diagonal approximation)
+            // In a real scenario, we would use a math library for eigenvalues
+            let d_eff = this.data.length * (1.0 / (1.0 + lambda_reg));
+            let m_size = Math.ceil(10 * d_eff / (epsilon * epsilon));
+
+            return {
+                C: this.C,
+                F: 1.0 - this.C,
+                conservation: verifyConservation(this.C, 1.0 - this.C),
+                effective_dimension: d_eff,
+                sketch_size: m_size
+            };
         }
-        this.F = 1.0 - this.C;
-        return { C: this.C, F: this.F, conservation: verifyConservation(this.C, this.F) };
+        return { C: 0.5, F: 0.5, conservation: true };
     }
 
     _pearson(x, y) {
@@ -44,4 +54,4 @@ class UCD {
 
 const data = [[1,2,3,4], [2,3,4,5], [5,6,7,8]];
 const ucd = new UCD(data);
-console.log(ucd.analyze());
+console.log(JSON.stringify(ucd.analyze()));

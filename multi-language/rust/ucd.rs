@@ -25,7 +25,7 @@ impl UCD {
         if dx2 * dy2 == 0.0 { 0.0 } else { num / (dx2 * dy2).sqrt() }
     }
 
-    fn analyze(&self) -> (f64, f64) {
+    fn analyze(&self, lambda: f64, epsilon: f64) -> (f64, f64, f64, i32) {
         let n = self.data.len();
         if n > 1 {
             let mut sum_corr = 0.0;
@@ -37,9 +37,11 @@ impl UCD {
                 }
             }
             let c = if count > 0 { sum_corr / count as f64 } else { 1.0 };
-            (c, 1.0 - c)
+            let d_eff = n as f64 * (1.0 / (1.0 + lambda));
+            let m_size = (10.0 * d_eff / (epsilon * epsilon)).ceil() as i32;
+            (c, 1.0 - c, d_eff, m_size)
         } else {
-            (0.5, 0.5)
+            (0.5, 0.5, 0.0, 0)
         }
     }
 }
@@ -51,6 +53,6 @@ fn main() {
         vec![5.0, 6.0, 7.0, 8.0],
     ];
     let ucd = UCD::new(data);
-    let (c, f) = ucd.analyze();
-    println!("C: {}, F: {}", c, f);
+    let (c, f, d_eff, m_size) = ucd.analyze(0.1, 0.1);
+    println!("C: {:.4}, F: {:.4}, d_eff: {:.4}, m: {}", c, f, d_eff, m_size);
 }

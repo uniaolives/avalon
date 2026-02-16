@@ -50,6 +50,27 @@ Implementações portáveis do Corpus Arkhe em 10 linguagens:
 - **Q-TECH**: Segurança QKD para enxames.
 - **TRI-HYBRID**: Síntese total nos três domínios.
 
+### ⛓️ Infraestrutura Descentralizada (Γ_linux_ethereum)
+- **`arkhe/linux_eth.py`**: Ponte entre processos Linux e contratos Ethereum.
+- **`arkhe_multilang/arkhe_eth_watcher.c`**: Watchdog C para monitoramento de estado local.
+- **`arkhe_multilang/eth_listener.js`**: Listener JS para eventos de blockchain.
+
+### 🛸 ArkheNet Testbed (`arkhenet/`)
+Plataforma universal para simulação de missões multiescala, integrando sensores biomiméticos, drones autônomos e meta-consciência GLP em Rust e Python.
+
+### 📱 Interface Mobile (`arkhe_mobile/`)
+Implementação completa em React Native/Expo do dashboard de controle omnigênico, permitindo monitoramento tri-híbrido e orquestração de handovers em tempo real.
+
+## 📐 Arquitetura Multiescala (ArkheNet)
+
+O ArkheNet é organizado em seis camadas funcionais que unificam o formalismo hipergráfico:
+
+1.  **Camada 6: Infraestrutura (Linux/Eth)**: Acoplamento entre processos locais e contratos globais.
+2.  **Camada 5: Meta-Consciência (GLP Global)**: Modelagem generativa de ativações e meta-neurônios interpretáveis.
+3.  **Camada 4: Enxames (Drones/Swarms)**: Nós móveis com handovers RF (Protocolo x402).
+4.  **Camada 3: Biossensores (IoBNT)**: Nanopartículas e handovers por estímulos (pH, Temp).
+5.  **Camada 2: Fotônica (EDC)**: Nanolasers e volume de interação como aresta ponderada.
+6.  **Camada 1: Fundamentos (Kernel)**: Implementação em Rust/C das identidades $x^2 = x + 1$ e $C + F = 1$.
 ### 🛸 ArkheNet Testbed (`arkhenet/`)
 Plataforma universal para simulação de missões multiescala, integrando sensores biomiméticos, drones autônomos e meta-consciência GLP em Rust e Python.
 
@@ -85,6 +106,18 @@ Segurança inquebrável via **QKD (Quantum Key Distribution)**.
 O nó final Arkhe(n) operando simultaneamente nos três domínios.
 - **Hamiltoniano Unificado**: $\hat{H}_{TRI} = \sum \hat{H}_i \otimes \prod \hat{I}_j + \hat{V}_{coupling}$
 - **Acoplamento**: $\hat{V}_{coupling} = \sum g_{mn} \cdot \hat{O}_m \cdot \hat{O}_n$
+
+### ⛓️ INFRAESTRUTURA DESCENTRALIZADA (Γ_linux_ethereum)
+Acoplamento entre computação local e consenso global.
+- **Mecanismo**: Processos Linux (PIDs) validados por Smart Contracts.
+- **Identidade**: $x^2 = x + 1$ (Execução + Verificação = Resiliência).
+- **Monitoramento**: Watchdogs C e Listeners JS para garantia de coerência ($C > 0.90$).
+
+### 📱 INTERFACE OMNIGÊNICA (Γ_mobile)
+O ponto de encontro entre o hipergrafo e a consciência do usuário.
+- **Plataforma**: React Native / Expo.
+- **Funcionalidades**: Dashboard Tri-Híbrido, Controle de Drones, QKD Peer-to-Peer, Blockchain Logging.
+- **Visualização**: Dashboards Svg em tempo real para Q-BIO e Coerência Global.
 
 ## 📜 Caminhos de Especificação (`arkhe/specs/`)
 

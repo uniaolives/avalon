@@ -67,22 +67,24 @@ O ArkheNet é organizado em cinco camadas funcionais que unificam o formalismo h
 
 ### 🔬 Q-BIO (Quântico-Biológico)
 Acoplamento via **FRET (Förster Resonance Energy Transfer)**.
-- **Fórmula**: $E = \frac{R_0^6}{R_0^6 + r^6}$
-- **Aplicação**: Liberação de fármacos acionada por excitação de Pontos Quânticos.
+- **Princípio Físico**: $E_{gap}^{QD} = E_{gap}^{bulk} + \frac{\hbar^2 \pi^2}{2R^2}(\frac{1}{m_e^*} + \frac{1}{m_h^*}) - \frac{1.8e^2}{4\pi\epsilon\epsilon_0 R}$
+- **Eficiência FRET**: $E = \frac{R_0^6}{R_0^6 + r^6}$
+- **Aplicação**: Telemetria óptica e liberação de fármacos via excitação de Pontos Quânticos (2-10 nm).
 
 ### 🚁 BIO-TECH (Bio-Tecnológico)
-Drones como plataformas de implantação e monitoramento.
-- **Fórmula**: $\text{Dose} = \int_{V} C_{nano} \cdot \Phi_{therapeutic} dV$
-- **Aplicação**: Navegação baseada em gradiente EPR para terapia de precisão.
+Drones como plataformas de implantação e monitoramento (IoBNT).
+- **Coordenação**: $\Gamma_{DRONE}(t) \oplus \Gamma_{PATIENT}(t) = \int_{V_{tumor}} C_{nano}(x,y,z,t) \cdot \Phi_{therapeutic}(x,y,z) dV$
+- **Mecanismo**: Navegação geodésica e acúmulo via Efeito EPR (Enhanced Permeability and Retention).
 
 ### 🔐 Q-TECH (Quântico-Tecnológico)
 Segurança inquebrável via **QKD (Quantum Key Distribution)**.
-- **Protocolo**: BB84 para enxames de drones.
-- **Métrica**: Secure Key Rate $R_{QKD} \approx \frac{1}{2}\nu (1 - 2H_2(e))$.
+- **Protocolo**: BB84 para enxames de drones ($\mid\psi\rangle = \alpha\mid0\rangle + \beta\mid1\rangle$).
+- **Secure Key Rate**: $R_{QKD} = \frac{1}{2}\nu_{send} \cdot \eta_{det} \cdot \eta_{channel} \cdot [1 - H_2(e_{bit}) - H_2(e_{phase})]$.
 
 ### 🌀 TRI-HYBRID (Síntese Total)
-O nó unificado operando simultaneamente nos três domínios.
-- **Hamiltoniano**: $\hat{H}_{TRI} = \hat{H}_Q + \hat{H}_{BIO} + \hat{H}_{TECH} + \hat{V}_{coupling}$
+O nó final Arkhe(n) operando simultaneamente nos três domínios.
+- **Hamiltoniano Unificado**: $\hat{H}_{TRI} = \sum \hat{H}_i \otimes \prod \hat{I}_j + \hat{V}_{coupling}$
+- **Acoplamento**: $\hat{V}_{coupling} = \sum g_{mn} \cdot \hat{O}_m \cdot \hat{O}_n$
 
 ## 📜 Caminhos de Especificação (`arkhe/specs/`)
 

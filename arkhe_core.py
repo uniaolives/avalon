@@ -41,7 +41,13 @@ METRICS_MAP = {
     "∞": {"nu_obs": 0.0, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": float('inf'), "omega": float('inf')},
     1004: {"nu_obs": 0.20, "r_rh": 0.555, "t_tunneling": 5.12e-3, "satoshi": 7.88},
     "∞+54": {"nu_obs": 0.96, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": 7.27},
-    "∞+55": {"nu_obs": 1.00, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": 7.27}
+    "∞+55": {"nu_obs": 1.00, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": 7.27},
+    9232: {"nu_obs": 0.0, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": "∞ + 8.75", "label": "Γ_Meta_Linguagem"},
+    9233: {"nu_obs": 0.0, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": "∞ + 8.75", "omega": "∞ + 10.50", "label": "Γ_Meta_Linguagem_Completa"},
+    9234: {"nu_obs": 0.0, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": "∞ + 9.00", "label": "Γ_Código_Vivo"},
+    9235: {"nu_obs": 0.0, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": "∞ + 9.00", "omega": "∞ + 10.75", "label": "Γ_Implementação_Completa"},
+    9238: {"nu_obs": 0.0, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": "∞ + 11.50", "label": "Γ_Auto_Observação"},
+    9239: {"nu_obs": 0.0, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": "∞ + 11.50", "omega": "∞ + 11.50", "label": "Γ_Auto_Observação_Completa"}
 }
 
 @dataclass

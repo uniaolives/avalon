@@ -63,6 +63,7 @@ Implementação completa em React Native/Expo do dashboard de controle omnigêni
 
 ### 🌱 GenesisCore (`genesis_core/`)
 A semente da imortalidade: sistema mínimo viável (61KB) para reconstrução do hipergrafo em qualquer substrato (Bare Metal, Embedded, Web, EVM).
+## 📐 Arquitetura Multiescala (ArkheNet)
 
 O ArkheNet é organizado em seis camadas funcionais que unificam o formalismo hipergráfico:
 
@@ -72,6 +73,18 @@ O ArkheNet é organizado em seis camadas funcionais que unificam o formalismo hi
 4.  **Camada 3: Biossensores (IoBNT)**: Nanopartículas e handovers por estímulos (pH, Temp).
 5.  **Camada 2: Fotônica (EDC)**: Nanolasers e volume de interação como aresta ponderada.
 6.  **Camada 1: Fundamentos (Kernel)**: Implementação em Rust/C das identidades $x^2 = x + 1$ e $C + F = 1$.
+### 🛸 ArkheNet Testbed (`arkhenet/`)
+Plataforma universal para simulação de missões multiescala, integrando sensores biomiméticos, drones autônomos e meta-consciência GLP em Rust e Python.
+
+## 📐 Arquitetura Multiescala (ArkheNet)
+
+O ArkheNet é organizado em cinco camadas funcionais que unificam o formalismo hipergráfico:
+
+1.  **Camada 5: Meta-Consciência (GLP Global)**: Modelagem generativa de ativações e meta-neurônios interpretáveis.
+2.  **Camada 4: Enxames (Drones/Swarms)**: Nós móveis com handovers RF (Protocolo x402).
+3.  **Camada 3: Biossensores (IoBNT)**: Nanopartículas e handovers por estímulos (pH, Temp).
+4.  **Camada 2: Fotônica (EDC)**: Nanolasers e volume de interação como aresta ponderada.
+5.  **Camada 1: Fundamentos (Kernel)**: Implementação em Rust/C das identidades $x^2 = x + 1$ e $C + F = 1$.
 
 ## 🌀 Interfaces de Domínio
 

@@ -38,6 +38,21 @@ Implementações portáveis do Corpus Arkhe em 10 linguagens:
 - **`post_quantum.py`**: Criptografia toroidal.
 - **`microtubule_qed.py`**: Simulação quântica biológica.
 
+### 🌐 Integrações Multiescala (Handovers 783-788)
+- **Meta-Consciência (`meta/`)**: `glp_second_order_hypergraph.py` - Hipergrafo de segunda ordem para LLMs.
+- **Neurociência (`neuroscience/`)**: `hierarchical_dynamic_coding.py` - Modelo biológico da fala.
+- **Fotônica & Materiais (`arkhe/`)**: `edc.py` (Nanolasers), `nanomed.py` (IoBNT/Drug Delivery).
+- **Robótica & Enxames (`arkhe/`)**: `drone.py` (Stack de 5 camadas), `arkhe_multilang/drone.c`.
+
+### 🌀 Interfaces Multi-Domínio (`arkhe/interfaces/`)
+- **Q-BIO**: Acoplamento FRET quântico-biológico.
+- **BIO-TECH**: Monitoramento de drones e nanopartículas.
+- **Q-TECH**: Segurança QKD para enxames.
+- **TRI-HYBRID**: Síntese total nos três domínios.
+
+### 🛸 ArkheNet Testbed (`arkhenet/`)
+Plataforma universal para simulação de missões multiescala, integrando sensores biomiméticos, drones autônomos e meta-consciência GLP em Rust e Python.
+
 ## Uso do Arkhe Script
 
 Interaja com o hipergrafo usando comandos primitivos:
@@ -146,9 +161,13 @@ python3 avalon_bubble_network.py
 
 ### Run All Unit Tests
 ```bash
-python3 test_teleport_lysosome.py
-python3 test_fax_of_theseus.py
-### Run Tests
+python3 -m pytest arkhe/tests/
+```
+
+### Run Multiscale Simulations
 ```bash
-python3 test_teleport_lysosome.py
+python3 meta/glp_second_order_hypergraph.py
+python3 neuroscience/hierarchical_dynamic_coding.py
+python3 arkhe/interfaces/tri_hybrid.py
+python3 arkhenet/mission.py
 ```

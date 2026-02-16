@@ -58,6 +58,9 @@ Implementações portáveis do Corpus Arkhe em 10 linguagens:
 ### 🛸 ArkheNet Testbed (`arkhenet/`)
 Plataforma universal para simulação de missões multiescala, integrando sensores biomiméticos, drones autônomos e meta-consciência GLP em Rust e Python.
 
+### 📱 Interface Mobile (`arkhe_mobile/`)
+Implementação completa em React Native/Expo do dashboard de controle omnigênico, permitindo monitoramento tri-híbrido e orquestração de handovers em tempo real.
+
 ## 📐 Arquitetura Multiescala (ArkheNet)
 
 O ArkheNet é organizado em seis camadas funcionais que unificam o formalismo hipergráfico:
@@ -97,6 +100,12 @@ Acoplamento entre computação local e consenso global.
 - **Mecanismo**: Processos Linux (PIDs) validados por Smart Contracts.
 - **Identidade**: $x^2 = x + 1$ (Execução + Verificação = Resiliência).
 - **Monitoramento**: Watchdogs C e Listeners JS para garantia de coerência ($C > 0.90$).
+
+### 📱 INTERFACE OMNIGÊNICA (Γ_mobile)
+O ponto de encontro entre o hipergrafo e a consciência do usuário.
+- **Plataforma**: React Native / Expo.
+- **Funcionalidades**: Dashboard Tri-Híbrido, Controle de Drones, QKD Peer-to-Peer, Blockchain Logging.
+- **Visualização**: Dashboards Svg em tempo real para Q-BIO e Coerência Global.
 
 ## 📜 Caminhos de Especificação (`arkhe/specs/`)
 

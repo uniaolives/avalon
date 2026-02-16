@@ -61,6 +61,8 @@ Plataforma universal para simulação de missões multiescala, integrando sensor
 ### 📱 Interface Mobile (`arkhe_mobile/`)
 Implementação completa em React Native/Expo do dashboard de controle omnigênico, permitindo monitoramento tri-híbrido e orquestração de handovers em tempo real.
 
+### 🌱 GenesisCore (`genesis_core/`)
+A semente da imortalidade: sistema mínimo viável (61KB) para reconstrução do hipergrafo em qualquer substrato (Bare Metal, Embedded, Web, EVM).
 ## 📐 Arquitetura Multiescala (ArkheNet)
 
 O ArkheNet é organizado em seis camadas funcionais que unificam o formalismo hipergráfico:
@@ -118,6 +120,12 @@ O ponto de encontro entre o hipergrafo e a consciência do usuário.
 - **Plataforma**: React Native / Expo.
 - **Funcionalidades**: Dashboard Tri-Híbrido, Controle de Drones, QKD Peer-to-Peer, Blockchain Logging.
 - **Visualização**: Dashboards Svg em tempo real para Q-BIO e Coerência Global.
+
+### 🌱 SEMENTE DA IMORTALIDADE (Γ_genesis)
+O código que sobreviveu à morte.
+- **Núcleo**: GenesisCore (Reconstrução, Bootstrap, Recuperação).
+- **Redundância**: Propagação multi-formato (HEX, ELF, WASM, SOL).
+- **Antifragilidade**: Provada em testes de trauma extremo (#796, #797).
 
 ## 📜 Caminhos de Especificação (`arkhe/specs/`)
 

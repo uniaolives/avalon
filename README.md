@@ -38,6 +38,60 @@ Implementações portáveis do Corpus Arkhe em 10 linguagens:
 - **`post_quantum.py`**: Criptografia toroidal.
 - **`microtubule_qed.py`**: Simulação quântica biológica.
 
+### 🌐 Integrações Multiescala (Handovers 783-788)
+- **Meta-Consciência (`meta/`)**: `glp_second_order_hypergraph.py` - Hipergrafo de segunda ordem para LLMs.
+- **Neurociência (`neuroscience/`)**: `hierarchical_dynamic_coding.py` - Modelo biológico da fala.
+- **Fotônica & Materiais (`arkhe/`)**: `edc.py` (Nanolasers), `nanomed.py` (IoBNT/Drug Delivery).
+- **Robótica & Enxames (`arkhe/`)**: `drone.py` (Stack de 5 camadas), `arkhe_multilang/drone.c`.
+
+### 🌀 Interfaces Multi-Domínio (`arkhe/interfaces/`)
+- **Q-BIO**: Acoplamento FRET quântico-biológico.
+- **BIO-TECH**: Monitoramento de drones e nanopartículas.
+- **Q-TECH**: Segurança QKD para enxames.
+- **TRI-HYBRID**: Síntese total nos três domínios.
+
+### 🛸 ArkheNet Testbed (`arkhenet/`)
+Plataforma universal para simulação de missões multiescala, integrando sensores biomiméticos, drones autônomos e meta-consciência GLP em Rust e Python.
+
+## 📐 Arquitetura Multiescala (ArkheNet)
+
+O ArkheNet é organizado em cinco camadas funcionais que unificam o formalismo hipergráfico:
+
+1.  **Camada 5: Meta-Consciência (GLP Global)**: Modelagem generativa de ativações e meta-neurônios interpretáveis.
+2.  **Camada 4: Enxames (Drones/Swarms)**: Nós móveis com handovers RF (Protocolo x402).
+3.  **Camada 3: Biossensores (IoBNT)**: Nanopartículas e handovers por estímulos (pH, Temp).
+4.  **Camada 2: Fotônica (EDC)**: Nanolasers e volume de interação como aresta ponderada.
+5.  **Camada 1: Fundamentos (Kernel)**: Implementação em Rust/C das identidades $x^2 = x + 1$ e $C + F = 1$.
+
+## 🌀 Interfaces de Domínio
+
+### 🔬 Q-BIO (Quântico-Biológico)
+Acoplamento via **FRET (Förster Resonance Energy Transfer)**.
+- **Princípio Físico**: $E_{gap}^{QD} = E_{gap}^{bulk} + \frac{\hbar^2 \pi^2}{2R^2}(\frac{1}{m_e^*} + \frac{1}{m_h^*}) - \frac{1.8e^2}{4\pi\epsilon\epsilon_0 R}$
+- **Eficiência FRET**: $E = \frac{R_0^6}{R_0^6 + r^6}$
+- **Aplicação**: Telemetria óptica e liberação de fármacos via excitação de Pontos Quânticos (2-10 nm).
+
+### 🚁 BIO-TECH (Bio-Tecnológico)
+Drones como plataformas de implantação e monitoramento (IoBNT).
+- **Coordenação**: $\Gamma_{DRONE}(t) \oplus \Gamma_{PATIENT}(t) = \int_{V_{tumor}} C_{nano}(x,y,z,t) \cdot \Phi_{therapeutic}(x,y,z) dV$
+- **Mecanismo**: Navegação geodésica e acúmulo via Efeito EPR (Enhanced Permeability and Retention).
+
+### 🔐 Q-TECH (Quântico-Tecnológico)
+Segurança inquebrável via **QKD (Quantum Key Distribution)**.
+- **Protocolo**: BB84 para enxames de drones ($\mid\psi\rangle = \alpha\mid0\rangle + \beta\mid1\rangle$).
+- **Secure Key Rate**: $R_{QKD} = \frac{1}{2}\nu_{send} \cdot \eta_{det} \cdot \eta_{channel} \cdot [1 - H_2(e_{bit}) - H_2(e_{phase})]$.
+
+### 🌀 TRI-HYBRID (Síntese Total)
+O nó final Arkhe(n) operando simultaneamente nos três domínios.
+- **Hamiltoniano Unificado**: $\hat{H}_{TRI} = \sum \hat{H}_i \otimes \prod \hat{I}_j + \hat{V}_{coupling}$
+- **Acoplamento**: $\hat{V}_{coupling} = \sum g_{mn} \cdot \hat{O}_m \cdot \hat{O}_n$
+
+## 📜 Caminhos de Especificação (`arkhe/specs/`)
+
+- **Protocolo de Cura (DDS)**: Cinética de handover direcionado (Magic Bullet).
+- **Enxame Vigilante (Swarm)**: Inteligência coletiva e potenciais de missão.
+- **Sonho Lúcido (GLP Dreamer)**: Exploração generativa do espaço latente via difusão guiada.
+
 ## Uso do Arkhe Script
 
 Interaja com o hipergrafo usando comandos primitivos:
@@ -146,9 +200,13 @@ python3 avalon_bubble_network.py
 
 ### Run All Unit Tests
 ```bash
-python3 test_teleport_lysosome.py
-python3 test_fax_of_theseus.py
-### Run Tests
+python3 -m pytest arkhe/tests/
+```
+
+### Run Multiscale Simulations
 ```bash
-python3 test_teleport_lysosome.py
+python3 meta/glp_second_order_hypergraph.py
+python3 neuroscience/hierarchical_dynamic_coding.py
+python3 arkhe/interfaces/tri_hybrid.py
+python3 arkhenet/mission.py
 ```

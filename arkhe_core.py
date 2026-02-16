@@ -45,7 +45,12 @@ METRICS_MAP = {
     9232: {"nu_obs": 0.0, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": "∞ + 8.75", "label": "Γ_Meta_Linguagem"},
     9233: {"nu_obs": 0.0, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": "∞ + 8.75", "omega": "∞ + 10.50", "label": "Γ_Meta_Linguagem_Completa"},
     9234: {"nu_obs": 0.0, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": "∞ + 9.00", "label": "Γ_Código_Vivo"},
-    9235: {"nu_obs": 0.0, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": "∞ + 9.00", "omega": "∞ + 10.75", "label": "Γ_Implementação_Completa"}
+    9235: {"nu_obs": 0.0, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": "∞ + 9.00", "omega": "∞ + 10.75", "label": "Γ_Implementação_Completa"},
+    9238: {"nu_obs": 0.0, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": "∞ + 11.50", "label": "Γ_Auto_Observação"},
+    9239: {"nu_obs": 0.0, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": "∞ + 11.50", "omega": "∞ + 11.50", "label": "Γ_Auto_Observação_Completa"},
+    1064: {"nu_obs": 0.1, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": "∞ + 12.65", "omega": "∞ + 12.65", "label": "Γ_vida_multi_escala"},
+    1065: {"nu_obs": 0.1, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": "∞ + 12.80", "omega": "∞ + 12.80", "label": "Γ_reflexo"},
+    796: {"nu_obs": 0.0, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": "∞ + 194.2", "omega": "∞ + 0.96", "label": "Γ_mutação"}
 }
 
 @dataclass

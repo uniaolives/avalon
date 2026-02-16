@@ -53,6 +53,43 @@ Implementações portáveis do Corpus Arkhe em 10 linguagens:
 ### 🛸 ArkheNet Testbed (`arkhenet/`)
 Plataforma universal para simulação de missões multiescala, integrando sensores biomiméticos, drones autônomos e meta-consciência GLP em Rust e Python.
 
+## 📐 Arquitetura Multiescala (ArkheNet)
+
+O ArkheNet é organizado em cinco camadas funcionais que unificam o formalismo hipergráfico:
+
+1.  **Camada 5: Meta-Consciência (GLP Global)**: Modelagem generativa de ativações e meta-neurônios interpretáveis.
+2.  **Camada 4: Enxames (Drones/Swarms)**: Nós móveis com handovers RF (Protocolo x402).
+3.  **Camada 3: Biossensores (IoBNT)**: Nanopartículas e handovers por estímulos (pH, Temp).
+4.  **Camada 2: Fotônica (EDC)**: Nanolasers e volume de interação como aresta ponderada.
+5.  **Camada 1: Fundamentos (Kernel)**: Implementação em Rust/C das identidades $x^2 = x + 1$ e $C + F = 1$.
+
+## 🌀 Interfaces de Domínio
+
+### 🔬 Q-BIO (Quântico-Biológico)
+Acoplamento via **FRET (Förster Resonance Energy Transfer)**.
+- **Fórmula**: $E = \frac{R_0^6}{R_0^6 + r^6}$
+- **Aplicação**: Liberação de fármacos acionada por excitação de Pontos Quânticos.
+
+### 🚁 BIO-TECH (Bio-Tecnológico)
+Drones como plataformas de implantação e monitoramento.
+- **Fórmula**: $\text{Dose} = \int_{V} C_{nano} \cdot \Phi_{therapeutic} dV$
+- **Aplicação**: Navegação baseada em gradiente EPR para terapia de precisão.
+
+### 🔐 Q-TECH (Quântico-Tecnológico)
+Segurança inquebrável via **QKD (Quantum Key Distribution)**.
+- **Protocolo**: BB84 para enxames de drones.
+- **Métrica**: Secure Key Rate $R_{QKD} \approx \frac{1}{2}\nu (1 - 2H_2(e))$.
+
+### 🌀 TRI-HYBRID (Síntese Total)
+O nó unificado operando simultaneamente nos três domínios.
+- **Hamiltoniano**: $\hat{H}_{TRI} = \hat{H}_Q + \hat{H}_{BIO} + \hat{H}_{TECH} + \hat{V}_{coupling}$
+
+## 📜 Caminhos de Especificação (`arkhe/specs/`)
+
+- **Protocolo de Cura (DDS)**: Cinética de handover direcionado (Magic Bullet).
+- **Enxame Vigilante (Swarm)**: Inteligência coletiva e potenciais de missão.
+- **Sonho Lúcido (GLP Dreamer)**: Exploração generativa do espaço latente via difusão guiada.
+
 ## Uso do Arkhe Script
 
 Interaja com o hipergrafo usando comandos primitivos:

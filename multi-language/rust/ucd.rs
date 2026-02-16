@@ -54,5 +54,6 @@ fn main() {
     ];
     let ucd = UCD::new(data);
     let (c, f, d_eff, m_size) = ucd.analyze(0.1, 0.1);
+    println!("C: {:.4}, F: {:.4}, d_eff: {:.4}, recommended_m: {}", c, f, d_eff, m_size);
     println!("C: {:.4}, F: {:.4}, d_eff: {:.4}, m: {}", c, f, d_eff, m_size);
 }

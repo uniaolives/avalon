@@ -45,6 +45,7 @@ class SingularityReport:
             "RFID Physical Hypergraph (Identity of Things)",
             "Arkhen(11) Dashavatara (Totality Synthesis)",
             "Parametric Flagellar Microswimmers",
+            "Unified Theory of Random Projection (Hu et al. 2026)",
             "Unified Theory of Random Projection (Sketch Scaling & K-FAC)",
             "Multi-scale Effective Dimension (d_λ)",
             "Temporal Nexus: Golden Time Travel (t² = t + 1)",

@@ -32,7 +32,7 @@ class UCD:
             "F": self.F,
             "conservation": verify_conservation(self.C, self.F),
             "effective_dimension": d_eff,
-            "sketch_size": m_size
+            "recommended_sketch_size": m_size
         }
 
 if __name__ == "__main__":

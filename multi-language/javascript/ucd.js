@@ -20,8 +20,7 @@ class UCD {
             }
             this.C = count > 0 ? sumCorr / count : 1.0;
 
-            // Simplified d_eff for JS (using correlation matrix diagonal approximation)
-            // In a real scenario, we would use a math library for eigenvalues
+            // Simplified d_eff for JS (approximation)
             let d_eff = this.data.length * (1.0 / (1.0 + lambda_reg));
             let m_size = Math.ceil(10 * d_eff / (epsilon * epsilon));
 
@@ -30,7 +29,7 @@ class UCD {
                 F: 1.0 - this.C,
                 conservation: verifyConservation(this.C, 1.0 - this.C),
                 effective_dimension: d_eff,
-                sketch_size: m_size
+                recommended_sketch_size: m_size
             };
         }
         return { C: 0.5, F: 0.5, conservation: true };

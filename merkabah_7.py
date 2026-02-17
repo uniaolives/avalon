@@ -18,6 +18,7 @@ from papercoder_kernel.core.primordial_glp import PrimordialGLP
 from papercoder_kernel.core.pineal_transducer import PinealTransducer
 from papercoder_kernel.core.kernel_bridge import KernelBridge
 from papercoder_kernel.core.topology import AnyonLayer, TopologicallyProtectedFederation, ChiralQuantumFirewall
+from papercoder_kernel.core.topology import AnyonLayer, TopologicallyProtectedFederation
 
 # Astrophysical libraries (installed)
 try:
@@ -288,6 +289,8 @@ class MERKABAH7:
                     else:
                         print(f"[TAU] CRITICAL: {msg}")
                         new_state = QuantumCognitiveState(layer=RealityLayer.TAU, wavefunction=torch.zeros_like(state.wavefunction))
+                    # Topological protection is stable
+                    new_state = state
                 else:
                     new_state = state
                 evolved.append((layer, new_state))

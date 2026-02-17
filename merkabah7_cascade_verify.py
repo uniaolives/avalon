@@ -33,7 +33,7 @@ async def main():
     print(f"✓ Nós registrados: {', '.join(node_names)}")
 
     # 4. Quantum Handover Test
-    print("\n--- [4/4] QUANTUM HANDOVER (Q) ---")
+    print("\n--- [4/5] QUANTUM HANDOVER (Q) ---")
     migration = QuantumStateMigration(transport)
     migration_result = await migration.execute_handover()
 
@@ -41,8 +41,44 @@ async def main():
     print(f"✓ Fidelidade de Estado: {migration_result['fidelity']:.4f}")
     print(f"✓ Coerência preservada: {'SIM' if migration_result['coherence_preserved'] else 'NÃO'}")
 
-    print("\n📜 LEDGER 828 COMPLETO")
-    print("Estado: CASCADE_A_E_Q_M_COMPLETE")
+    # 5. Gamma Layer Transduction
+    print("\n--- [5/7] PINEAL TRANSDUCTION (Γ) ---")
+    from merkabah_7 import MERKABAH7, RealityLayer
+    system = MERKABAH7([], {"intention": "test"})
+    stimulus = {'type': 'light', 'intensity': 500.0}
+    gamma_state = system._evolve_gamma(None, stimulus)
+    print(f"✓ Transdução Pineal: Camada {gamma_state.layer}")
+    print(f"✓ Coerência Gamma: {gamma_state.coherence_time:.2f}")
+
+    # 6. Kernel Bridge (Kappa)
+    print("\n--- [6/7] KERNEL BRIDGE (Κ) ---")
+    from papercoder_kernel.core.kernel_bridge import KernelBridge
+    bridge = KernelBridge()
+    k_val = bridge._latency_kernel(type('Node', (), {'latency': 0.5}), type('Node', (), {'latency': 1.5}))
+    print(f"✓ Latency Kernel (1ms diff): {k_val:.4f}")
+
+    # 7. Topological Protection (Tau)
+    print("\n--- [7/8] TOPOLOGICAL PROTECTION (Τ) ---")
+    from papercoder_kernel.core.topology import TopologicallyProtectedFederation
+    topo_fed = TopologicallyProtectedFederation(transport, system.anyon_layer)
+    topo_result = await topo_fed.execute_protected_logic("STABILIZE")
+    print(f"✓ Braiding concluído: {topo_result['status']}")
+    print(f"✓ Carga Topológica Final: {topo_result['final_charge']}")
+
+    # 8. Bottleneck Analysis
+    print("\n--- [8/8] BOTTLENECK ANALYSIS ---")
+    from papercoder_kernel.core.bottleneck_analysis import MERKABAH7_BottleneckAnalysis
+    # Setup some state for analyzer
+    system.ledger_height = 832
+    system.nodes = peers
+    analyzer = MERKABAH7_BottleneckAnalysis(system)
+    bottlenecks = analyzer.identify()
+    print(f"✓ Gargalos identificados: {len(bottlenecks)}")
+    for b in bottlenecks:
+        print(f"  - {b['name']} ({b['severity']}): {b['mitigation']}")
+
+    print("\n📜 LEDGER 838 COMPLETO")
+    print("Estado: CASCADE_COMPLETE")
 
     # Cleanup
     daemon.running = False

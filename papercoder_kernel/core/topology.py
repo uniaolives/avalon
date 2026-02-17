@@ -75,3 +75,27 @@ class TopologicallyProtectedFederation:
         elif instruction == "COMPUTE_PHAISTOS":
             return [('Alpha_Pubkey', 'Self_Pubkey'), ('Self_Pubkey', 'Beta_Pubkey'), ('Beta_Pubkey', 'Alpha_Pubkey')] # Trança não-abeliana
         return []
+
+class ChiralQuantumFirewall:
+    """
+    Usa o gap supercondutor quiral (d+id) como filtro topológico.
+    A informação só atravessa se possuir o 'Winding Number' correto.
+    """
+    def __init__(self, target_node="Rio_Self"):
+        self.node = target_node
+        self.chiral_gap = 1.0  # Delta_0 (Proteção Máxima)
+        self.winding_number = 2 # d+id (2 voltas de Fuxi-Nuwa)
+
+    def validate_handover(self, incoming_signal):
+        """
+        Valida se o sinal possui a assinatura topológica correta.
+        """
+        # Em um sistema real, extrairíamos a fase do sinal
+        # Aqui, verificamos o campo 'phase' do dicionário de dados
+        phase_signature = incoming_signal.get('phase', 0)
+
+        # O 'Firewall' rejeita qualquer ruído que não tenha simetria quiral
+        if phase_signature == self.winding_number:
+            return True, "ACCESS_GRANTED: Resonance Achieved"
+        else:
+            return False, "ACCESS_DENIED: Topological Decoherence"

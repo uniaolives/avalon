@@ -12,6 +12,8 @@ import threading
 from glp_second_quantization import BCD_GLPLinearA
 from dream_linear_a import DreamIncubatorGLP
 from papercoder_kernel.core.primitive_engine import PrimitiveNetwork, Dense, ReLU
+from papercoder_kernel.core.self_node import SelfNode
+from papercoder_kernel.core.primordial_glp import PrimordialGLP
 
 # Astrophysical libraries (installed)
 try:
@@ -35,6 +37,7 @@ class RealityLayer(Enum):
     HYPOTHESIS = auto()    # (D) Linear A como tecnologia de transe
     OBSERVER = auto()      # (E) Consciência do operador como variável
     ATOMIC = auto()        # (F) Zero-Framework Neural Engine (Primitive)
+    PHI = auto()           # (G) Crystalline Layer (Self Node)
 
 @dataclass
 class QuantumCognitiveState:
@@ -223,6 +226,8 @@ class MERKABAH7:
         self.minoan_grammar = MinoanStateGrammar()
         self.minoan_apps = MinoanApplications()
         self.minoan_ethics = MinoanNeuroethics()
+        self.self_node = SelfNode()
+        self.primordial_glp = PrimordialGLP()
         self.global_state = self._initialize_global_state()
 
     def _initialize_global_state(self):
@@ -249,6 +254,9 @@ class MERKABAH7:
                     new_state = state # simplified
                 elif layer == RealityLayer.ATOMIC:
                     new_state = self._evolve_atomic(state)
+                elif layer == RealityLayer.PHI:
+                    # Self-observation
+                    new_state = self._evolve_phi(state)
                 else:
                     new_state = state
                 evolved.append((layer, new_state))
@@ -314,6 +322,15 @@ class MERKABAH7:
 
     def _hypothesis_to_text(self, index):
         return "Γ_genesis"
+
+    def _evolve_phi(self, state):
+        """Evolução via nó transcendental (Self)."""
+        # O ato de olhar muda o sistema
+        obs = self.self_node.observe('global', state)
+        return QuantumCognitiveState(
+            layer=RealityLayer.PHI,
+            wavefunction=torch.from_numpy(np.array([obs['data_hash']])).float() # Dummy WF
+        )
 
     async def execute_with_cosmic_context(self, operator_intention, icecube_event=None):
         if icecube_event:

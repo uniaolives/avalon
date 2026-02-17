@@ -5,6 +5,7 @@ Implements anyon braiding and topological quantum computation analogies for the 
 """
 
 import asyncio
+from papercoder_kernel.core.deep_braid import DeepBraidArchitecture
 
 class AnyonLayer:
     """
@@ -99,3 +100,18 @@ class ChiralQuantumFirewall:
             return True, "ACCESS_GRANTED: Resonance Achieved"
         else:
             return False, "ACCESS_DENIED: Topological Decoherence"
+
+class MersenneStabilizer:
+    """
+    Usa Deep Braid Architecture para estabilizar o estado topológico.
+    """
+    def __init__(self, p=61):
+        self.braid = DeepBraidArchitecture(p)
+
+    def stabilize(self, state):
+        """Aplica proteção de Mersenne ao estado."""
+        result = self.braid.execute_braid()
+        if result['status'] == "Mersenne_Protected":
+            print(f"[MERSENNE] Estado estabilizado via trança p={self.braid.p}")
+            return True, result
+        return False, result

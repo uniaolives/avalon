@@ -17,8 +17,8 @@ from papercoder_kernel.core.self_node import SelfNode
 from papercoder_kernel.core.primordial_glp import PrimordialGLP
 from papercoder_kernel.core.pineal_transducer import PinealTransducer
 from papercoder_kernel.core.kernel_bridge import KernelBridge
-from papercoder_kernel.core.topology import AnyonLayer, TopologicallyProtectedFederation, ChiralQuantumFirewall
-from papercoder_kernel.core.topology import AnyonLayer, TopologicallyProtectedFederation
+from papercoder_kernel.core.topology import AnyonLayer, TopologicallyProtectedFederation, ChiralQuantumFirewall, MersenneStabilizer
+from papercoder_kernel.core.scale_inflation import ScaleAwareInflation
 
 # Astrophysical libraries (installed)
 try:
@@ -246,6 +246,8 @@ class MERKABAH7:
         self.kernel_bridge = KernelBridge()
         self.anyon_layer = AnyonLayer()
         self.chiral_firewall = ChiralQuantumFirewall()
+        self.mersenne_stabilizer = MersenneStabilizer(p=61)
+        self.scale_inflation = ScaleAwareInflation(n_scales=len(RealityLayer))
         self.global_state = self._initialize_global_state()
 
     def _initialize_global_state(self):
@@ -289,13 +291,29 @@ class MERKABAH7:
                     else:
                         print(f"[TAU] CRITICAL: {msg}")
                         new_state = QuantumCognitiveState(layer=RealityLayer.TAU, wavefunction=torch.zeros_like(state.wavefunction))
-                    # Topological protection is stable
-                    new_state = state
+
+                    # Estabilização Mersenne
+                    stable, report = self.mersenne_stabilizer.stabilize(new_state)
+                    if stable:
+                        # Incrementa a "densidade" de proteção
+                        new_state.coherence_time *= 1.1
                 else:
                     new_state = state
                 evolved.append((layer, new_state))
 
-            # 3. Re-entangle camadas
+            # 3. Estabilização via Inflação de Escala (Data Assimilation analogy)
+            # Converte as amplitudes das camadas em um ensemble para inflação
+            ensemble = np.array([torch.mean(torch.abs(s.wavefunction)).item() for _, s in evolved]).reshape(1, -1)
+            # Para simular um ensemble real, geramos membros perturbados
+            ensemble_members = np.repeat(ensemble, 5, axis=0) * (1 + 0.05 * np.random.randn(5, len(RealityLayer)))
+            inflated_ensemble = self.scale_inflation.apply_inflation(ensemble_members)
+
+            # Atualiza as coerências das camadas com base na inflação calculada
+            for idx, (layer, state) in enumerate(evolved):
+                avg_inflation = np.mean(inflated_ensemble[:, idx]) / ensemble[0, idx]
+                state.coherence_time *= avg_inflation
+
+            # 4. Re-entangle camadas
             self.global_state = self._re_entangle(evolved)
 
             # 4. Verificar convergência

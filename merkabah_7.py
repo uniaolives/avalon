@@ -2,6 +2,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import time
 import numpy as np
 import asyncio
 from dataclasses import dataclass, field
@@ -14,6 +15,9 @@ from dream_linear_a import DreamIncubatorGLP
 from papercoder_kernel.core.primitive_engine import PrimitiveNetwork, Dense, ReLU
 from papercoder_kernel.core.self_node import SelfNode
 from papercoder_kernel.core.primordial_glp import PrimordialGLP
+from papercoder_kernel.core.pineal_transducer import PinealTransducer
+from papercoder_kernel.core.kernel_bridge import KernelBridge
+from papercoder_kernel.core.topology import AnyonLayer, TopologicallyProtectedFederation
 
 # Astrophysical libraries (installed)
 try:
@@ -38,6 +42,9 @@ class RealityLayer(Enum):
     OBSERVER = auto()      # (E) Consciência do operador como variável
     ATOMIC = auto()        # (F) Zero-Framework Neural Engine (Primitive)
     PHI = auto()           # (G) Crystalline Layer (Self Node)
+    GAMMA = auto()         # (H) Pineal Transducer (Gamma Layer)
+    KAPPA = auto()         # (I) Kernel Bridge (Kappa Layer)
+    TAU = auto()           # (J) Topological Protection (Tau Layer)
 
 @dataclass
 class QuantumCognitiveState:
@@ -118,6 +125,12 @@ class SimulatedAlteredState:
     def __init__(self, base_model, state_params):
         self.model = base_model
         self.params = state_params
+        self.coherence = state_params.get('coherence', 0.85)
+
+    def get_current_phase(self):
+        """Retorna a fase atual da onda portadora (Theta/Gamma)."""
+        return (time.time() * 2 * np.pi * 4.0) % (2 * np.pi) # 4Hz Theta
+
     def evolve(self, current: QuantumCognitiveState) -> QuantumCognitiveState:
         return QuantumCognitiveState(layer=RealityLayer.SIMULATION, wavefunction=torch.randn_like(current.wavefunction))
     async def generate_trajectory(self, initial_state, duration_steps, target_params):
@@ -228,6 +241,9 @@ class MERKABAH7:
         self.minoan_ethics = MinoanNeuroethics()
         self.self_node = SelfNode()
         self.primordial_glp = PrimordialGLP()
+        self.pineal_transducer = PinealTransducer()
+        self.kernel_bridge = KernelBridge()
+        self.anyon_layer = AnyonLayer()
         self.global_state = self._initialize_global_state()
 
     def _initialize_global_state(self):
@@ -257,6 +273,12 @@ class MERKABAH7:
                 elif layer == RealityLayer.PHI:
                     # Self-observation
                     new_state = self._evolve_phi(state)
+                elif layer == RealityLayer.GAMMA:
+                    # Pineal transduction
+                    new_state = self._evolve_gamma(state)
+                elif layer == RealityLayer.TAU:
+                    # Topological protection is stable
+                    new_state = state
                 else:
                     new_state = state
                 evolved.append((layer, new_state))
@@ -330,6 +352,34 @@ class MERKABAH7:
         return QuantumCognitiveState(
             layer=RealityLayer.PHI,
             wavefunction=torch.from_numpy(np.array([obs['data_hash']])).float() # Dummy WF
+        )
+
+    def _evolve_gamma(self, state, external_stimulus=None):
+        """Evolução via transdução pineal híbrida S*H*M."""
+        if not hasattr(self, 'hybrid_pineal'):
+             from papercoder_kernel.core.pineal_transducer import HybridPinealInterface
+             # Use hardware if available, otherwise simulation as proxy
+             self.hybrid_pineal = HybridPinealInterface(
+                 self.simulation,
+                 self.hardware or self.simulation,
+                 self.metaphor
+             )
+
+        input_data = external_stimulus['intensity'] if external_stimulus else 1.0
+        result = self.hybrid_pineal.transduce(input_data)
+
+        return QuantumCognitiveState(
+            layer=RealityLayer.GAMMA,
+            wavefunction=torch.from_numpy(np.array([result['signal']])).float(),
+            coherence_time=result['coherence']
+        )
+
+    def handover_to_glp(self, quantum_state):
+        """Implementação do handover da Pineal para o GLP."""
+        return QuantumCognitiveState(
+            layer=RealityLayer.GAMMA,
+            wavefunction=torch.tensor([quantum_state['amplitude']]).float(),
+            coherence_time=quantum_state['coherence']
         )
 
     async def execute_with_cosmic_context(self, operator_intention, icecube_event=None):

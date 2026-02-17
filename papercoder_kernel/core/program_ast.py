@@ -1,4 +1,4 @@
-# papercoder_kernel/core/ast.py
+# papercoder_kernel.core.program_ast.py
 import ast
 import hashlib
 from typing import Union, List, Dict, Optional

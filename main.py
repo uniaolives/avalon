@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from .program_astapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import numpy as np
 from kernel import BioSignatureKernel

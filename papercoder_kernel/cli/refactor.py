@@ -5,7 +5,7 @@ import os
 # Adiciona o diretório raiz ao path para permitir importações do pacote
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
-from papercoder_kernel.core.ast import parse_program, Program
+from papercoder_kernel.core.program_ast import parse_program, Program
 from papercoder_kernel.lie.group import DiffeomorphismGroup, Diffeomorphism
 from papercoder_kernel.lie.algebra import VariableRenameField, FunctionExtractField
 from papercoder_kernel.safety.theorem import is_safe_refactoring
@@ -51,7 +51,13 @@ def main():
 
     print(f"Analisando refatoração '{ref_name}' no arquivo {src_file}...")
 
-    # 5. Validação via Teorema PaperCoder Safety
+    # 5. Validação de Prova de Preservação Semântica
+    from papercoder_kernel.types.proofs import verify_semantic_preservation
+    if not verify_semantic_preservation(src, transformed, phi):
+        print(f"❌ Falha na prova de preservação semântica.")
+        sys.exit(3)
+
+    # 6. Validação via Teorema PaperCoder Safety
     if is_safe_refactoring(phi, group):
         print(f"✅ Refatoração '{ref_name}' é segura e preserva semântica.")
         # 6. Salvar o resultado real no disco

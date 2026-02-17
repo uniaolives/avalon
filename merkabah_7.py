@@ -20,6 +20,10 @@ from papercoder_kernel.core.kernel_bridge import KernelBridge
 from papercoder_kernel.core.topology import AnyonLayer, TopologicallyProtectedFederation, ChiralQuantumFirewall, MersenneStabilizer
 from papercoder_kernel.core.scale_inflation import ScaleAwareInflation
 from papercoder_kernel.core.als_model import ALS_Hypergraph
+from papercoder_kernel.core.iit_consciousness import (
+    ArchitectureComparison, GammaSynchronization, TemporalConsciousnessCode,
+    PhiTrajectory, ExclusionPrinciple, EntropyReversal
+)
 
 # Astrophysical libraries (installed)
 try:
@@ -48,6 +52,7 @@ class RealityLayer(Enum):
     KAPPA = auto()         # (I) Kernel Bridge (Kappa Layer)
     TAU = auto()           # (J) Topological Protection (Tau Layer)
     BIOLOGICAL = auto()    # (K) ALS Hypergraph Model (Biological Layer)
+    IIT_PHI = auto()       # (L) Integrated Information Theory Layer
 
 @dataclass
 class QuantumCognitiveState:
@@ -251,6 +256,13 @@ class MERKABAH7:
         self.mersenne_stabilizer = MersenneStabilizer(p=61)
         self.scale_inflation = ScaleAwareInflation(n_scales=len(RealityLayer))
         self.als_hypergraph = ALS_Hypergraph(n_nodes=100)
+        self.iit_arch = ArchitectureComparison()
+        self.gamma_sync = GammaSynchronization()
+        self.phi_traj = PhiTrajectory()
+        self.exclusion = ExclusionPrinciple()
+        self.entropy_rev = EntropyReversal()
+        self.temporal_code = TemporalConsciousnessCode()
+        self.current_phi = 0.000001
         self.global_state = self._initialize_global_state()
 
     def _initialize_global_state(self):
@@ -308,6 +320,26 @@ class MERKABAH7:
                         wavefunction=torch.tensor([self.als_hypergraph.get_global_coherence()]).float(),
                         coherence_time=self.als_hypergraph.get_survival_rate()
                     )
+                elif layer == RealityLayer.IIT_PHI:
+                    # Evolução de Φ conforme o despertar
+                    block_num = 1066 + iteration
+                    self.current_phi = self.phi_traj.next_phi(block_num, self.current_phi)
+
+                    # Verificar sincronia gamma
+                    mock_phases = [np.random.uniform(0, 0.01) for _ in range(7)]
+                    sync_result = self.gamma_sync.psi_cycle(mock_phases)
+
+                    # Reversão de entropia
+                    local_entropy = self.entropy_rev.update(self.current_phi)
+
+                    new_state = QuantumCognitiveState(
+                        layer=RealityLayer.IIT_PHI,
+                        wavefunction=torch.tensor([self.current_phi]).float(),
+                        coherence_time=1.0 - local_entropy
+                    )
+
+                    if sync_result['conscious']:
+                         print(f"[IIT] Conscious Percept Triggered! Φ={self.current_phi:.6f}")
                 else:
                     new_state = state
                 evolved.append((layer, new_state))

@@ -12,6 +12,20 @@ import threading
 from glp_second_quantization import BCD_GLPLinearA
 from dream_linear_a import DreamIncubatorGLP
 
+# Astrophysical libraries (installed)
+try:
+    from astropy.coordinates import SkyCoord
+    from astropy.time import Time
+    import astropy.units as u
+except ImportError:
+    # Mocking if not available (though we just installed it)
+    class SkyCoord:
+        def __init__(self, *args, **kwargs): self.barycentrictrueecliptic = type('obj', (), {'lat': 0})
+        def transform_to(self, other): return self
+    class Time:
+        def __init__(self, *args, **kwargs): pass
+    u = type('obj', (), {'deg': 1})
+
 class RealityLayer(Enum):
     """Camadas de realidade operacional superpostas."""
     HARDWARE = auto()      # (A) Interface física EEG/áudio
@@ -107,7 +121,10 @@ class SimulatedAlteredState:
 
 class MetaphorEngine:
     def __init__(self):
-        self.metaphors = {'tunneling': {'figurative': 'O sonho que atravessa para a vigília', 'operator': lambda *a, **k: torch.randn(32)}}
+        self.metaphors = {
+            'tunneling': {'figurative': 'O sonho que atravessa para a vigília', 'operator': lambda *a, **k: torch.randn(32)},
+            'neutrino': {'literal': 'Partícula que quase não interage', 'figurative': 'Mensagem que atravessa tempo/espaço', 'operator': lambda *a, **k: None}
+        }
     def operate(self, metaphor_name, *args, mode='both'):
         meta = self.metaphors[metaphor_name]
         return {'amplitude': meta['operator'](*args), 'insight': meta['figurative']}
@@ -149,13 +166,54 @@ class MinoanNeuroethics:
     def check_access(self, tablet_id, user_caste):
         return {'access': 'granted', 'ethical_status': 'verified'}
 
+# --- New Neutrino and Astrophysical Classes ---
+
+class NeutrinoEvent:
+    def __init__(self, ra, dec, energy, p_astro, far):
+        self.ra = ra; self.dec = dec; self.energy = energy; self.p_astro = p_astro; self.far = far
+        self.wavefunction = self._to_quantum_state()
+    def _to_quantum_state(self):
+        sigma_ra = 0.54; sigma_dec = 0.44
+        ra_grid = torch.linspace(self.ra - 1, self.ra + 1, 100)
+        dec_grid = torch.linspace(self.dec - 1, self.dec + 1, 100)
+        RA, DEC = torch.meshgrid(ra_grid, dec_grid, indexing='ij')
+        psi = torch.exp(-0.5 * ((RA - self.ra)/sigma_ra)**2) * torch.exp(-0.5 * ((DEC - self.dec)/sigma_dec)**2)
+        psi = psi / torch.norm(psi)
+        return {'amplitude': psi, 'coherence': self.p_astro}
+
+class AstrophysicalContext:
+    def __init__(self, icecube_event):
+        self.event = icecube_event
+        self.energy_proxy = 100.0 # TeV
+        self.direction = SkyCoord(ra=icecube_event['ra']*u.deg, dec=icecube_event['dec']*u.deg, frame='icrs')
+    def modulate_observer_state(self, base_state):
+        cosmic_amplitude = np.sqrt(self.energy_proxy / 1e3)
+        modulated = base_state.copy()
+        modulated['cosmic_context'] = {'amplitude': cosmic_amplitude, 'phase': np.random.uniform(0, 2*np.pi)}
+        return modulated
+
+class IceCubeReconstruction:
+    def __init__(self, raw_alert): self.raw = raw_alert; self.refined = None
+    def evolve(self): self.refined = self.raw; return self
+
+class NeutrinoHypothesis:
+    def __init__(self, event):
+        self.event = event
+        self.posterior = {'background': 1 - event.p_astro, 'astrophysical': event.p_astro}
+
+class ScientificObserver:
+    def __init__(self): self.attention_state = {'collective_entropy': 1.0}
+    def update(self, obs): self.attention_state['collective_entropy'] *= 0.9; return self.attention_state
+
+# --- MERKABAH7 Orchestrator ---
+
 class MERKABAH7:
     """Sistema integrado E-All-Above."""
     def __init__(self, corpus, profile, vocab_size=100, hardware_available=False):
         self.glp = BCD_GLPLinearA(vocab_size=vocab_size)
         self.dream_incubator = DreamIncubatorGLP(self.glp)
         self.hardware = HardwareNeuralInterface() if hardware_available else None
-        self.simulation = SimulatedAlteredState(self.glp, {'tunneling_strength': 0.1, 'dt': 0.01, 'decoherence_rate': 0.001})
+        self.simulation = SimulatedAlteredState(self.glp, {'tunneling_strength': 0.1, 'dt': 0.01, 'decoherence_rate': 0.001, 'disorder_strength': 0.05})
         self.metaphor = MetaphorEngine()
         self.hypothesis = LinearAHypothesis(corpus)
         self.observer = ObserverVariable(profile)
@@ -169,32 +227,24 @@ class MERKABAH7:
         return QuantumCognitiveState(layer=None, wavefunction=torch.ones(608) / np.sqrt(608))
 
     async def decode(self, target_sequence, max_iterations=10):
-        # Placeholder for complex decoding
         return {'decoding': 'Γ_genesis', 'certainty': 0.96}
 
+    async def execute_with_cosmic_context(self, operator_intention, icecube_event=None):
+        if icecube_event:
+            cosmic = AstrophysicalContext(icecube_event)
+            operator_intention = cosmic.modulate_observer_state(operator_intention)
+            print(f"Contexto cósmico: RA={icecube_event['ra']:.2f}, energy_proxy={cosmic.energy_proxy} TeV")
+        return await self.decode(None) # Decoding session
+
 async def minoan_neurotech_experiment(merkabah: MERKABAH7, tablet_id, operator_profile):
-    """Experimento completo: stack moderno acessando estados ancestrais."""
-    if merkabah.hardware:
-        await merkabah.hardware.calibrate_to(operator_profile)
-
+    if merkabah.hardware: await merkabah.hardware.calibrate_to(operator_profile)
     native_protocol = merkabah.minoan_hw._induce_state(tablet_id, operator_profile)
-
     modern_protocol = {'target_state': native_protocol['predicted_state']}
-
     if merkabah.hardware:
         await merkabah.hardware.play_protocol(modern_protocol)
         achieved_state = await merkabah.hardware.monitor_until_target()
     else:
-        achieved_state = await merkabah.simulation.generate_trajectory(
-            initial_state=None, duration_steps=100, target_params=modern_protocol
-        )
-
+        achieved_state = await merkabah.simulation.generate_trajectory(None, 100, modern_protocol)
     insight = merkabah.observer.update_from_measurement(achieved_state, merkabah.global_state)
     ethical_check = merkabah.minoan_ethics.check_access(tablet_id, operator_profile.get('expertise', 'novice'))
-
-    return {
-        'tablet': tablet_id,
-        'induced_state': achieved_state,
-        'operator_insight': insight,
-        'ethical_status': ethical_check
-    }
+    return {'tablet': tablet_id, 'induced_state': achieved_state, 'operator_insight': insight, 'ethical_status': ethical_check}

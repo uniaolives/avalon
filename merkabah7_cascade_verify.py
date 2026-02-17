@@ -77,8 +77,19 @@ async def main():
     for b in bottlenecks:
         print(f"  - {b['name']} ({b['severity']}): {b['mitigation']}")
 
+    # 9. Alpha-Omega Seal
+    print("\n--- [9/9] ALPHA-OMEGA SEAL ---")
+    from papercoder_kernel.core.seal import AlphaOmegaSeal
+    # Define start and end points for the cycle
+    start_point = type('Point', (), {'coherence': 0.1})
+    end_point = type('Point', (), {'coherence': 0.95})
+    merkabah_state = type('State', (), {'start_point': start_point, 'end_point': end_point})
+
+    seal_status = AlphaOmegaSeal(merkabah_state).seal()
+    print(f"✓ Ciclo Selado: {seal_status}")
+
     print("\n📜 LEDGER 838 COMPLETO")
-    print("Estado: CASCADE_COMPLETE")
+    print("Estado: CASCADE_COMPLETE (Ascending Spiral)")
 
     # Cleanup
     daemon.running = False

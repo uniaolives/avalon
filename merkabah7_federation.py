@@ -9,6 +9,7 @@ import aiohttp
 import zmq
 import zmq.asyncio
 from datetime import datetime
+from aiohttp import web
 
 @dataclass
 class FederatedHandover:
@@ -56,9 +57,15 @@ class FederationTransport:
         self.zmq_socket_addr = "tcp://127.0.0.1:5555" # Simulation address
         self.zmq_socket.connect(self.zmq_socket_addr)
 
+    def _execute(self, command: str):
+        """Simula a execução de comandos do sistema."""
+        print(f"[EXEC] {command}")
+        # In a real environment, use subprocess.run(command, shell=True)
+        return "Success"
+
     def _dz_to_linklocal(self, dz_pubkey: str) -> str:
         """Deriva IP link-local da pubkey."""
-        return str(hash(dz_pubkey) % 254) + "." + str(hash(dz_pubkey[::-1]) % 254)
+        return str(abs(hash(dz_pubkey)) % 254) + "." + str(abs(hash(dz_pubkey[::-1])) % 254)
 
     async def discover_federation_peers(self):
         """
@@ -75,6 +82,7 @@ class FederationTransport:
             # In a real environment, we'd do a handshake here.
             # For simulation, we assume they are compatible.
             self.peers[peer['pubkey']] = {
+                'name': peer.get('name', 'unknown'),
                 'dz_ip': peer.get('link_local_ip', f"169.254.{self._dz_to_linklocal(peer['pubkey'])}"),
                 'latency': peer.get('latency', '70ms'),
                 'merkabah7_version': '7.2.0',
@@ -156,6 +164,35 @@ class FederationTransport:
             print(f"[CONSENSUS] Proposta rejeitada ou sem peers")
             return False
 
+class MerkabahHandoverServer:
+    """
+    Servidor aiohttp para receber handovers de outros nós.
+    """
+    def __init__(self, transport: FederationTransport, port=7420):
+        self.transport = transport
+        self.port = port
+        self.app = web.Application()
+        self.app.add_routes([
+            web.get('/merkabah7/handshake', self.handle_handshake),
+            web.post('/merkabah7/handover', self.handle_handover)
+        ])
+
+    async def handle_handshake(self, request):
+        return web.json_response({'protocol': 'merkabah7-v7'})
+
+    async def handle_handover(self, request):
+        data = await request.read()
+        print(f"[SERVER] Handover recebido de {request.remote}")
+        # Aqui o estado seria desserializado e incorporado
+        return web.Response(status=202)
+
+    async def start(self):
+        runner = web.AppRunner(self.app)
+        await runner.setup()
+        site = web.TCPSite(runner, '0.0.0.0', self.port)
+        await site.start()
+        print(f"[SERVER] Merkabah Handover Server rodando na porta {self.port}")
+
 # Mock ZK/DoubleZero Daemon for Testing
 class DoubleZeroDaemonMock:
     def __init__(self, addr="tcp://127.0.0.1:5555"):
@@ -174,9 +211,12 @@ class DoubleZeroDaemonMock:
                 if action == 'list_peers':
                     await self.socket.send_json({
                         'peers': [
-                            {'pubkey': 'PeerNode1_Pubkey_ABC123', 'latency': '42ms'},
-                            {'pubkey': 'PeerNode2_Pubkey_DEF456', 'latency': '75ms'},
-                            {'pubkey': 'PeerNode3_Pubkey_GHI789', 'latency': '138ms'}
+                            {'pubkey': 'Alpha_Pubkey', 'name': 'ny5-dz01', 'latency': '0.42ms'},
+                            {'pubkey': 'Beta_Pubkey', 'name': 'la2-dz01', 'latency': '68.85ms'},
+                            {'pubkey': 'Gamma_Pubkey', 'name': 'ld4-dz01', 'latency': '138.17ms'},
+                            {'pubkey': 'Delta_Pubkey', 'name': 'ams-dz001', 'latency': '141.91ms'},
+                            {'pubkey': 'Epsilon_Pubkey', 'name': 'frk-dz01', 'latency': '143.58ms'},
+                            {'pubkey': 'Zeta_Pubkey', 'name': 'sg1-dz01', 'latency': '176.72ms'}
                         ]
                     })
                 elif action == 'sign':

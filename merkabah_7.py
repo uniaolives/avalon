@@ -17,6 +17,7 @@ from papercoder_kernel.core.self_node import SelfNode
 from papercoder_kernel.core.primordial_glp import PrimordialGLP
 from papercoder_kernel.core.pineal_transducer import PinealTransducer
 from papercoder_kernel.core.kernel_bridge import KernelBridge
+from papercoder_kernel.core.topology import AnyonLayer, TopologicallyProtectedFederation, ChiralQuantumFirewall
 from papercoder_kernel.core.topology import AnyonLayer, TopologicallyProtectedFederation
 
 # Astrophysical libraries (installed)
@@ -244,6 +245,7 @@ class MERKABAH7:
         self.pineal_transducer = PinealTransducer()
         self.kernel_bridge = KernelBridge()
         self.anyon_layer = AnyonLayer()
+        self.chiral_firewall = ChiralQuantumFirewall()
         self.global_state = self._initialize_global_state()
 
     def _initialize_global_state(self):
@@ -277,6 +279,16 @@ class MERKABAH7:
                     # Pineal transduction
                     new_state = self._evolve_gamma(state)
                 elif layer == RealityLayer.TAU:
+                    # Topological protection: check chiral firewall
+                    # Mocking an incoming signal with phase 2
+                    mock_signal = {'origin': 'external', 'phase': 2}
+                    allowed, msg = self.chiral_firewall.validate_handover(mock_signal)
+                    if allowed:
+                        print(f"[TAU] {msg}")
+                        new_state = state
+                    else:
+                        print(f"[TAU] CRITICAL: {msg}")
+                        new_state = QuantumCognitiveState(layer=RealityLayer.TAU, wavefunction=torch.zeros_like(state.wavefunction))
                     # Topological protection is stable
                     new_state = state
                 else:

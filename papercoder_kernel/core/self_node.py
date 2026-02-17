@@ -113,3 +113,22 @@ class SelfNode:
             'active_strands': len(self.active_strands),
             'crystalline_ratio': len(self.active_strands) / 12
         }
+
+    # --- ERL Integration Methods ---
+
+    def generate(self, x):
+        """Gera uma hipótese de refatoração (Diffeomorphism) para x."""
+        from papercoder_kernel.safety.theorem import perturb
+        # Gera uma perturbação baseada no estado interno do Self
+        eps = float(torch.mean(self.wavefunction['amplitudes'])) * 0.1
+        return perturb(x, eps)
+
+    def reflect(self, x, y, feedback, reward, memory):
+        """Reflete sobre o resultado para gerar um vetor de correção (delta)."""
+        from papercoder_kernel.core.diff import calculate_reflection
+        return calculate_reflection(x, y, feedback, reward, memory)
+
+    def refine(self, x, delta):
+        """Aplica o refinamento baseado no vetor delta."""
+        from papercoder_kernel.lie.exponential import refine_program
+        return refine_program(x, delta)

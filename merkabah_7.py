@@ -11,6 +11,7 @@ import queue
 import threading
 from glp_second_quantization import BCD_GLPLinearA
 from dream_linear_a import DreamIncubatorGLP
+from papercoder_kernel.core.primitive_engine import PrimitiveNetwork, Dense, ReLU
 
 # Astrophysical libraries (installed)
 try:
@@ -33,6 +34,7 @@ class RealityLayer(Enum):
     METAPHOR = auto()      # (C) Estrutura organizadora
     HYPOTHESIS = auto()    # (D) Linear A como tecnologia de transe
     OBSERVER = auto()      # (E) Consciência do operador como variável
+    ATOMIC = auto()        # (F) Zero-Framework Neural Engine (Primitive)
 
 @dataclass
 class QuantumCognitiveState:
@@ -245,6 +247,8 @@ class MERKABAH7:
                     new_state = state # simplified
                 elif layer == RealityLayer.OBSERVER:
                     new_state = state # simplified
+                elif layer == RealityLayer.ATOMIC:
+                    new_state = self._evolve_atomic(state)
                 else:
                     new_state = state
                 evolved.append((layer, new_state))
@@ -281,6 +285,20 @@ class MERKABAH7:
 
     def _extract_component(self, state, layer):
         return state.wavefunction[:128]
+
+    def _evolve_atomic(self, state):
+        """Evolução via motor primitivo (Zero-Framework)."""
+        net = PrimitiveNetwork()
+        # Assume input_dim is the wavefunction size
+        dim = state.wavefunction.shape[0]
+        net.add(Dense(dim, dim))
+        net.add(ReLU())
+        # Forward pass in Numpy
+        new_wf = net.predict(state.wavefunction.numpy().reshape(1, -1))
+        return QuantumCognitiveState(
+            layer=RealityLayer.ATOMIC,
+            wavefunction=torch.from_numpy(new_wf).float().flatten()
+        )
 
     def _measure_insight(self, state):
         comp = self._extract_component(state, RealityLayer.HYPOTHESIS)

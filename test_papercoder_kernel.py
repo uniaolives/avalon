@@ -1,5 +1,6 @@
 # test_papercoder_kernel.py
 import unittest
+from papercoder_kernel.core.program_ast import Program, edit_distance
 from papercoder_kernel.core.ast import Program, edit_distance
 from papercoder_kernel.lie.algebra import VectorField
 from papercoder_kernel.lie.group import Diffeomorphism, DiffeomorphismGroup

@@ -2,6 +2,7 @@
 import ast
 import numpy as np
 from typing import Optional
+from papercoder_kernel.core.program_ast import Program, edit_distance
 from papercoder_kernel.core.ast import Program, edit_distance
 from papercoder_kernel.lie.group import Diffeomorphism, DiffeomorphismGroup
 from papercoder_kernel.lie.algebra import VectorField

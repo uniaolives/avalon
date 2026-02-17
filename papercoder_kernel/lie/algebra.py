@@ -2,6 +2,7 @@
 import ast
 from typing import Callable, Optional, Dict, List
 import numpy as np
+from papercoder_kernel.core.program_ast import Program
 from papercoder_kernel.core.ast import Program
 
 class VectorField:

@@ -2,6 +2,7 @@
 from __future__ import annotations
 from typing import Generic, TypeVar, Callable
 from dataclasses import dataclass
+from papercoder_kernel.core.program_ast import Program
 from papercoder_kernel.core.ast import Program
 
 P = TypeVar('P', bound=Program)

@@ -1,6 +1,7 @@
 # test_erl_integration.py
 import unittest
 import torch
+from papercoder_kernel.core.program_ast import Program
 from papercoder_kernel.core.ast import Program
 from papercoder_kernel.core.self_node import SelfNode
 from papercoder_kernel.core.flow import ExperientialLearning

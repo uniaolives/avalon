@@ -181,6 +181,7 @@ class BCD_GLPLinearA(nn.Module):
     """
     def __init__(self, vocab_size, embed_dim=64, hidden_dim=128):
         super().__init__()
+        self.vocab_size = vocab_size
         self.embedding = nn.Embedding(vocab_size, embed_dim)
 
         self.hamiltonian = SuperlatticeHamiltonian(
@@ -206,6 +207,7 @@ class BCD_GLPLinearA(nn.Module):
         final_state = tunneled.sum(dim=1) # [batch, seq_len, embed_dim]
 
         output = {
+            'tablet_repr': final_state.mean(dim=1),
             'sign_logits': self.sign_predictor(final_state),
             'geometry': self.geometry_probe(final_state.mean(dim=1)),
             'scale_probabilities': probs,

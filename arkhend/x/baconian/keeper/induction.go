@@ -27,8 +27,8 @@ type Keeper struct {
 	idolCounter        uint64
 }
 
-func NewKeeper(cp types.CoherenceProvider, hb types.HandoverBridge, gk GovKeeper) Keeper {
-	return Keeper{
+func NewKeeper(cp types.CoherenceProvider, hb types.HandoverBridge, gk GovKeeper) *Keeper {
+	return &Keeper{
 		coherenceProvider: cp,
 		handoverBridge:    hb,
 		govKeeper:         gk,
@@ -120,11 +120,13 @@ func (k *Keeper) DetectIdols(ctx sdk.Context, obs []types.Observation, table typ
 }
 
 func (k *Keeper) detectTribus(ctx sdk.Context, obs []types.Observation) *types.Idol {
+	// Detecta se todos os nós concordam demais (consenso suspeito)
 	validators := make(map[string]int)
 	for _, o := range obs {
 		validators[o.Validator]++
 	}
 
+	// Se há poucos validadores mas muitas observações, pode haver viés
 	if len(validators) < 3 && len(obs) > 20 {
 		return &types.Idol{
 			ID:              k.GenerateIdolID(ctx),
@@ -138,8 +140,9 @@ func (k *Keeper) detectTribus(ctx sdk.Context, obs []types.Observation) *types.I
 				Strategy:   "weight",
 				Parameters: []string{"diversity_penalty", "0.5"},
 			},
-			DetectedAt:  ctx.BlockTime(),
-			BlockHeight: ctx.BlockHeight(),
+			DetectedAt:      ctx.BlockTime(),
+			BlockHeight:     ctx.BlockHeight(),
+			CoherenceImpact: sdk.NewDecWithPrec(1, 2), // 0.01
 		}
 	}
 	return nil
@@ -147,17 +150,20 @@ func (k *Keeper) detectTribus(ctx sdk.Context, obs []types.Observation) *types.I
 
 func (k *Keeper) detectSpecus(ctx sdk.Context, obs []types.Observation) []types.Idol {
 	var idols []types.Idol
+
+	// Agrupa por validador
 	byValidator := make(map[string][]types.Observation)
 	for _, o := range obs {
 		byValidator[o.Validator] = append(byValidator[o.Validator], o)
 	}
 
+	// Para cada validador, verifica se é outlier
 	globalMean := k.calculateMeanIntensity(obs)
 	globalStd := k.calculateStdIntensity(obs)
 
 	for validator, vObs := range byValidator {
 		if len(vObs) < 5 {
-			continue
+			continue // pouca amostra
 		}
 
 		localMean := k.calculateMeanIntensity(vObs)
@@ -174,11 +180,13 @@ func (k *Keeper) detectSpecus(ctx sdk.Context, obs []types.Observation) []types.
 			zScore = diff.Quo(globalStd)
 		}
 
+		// Se z-score > 2, é outlier
 		if zScore.GT(sdk.NewDec(2)) {
+			severity := sdk.MinDec(zScore.Quo(sdk.NewDec(3)), sdk.NewDec(1))
 			idols = append(idols, types.Idol{
 				ID:              k.GenerateIdolID(ctx),
 				Type:            types.IdolumSpecus,
-				Severity:        sdk.MinDec(zScore.Quo(sdk.NewDec(3)), sdk.NewDec(1)),
+				Severity:        severity,
 				Description:     fmt.Sprintf("Padrão idiossincrático: média local %s vs global %s",
 					localMean.String(), globalMean.String()),
 				DetectionMethod: "z-score > 2",
@@ -188,20 +196,25 @@ func (k *Keeper) detectSpecus(ctx sdk.Context, obs []types.Observation) []types.
 					Strategy:   "weight",
 					Parameters: []string{"outlier_downweight", "0.3"},
 				},
-				DetectedAt:  ctx.BlockTime(),
-				BlockHeight: ctx.BlockHeight(),
+				DetectedAt:      ctx.BlockTime(),
+				BlockHeight:     ctx.BlockHeight(),
+				CoherenceImpact: severity.Mul(sdk.NewDecWithPrec(5, 3)), // severity * 0.005
 			})
 		}
 	}
+
 	return idols
 }
 
 func (k *Keeper) detectFori(ctx sdk.Context, obs []types.Observation) *types.Idol {
+	// Detecta inconsistências no campo Context (linguagem)
 	contexts := make(map[string]int)
 	for _, o := range obs {
 		contexts[o.Context]++
 	}
 
+	// Se há muitos contextos semanticamente similares mas não idênticos,
+	// pode haver deriva semântica
 	if len(contexts) > len(obs)/2 && len(obs) > 10 {
 		return &types.Idol{
 			ID:              k.GenerateIdolID(ctx),
@@ -215,14 +228,16 @@ func (k *Keeper) detectFori(ctx sdk.Context, obs []types.Observation) *types.Ido
 				Strategy:   "cluster",
 				Parameters: []string{"semantic_embedding", "cosine_similarity", "0.8"},
 			},
-			DetectedAt:  ctx.BlockTime(),
-			BlockHeight: ctx.BlockHeight(),
+			DetectedAt:      ctx.BlockTime(),
+			BlockHeight:     ctx.BlockHeight(),
+			CoherenceImpact: sdk.NewDecWithPrec(2, 2), // 0.02
 		}
 	}
 	return nil
 }
 
 func (k *Keeper) detectTheatri(ctx sdk.Context, obs []types.Observation, table types.Table) *types.Idol {
+	// Detecta se há uma crença prévia que está sendo confirmada seletivamente
 	if len(table.Presence) + len(table.Absence) < 10 {
 		return nil
 	}
@@ -230,11 +245,14 @@ func (k *Keeper) detectTheatri(ctx sdk.Context, obs []types.Observation, table t
 	presenceRatio := sdk.NewDec(int64(len(table.Presence))).Quo(
 		sdk.NewDec(int64(len(table.Presence) + len(table.Absence))))
 
-	if presenceRatio.GT(sdk.NewDecWithPrec(9, 1)) {
+	if presenceRatio.GT(sdk.NewDecWithPrec(9, 1)) { // > 90% presenças
+		severity := presenceRatio.Sub(sdk.NewDecWithPrec(8, 1)).Mul(sdk.NewDec(5))
+		if severity.GT(sdk.NewDec(1)) { severity = sdk.NewDec(1) }
+
 		return &types.Idol{
 			ID:              k.GenerateIdolID(ctx),
 			Type:            types.IdolumTheatri,
-			Severity:        presenceRatio.Sub(sdk.NewDecWithPrec(8, 1)).Mul(sdk.NewDec(5)),
+			Severity:        severity,
 			Description:     "Possível confirmação seletiva: 90%+ de observações positivas",
 			DetectionMethod: "presence_ratio > 0.9",
 			AffectedObs:     k.getObsIDs(table.Presence),
@@ -243,8 +261,9 @@ func (k *Keeper) detectTheatri(ctx sdk.Context, obs []types.Observation, table t
 				Strategy:   "require_absence",
 				Parameters: []string{"mandatory_negative_controls", "10"},
 			},
-			DetectedAt:  ctx.BlockTime(),
-			BlockHeight: ctx.BlockHeight(),
+			DetectedAt:      ctx.BlockTime(),
+			BlockHeight:     ctx.BlockHeight(),
+			CoherenceImpact: severity.Mul(sdk.NewDecWithPrec(3, 2)), // severity * 0.03
 		}
 	}
 	return nil
@@ -255,11 +274,19 @@ func (k *Keeper) detectTheatri(ctx sdk.Context, obs []types.Observation, table t
 // -----------------------------------------------------------------------------
 
 func (k *Keeper) InferLaw(table types.Table) (law string, confidence, support, specificity sdk.Dec) {
+	// Algoritmo baconiano: encontrar condição necessária e suficiente
+
+	// 1. Extrair features dos contextos de presença
 	presenceFeatures := k.ExtractFeatures(table.Presence)
 	absenceFeatures := k.ExtractFeatures(table.Absence)
+
+	// 2. Encontrar interseção de presenças (condição necessária)
 	necessaryCondition := k.FindIntersection(presenceFeatures)
+
+	// 3. Verificar se é suficiente (não ocorre em ausências)
 	isSufficient := k.CheckSufficiency(necessaryCondition, absenceFeatures)
 
+	// 4. Calcular métricas
 	total := int64(len(table.Presence) + len(table.Absence))
 	if total == 0 {
 		return "Sem dados", sdk.ZeroDec(), sdk.ZeroDec(), sdk.ZeroDec()
@@ -272,6 +299,7 @@ func (k *Keeper) InferLaw(table types.Table) (law string, confidence, support, s
 			sdk.NewDec(int64(len(absenceFeatures))))
 	}
 
+	// 5. Confiança = support * specificity * (1 se suficiente, 0.5 se não)
 	confidence = support.Mul(specificity)
 	if isSufficient {
 		confidence = confidence.Mul(sdk.NewDec(1))
@@ -279,6 +307,7 @@ func (k *Keeper) InferLaw(table types.Table) (law string, confidence, support, s
 		confidence = confidence.Mul(sdk.NewDecWithPrec(5, 1))
 	}
 
+	// 6. Formular lei
 	if isSufficient {
 		law = fmt.Sprintf("∀x: %s → Fenômeno ocorre (necessário e suficiente)", necessaryCondition)
 	} else {
@@ -293,10 +322,12 @@ func (k *Keeper) InferLaw(table types.Table) (law string, confidence, support, s
 // -----------------------------------------------------------------------------
 
 func (k *Keeper) ExtractFeatures(obs []types.Observation) []string {
+	// Simple stub for the sake of completion
 	return []string{"heat", "oxygen"}
 }
 
 func (k *Keeper) FindIntersection(features []string) string {
+	// Simple stub
 	return "calor + oxigênio"
 }
 
@@ -319,6 +350,10 @@ func (k *Keeper) GetMinObservations(ctx sdk.Context) int {
 func (k *Keeper) OrganizeTables(obs []types.Observation) types.Table {
 	var table types.Table
 	table.Phenomenon = obs[0].Phenomenon
+	table.CreatedAt = obs[0].Timestamp // Simplified
+	table.UpdatedAt = obs[len(obs)-1].Timestamp
+
+	validators := make(map[string]bool)
 	for _, o := range obs {
 		if o.Result {
 			table.Presence = append(table.Presence, o)
@@ -328,12 +363,17 @@ func (k *Keeper) OrganizeTables(obs []types.Observation) types.Table {
 		if o.Intensity.GT(sdk.ZeroDec()) {
 			table.Degrees = append(table.Degrees, o)
 		}
+		validators[o.Validator] = true
 	}
 	table.TotalObservations = len(obs)
+	for v := range validators {
+		table.ValidatorSet = append(table.ValidatorSet, v)
+	}
 	return table
 }
 
 func (k *Keeper) ApplyCorrections(table types.Table, idols []types.Idol) types.Table {
+	// Implementation would filter or re-weight based on idols
 	return table
 }
 

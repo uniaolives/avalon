@@ -26,6 +26,7 @@ from papercoder_kernel.core.iit_consciousness import (
 )
 from papercoder_kernel.core.quantum_pilot.pilot_core import QuantumPilotCore
 from papercoder_kernel.core.quantum_pilot.governance import QuantumGovernanceCore, BidirectionalHandover
+from papercoder_kernel.core.safe_core import SafeCore
 
 # Astrophysical libraries (installed)
 try:
@@ -56,6 +57,7 @@ class RealityLayer(Enum):
     BIOLOGICAL = auto()    # (K) ALS Hypergraph Model (Biological Layer)
     IIT_PHI = auto()       # (L) Integrated Information Theory Layer
     PILOT = auto()         # (M) Quantum Pilot Layer (Propulsion/Nav)
+    SAFE_CORE = auto()     # (N) Quantum Coherence Core Layer
 
 @dataclass
 class QuantumCognitiveState:
@@ -268,6 +270,7 @@ class MERKABAH7:
         self.quantum_pilot = QuantumPilotCore()
         self.pilot_governance = QuantumGovernanceCore()
         self.pilot_handover = BidirectionalHandover()
+        self.safe_core = SafeCore()
         self.current_phi = 0.000001
         self.global_state = self._initialize_global_state()
 
@@ -347,21 +350,40 @@ class MERKABAH7:
                     if sync_result['conscious']:
                          print(f"[IIT] Conscious Percept Triggered! Φ={self.current_phi:.6f}")
                 elif layer == RealityLayer.PILOT:
-                    # Execução do ciclo do Piloto Quântico
-                    if not self.quantum_pilot.active:
+                    # Execução do ciclo do Piloto Quântico Arkhe(N)
+                    if not self.quantum_pilot.active and not self.quantum_pilot.dd_active:
                         self.quantum_pilot.activate()
 
                     pilot_data = self.quantum_pilot.run_cycle()
-                    gov_report = self.pilot_governance.monitor(self.quantum_pilot)
+                    # Monitoramento avançado via Governança
+                    gov_report = self.pilot_governance.monitor_quantum_state(self.quantum_pilot)
 
-                    new_state = QuantumCognitiveState(
-                        layer=RealityLayer.PILOT,
-                        wavefunction=torch.tensor([pilot_data['delta_v'], pilot_data['effective_mass']]).float(),
-                        coherence_time=pilot_data['coherence']
-                    )
+                    if "error" not in pilot_data:
+                        new_state = QuantumCognitiveState(
+                            layer=RealityLayer.PILOT,
+                            wavefunction=torch.tensor([pilot_data['delta_v'], pilot_data['effective_mass'], gov_report['alignment']]).float(),
+                            coherence_time=pilot_data['coherence']
+                        )
+                    else:
+                        # Estado pausado ou erro
+                        new_state = state
 
                     if gov_report['status'] != "NOMINAL":
-                        print(f"[MERKABAH] PILOT ALERT: {gov_report['status']}")
+                        print(f"[MERKABAH] PILOT ALERT: {gov_report['status']} (Φ_q={gov_report['phi_q']:.4f})")
+                elif layer == RealityLayer.SAFE_CORE:
+                    # Monitoramento do Safe Core
+                    # Usa o estado inercial como proxy para estado quântico do núcleo
+                    mock_q_state = torch.randn(32).numpy()
+                    self.safe_core.monitor(mock_q_state)
+
+                    new_state = QuantumCognitiveState(
+                        layer=RealityLayer.SAFE_CORE,
+                        wavefunction=torch.tensor([self.safe_core.current_phi, self.safe_core.current_coherence]).float(),
+                        coherence_time=self.safe_core.current_coherence
+                    )
+
+                    if not self.safe_core.is_active:
+                         print(f"[MERKABAH] SAFE CORE OFFLINE: {self.safe_core.node_id}")
                 else:
                     new_state = state
                 evolved.append((layer, new_state))

@@ -1,7 +1,8 @@
 # simulate_quantum_pilot.py
 """
-Simulação do Piloto Quântico Arkhe(N).
-Verifica sensoriamento, propulsão U(1)-gravity, redução de massa e governança.
+Simulação do Piloto Quântico Arkhe(N) v2.0.
+Verifica sensoriamento, propulsão U(1)-gravity, Φ_q (IIT 4.0), QFI,
+e Handover Bidirecional com Desacoplamento Dinâmico (DD XY4).
 """
 
 import asyncio
@@ -9,51 +10,54 @@ from papercoder_kernel.core.quantum_pilot.pilot_core import QuantumPilotCore
 from papercoder_kernel.core.quantum_pilot.governance import QuantumGovernanceCore, BidirectionalHandover
 
 async def run_simulation():
-    print("🚀 INICIANDO SIMULAÇÃO: PILOTO QUÂNTICO ARKHE(N)")
-    print("="*60)
+    print("🚀 INICIANDO SIMULAÇÃO: PILOTO QUÂNTICO ARKHE(N) v2.0")
+    print("="*70)
 
     pilot = QuantumPilotCore()
-    governance = QuantumGovernanceCore()
+    governance = QuantumGovernanceCore(coherence_min=0.847)
     handover = BidirectionalHandover()
 
     # 1. Ativação
     pilot.activate()
 
-    # 2. Ciclo de Voo (10 iterações = 250ms de tempo de voo)
+    # 2. Ciclo de Voo (5 iterações)
     print("\n[VÔO] Iniciando manobras de propulsão U(1)-gravity...")
     for i in range(5):
         stats = pilot.run_cycle()
-        gov = governance.monitor(pilot)
+        # Monitoramento avançado
+        gov = governance.monitor_quantum_state(pilot)
 
-        print(f"Ciclo {i+1}: Δv={stats['delta_v']:.2f} m/s | Massa={stats['effective_mass']:.2f} kg | Φ={stats['phi']:.4f} | C={stats['coherence']:.4f}")
+        print(f"Ciclo {i+1}: Δv={stats['delta_v']:.2f} m/s | Massa={stats['effective_mass']:.2f} kg | "
+              f"Φ_q={gov['phi_q']:.4f} | C={gov['coherence']:.4f} | Alignment={gov['alignment']:.3f}")
 
         if gov['status'] != "NOMINAL":
             print(f"⚠️ ALERTA DE GOVERNANÇA: {gov['status']}")
             break
 
-        await asyncio.sleep(0.025) # 40Hz
+        await asyncio.sleep(0.025) # 40Hz (ciclo Ψ)
 
-    # 3. Teste de Handover Bidirecional
-    print("\n[HANDOVER] Testando transferência de controle...")
-    classical_ctrl = {}
-    result = handover.handover_to_classical(pilot, classical_ctrl)
-    print(f"Status: {result['status']} | Piloto Ativo: {pilot.active}")
+    # 3. Teste de Handover Bidirecional com DD (Dynamical Decoupling)
+    print("\n[HANDOVER] Iniciando transferência quântico-clássica...")
+    # Congelar estado quântico
+    frozen = handover.freeze_quantum_state(pilot)
+    print(f"Estado Congelado | Hash: {frozen.hash[:16]}... | Coherence: {frozen.coherence:.4f}")
 
-    handover.handover_to_quantum(classical_ctrl, pilot)
-    print(f"Status: Reinstated | Piloto Ativo: {pilot.active}")
+    # Reconstrução clássica (tomografia)
+    classical_data = handover.transfer_to_classical(frozen)
+    print(f"Tomografia Completa | Fidelity: {classical_data['fidelity']:.3f} | Mode: {classical_data['mode']}")
 
-    # 4. Teste de Kill Switch (Induzindo Critical Φ)
-    print("\n[KILL SWITCH] Simulando anomalia de informação integrada (Φ > 0.1)...")
-    # Forçar Φ crítico na governança (mocking calculation)
-    class CriticalGovernance(QuantumGovernanceCore):
-        def _calculate_quantum_phi(self, pilot): return 0.15
+    # Retomar operação quântica
+    handover.resume_quantum(pilot, frozen)
+    print(f"Piloto Ativo: {pilot.active} | DD Ativo: {pilot.dd_active}")
 
-    crit_gov = CriticalGovernance()
-    pilot.activate()
-    crit_gov.monitor(pilot)
-    print(f"Status Final do Piloto: {'ATIVO' if pilot.active else 'DESATIVADO (KILL SWITCH)'}")
+    # 4. Teste de Kill Switch (Induzindo Critical Coherence)
+    print("\n[KILL SWITCH] Simulando colapso de coerência (C < 0.847)...")
+    pilot.coherence = 0.80 # Forçar queda de coerência
+    gov_report = governance.monitor_quantum_state(pilot)
+    print(f"Status de Governança: {gov_report['status']}")
+    print(f"Piloto Ativo: {'SIM' if pilot.active else 'NÃO (DESLIGADO)'}")
 
-    print("\n" + "="*60)
+    print("\n" + "="*70)
     print("✅ SIMULAÇÃO CONCLUÍDA")
 
 if __name__ == "__main__":

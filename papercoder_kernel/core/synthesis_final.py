@@ -38,7 +38,7 @@ class SynthesisEngine:
             active_layers = [
                 "HARDWARE", "SIMULATION", "METAPHOR", "HYPOTHESIS",
                 "OBSERVER", "ATOMIC", "PHI", "GAMMA", "KAPPA",
-                "TAU", "BIOLOGICAL", "IIT_PHI", "PILOT"
+                "TAU", "BIOLOGICAL", "IIT_PHI", "PILOT", "SAFE_CORE"
             ],
             safety_status = "STABLE - Chiral Protected",
             entropy_reversal_rate = 0.01618, # Golden ratio scaling

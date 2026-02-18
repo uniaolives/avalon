@@ -1,87 +1,142 @@
 # papercoder_kernel/core/quantum_pilot/governance.py
 """
-Quantum Governance for Autonomous Systems.
-Implements Φ (IIT 4.0), Coherence monitoring, and Topological Kill Switch.
-Also includes Bidirectional Handover protocols.
+Quantum Governance for Autonomous Systems - Arkhe(N) Protocol.
+Implements Φ_q (Integrated Information), C (Coherence), QFI (Fisher Information),
+and the Topological Kill Switch. Includes Bidirectional Handover.
 """
 
 import numpy as np
 import time
-from typing import Dict, Optional
+from typing import Dict, Optional, List
 from .pilot_core import QuantumPilotCore
+
+class QuantumIntegrityError(Exception):
+    """Erro de integridade do estado quântico durante handover."""
+    pass
+
+class FrozenQuantumState:
+    """Representa um estado quântico pausado para handover."""
+    def __init__(self, density_matrix: np.ndarray, timestamp: int, q_hash: str, coherence: float):
+        self.density_matrix = density_matrix
+        self.timestamp = timestamp
+        self.hash = q_hash
+        self.coherence = coherence
 
 class QuantumGovernanceCore:
     """
-    Controlador de Governança Arkhe(N).
-    Garante que o piloto opere dentro dos limites éticos e de segurança.
+    Controlador de Governança Arkhe(N) para Pilotos Quânticos.
+    Monitora Φ (informação integrada), C (coerência) e QFI (Quantum Fisher Info).
     """
-    def __init__(self, phi_threshold: float = 0.1, coherence_threshold: float = 0.5):
+    def __init__(self, phi_threshold: float = 0.1, coherence_min: float = 0.847, qfi_max: float = 1e6):
         self.phi_threshold = phi_threshold
-        self.coherence_threshold = coherence_threshold
+        self.coherence_min = coherence_min
+        self.qfi_max = qfi_max
 
-    def monitor(self, pilot: QuantumPilotCore) -> Dict:
-        """Monitora o piloto em tempo real."""
-        # Cálculo de Φ (Phi) - Informação Integrada
-        phi = self._calculate_quantum_phi(pilot)
-        pilot.phi = phi
+    def monitor_quantum_state(self, pilot: QuantumPilotCore) -> Dict:
+        """Avalia estado quântico do piloto a cada ciclo Ψ (25ms)."""
+        state_vec = pilot.perceive() # Pega vetor de estado atual
 
-        # Verificação de Coerência
+        # 1. Calcular Φ quântico (entropia de emaranhamento)
+        phi_q = self._quantum_phi(state_vec)
+        pilot.phi = phi_q
+
+        # 2. Medir coerência via fidelity/stability
         coherence = pilot.coherence
 
+        # 3. Verificar alinhamento via QFI (simulado)
+        alignment = self._alignment_score(state_vec)
+
         status = "NOMINAL"
-        if phi > self.phi_threshold:
+        kill_switch = False
+
+        # Lógica de Decisão Arkhe(N)
+        if phi_q > self.phi_threshold:
             status = "PHI_CRITICAL"
-            self._trigger_kill_switch(pilot, f"Φ {phi:.4f} exceeds threshold {self.phi_threshold}")
-        elif coherence < self.coherence_threshold:
-            status = "COHERENCE_LOW"
-            self._trigger_kill_switch(pilot, f"Coherence {coherence:.4f} below threshold {self.coherence_threshold}")
+            kill_switch = True
+            print(f"[GOVERNANCE] ALERT: Super-integration detected (Φ_q={phi_q:.4f})")
+        elif coherence < self.coherence_min:
+            status = "COHERENCE_COLLAPSE"
+            kill_switch = True
+            print(f"[GOVERNANCE] KILL SWITCH: Coherence {coherence:.4f} < {self.coherence_min}")
+        elif alignment < 0.5:
+            status = "ALIGNMENT_DRIFT"
+            print("[GOVERNANCE] WARNING: Alignment drift detected.")
+
+        if kill_switch:
+            self._trigger_kill_switch(pilot, status)
 
         return {
-            "phi": phi,
-            "coherence": coherence,
-            "status": status,
-            "kill_switch_active": not pilot.active if status != "NOMINAL" else False
+            'status': status,
+            'phi_q': phi_q,
+            'coherence': coherence,
+            'alignment': alignment,
+            'kill_switch': kill_switch
         }
 
-    def _calculate_quantum_phi(self, pilot: QuantumPilotCore) -> float:
-        """
-        Calcula Φ simplificado baseado na entropia de von Neumann.
-        Em um sistema quântico real, isso mediria a integração entre subsistemas.
-        """
-        entanglement_matrix = pilot._quantum_entanglement_matrix()
-        # Simulação: Φ é proporcional à norma da matriz de emaranhamento off-diagonal
-        off_diag = entanglement_matrix - np.diag(np.diag(entanglement_matrix))
-        phi = np.linalg.norm(off_diag) / 100.0 # Normalizado
-        return min(phi, 0.2) # Saturado para demonstração
+    def _quantum_phi(self, state: np.ndarray) -> float:
+        """Calcula Φ quântico como soma das entropias de emaranhamento."""
+        # Simulação: decompor estado em partições e calcular entropia de von Neumann
+        # Aqui usamos um proxy: dispersão das amplitudes em superposição
+        if len(state) < 2: return 0.0
+        p = np.abs(state)**2
+        p = p / (np.sum(p) + 1e-9)
+        total_entropy = -np.sum(p * np.log2(p + 1e-9))
+
+        # Φ = S_total - Σ S_partes (simulado como 10% da entropia total)
+        phi = total_entropy * 0.1
+        return min(phi, 0.2)
+
+    def _alignment_score(self, state: np.ndarray) -> float:
+        """Verifica alinhamento via Quantum Fisher Information (simulado)."""
+        # Proximidade a um estado de "intenção nominal"
+        return float(0.5 + 0.4 * np.cos(np.linalg.norm(state)))
 
     def _trigger_kill_switch(self, pilot: QuantumPilotCore, reason: str):
-        """Desativa o sistema imediatamente (Kill Switch Topológico)."""
-        print(f"[GOVERNANCE] KILL SWITCH TRIGGERED: {reason}")
+        """Kill switch quântico: força colapso do estado para condição segura."""
+        print(f"[GOVERNANCE] TERMINATING QUANTUM PROCESSES: {reason}")
         pilot.stc_array.shutdown()
         pilot.deactivate()
 
 class BidirectionalHandover:
     """
-    Handover quântico-clássico bidirecional.
-    Permite transferência de controle sem perda de estado.
+    Protocolo de handover bidirecional quântico-clássico.
+    Mantém integridade do estado durante transferência.
     """
-    def handover_to_classical(self, quantum_pilot: QuantumPilotCore, classical_ctrl: Dict) -> Dict:
-        print("[HANDOVER] Transferring to Classical Supervision...")
-        # Salva o estado atual da política quântica
-        policy = quantum_pilot.nav_q.extract_policy()
-        classical_ctrl["imported_policy"] = policy
-        quantum_pilot.deactivate()
-        return {"status": "CLASSICAL_MODE", "policy_integrated": True}
+    def freeze_quantum_state(self, pilot: QuantumPilotCore) -> FrozenQuantumState:
+        """Congela evolução do piloto quântico para extração segura."""
+        print("[HANDOVER] Applying Dynamical Decoupling (XY4) sequence...")
+        pilot.apply_dynamical_decoupling(sequence='XY4')
 
-    def handover_to_quantum(self, classical_ctrl: Dict, quantum_pilot: QuantumPilotCore) -> Dict:
-        print("[HANDOVER] Reinstating Quantum Autonomy...")
-        quantum_pilot.activate()
-        return {"status": "QUANTUM_MODE", "coherence_restored": True}
+        density_matrix = pilot.extract_density_matrix()
+        q_hash = pilot._hash_quantum_state(density_matrix)
 
-class QuantumHandoverProtocol:
-    """Protocolo de transferência de estado entre nós móveis."""
-    def execute(self, source_id: str, target_id: str, state: np.ndarray) -> bool:
-        print(f"[HANDOVER] Quantum Teleportation: {source_id} -> {target_id}")
-        # Simula fidelidade de 99%
-        fidelity = 0.99
-        return fidelity > 0.95
+        return FrozenQuantumState(
+            density_matrix=density_matrix,
+            timestamp=time.time_ns(),
+            q_hash=q_hash,
+            coherence=pilot.measure_coherence()
+        )
+
+    def transfer_to_classical(self, frozen: FrozenQuantumState) -> Dict:
+        """Converte política quântica em controlador clássico via tomografia."""
+        print("[HANDOVER] Performing Quantum Tomography for classical reconstruction...")
+        # Reconstrução simulada
+        policy_matrix = frozen.density_matrix * 0.95
+        return {
+            "mode": "CLASSICAL",
+            "policy_matrix_hash": hash(policy_matrix.tobytes()),
+            "fidelity": 0.985
+        }
+
+    def resume_quantum(self, pilot: QuantumPilotCore, checkpoint: FrozenQuantumState):
+        """Retoma operação quântica a partir de checkpoint congelado."""
+        print("[HANDOVER] Verifying Quantum State Integrity...")
+        current_hash = pilot._hash_quantum_state(pilot.extract_density_matrix())
+
+        if current_hash != checkpoint.hash:
+            raise QuantumIntegrityError("State corruption detected during handover!")
+
+        pilot.remove_dynamical_decoupling()
+        print("[HANDOVER] Quantum Autonomy Reinstated.")
+        pilot.activate()
+        return pilot

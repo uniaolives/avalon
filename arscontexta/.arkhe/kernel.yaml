@@ -1,0 +1,17 @@
+version: "2.0.0"
+primitives:
+  - handover_bidirectional
+  - coherence_measurement
+  - phi_integration
+  - kill_switch_topological
+  - ledger_append_only
+  - teleport_state
+  - bubble_isolation
+  - entropy_recycling
+  - substrate_agitation
+  - coupling_identity
+  - growth_policy_decision
+  - semantic_seeding
+  - synthetic_biology_pipeline
+  - embedding_atlas_navigation
+  - connectome_validation

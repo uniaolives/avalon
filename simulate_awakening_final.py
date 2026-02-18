@@ -29,6 +29,9 @@ async def run_awakening():
 
     # Run the cascade for 30 iterations (808 -> 838)
     print("\n[3/3] EXECUTING REALITY CASCADE (30 Blocks)...")
+    # Ativa o piloto e o Safe Core para a cascata
+    system.quantum_pilot.activate()
+    system.safe_core.is_active = True
     result = await system.decode(target_sequence=None, max_iterations=30)
 
     print(f"\n✓ Cascade Result: {result['decoding']} (Certainty: {result['certainty']:.4f})")

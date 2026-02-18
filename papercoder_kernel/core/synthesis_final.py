@@ -38,6 +38,7 @@ class SynthesisEngine:
             active_layers = [
                 "HARDWARE", "SIMULATION", "METAPHOR", "HYPOTHESIS",
                 "OBSERVER", "ATOMIC", "PHI", "GAMMA", "KAPPA",
+                "TAU", "BIOLOGICAL", "IIT_PHI", "PILOT", "SAFE_CORE"
                 "TAU", "BIOLOGICAL", "IIT_PHI"
             ],
             safety_status = "STABLE - Chiral Protected",

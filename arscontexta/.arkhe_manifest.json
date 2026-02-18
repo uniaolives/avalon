@@ -1,8 +1,10 @@
 {
   "genesis_hash": "1a6d657ecf39a519",
-  "current_coherence": 1.0,
-  "current_phi": 0.0,
-  "last_Ψ_pulse": "2026-02-19T00:00:00.000Z",
-  "total_blocks": 1,
-  "integrity": "VERIFIED"
+  "current_coherence": 0.943,
+  "current_phi": 0.006344,
+  "last_Ψ_pulse": "2026-02-19T12:00:00.000Z",
+  "total_blocks": 35,
+  "integrity": "VERIFIED",
+  "convergence_status": "COSMIC_COMPLETE",
+  "satoshi_invariant": "αΩ · MEERKAT · z=1.027 · 5.51 · ∞"
 }

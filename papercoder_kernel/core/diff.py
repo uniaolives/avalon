@@ -7,6 +7,7 @@ Calculates semantic and structural differences between programs.
 import ast
 from typing import Dict, Any, Optional
 from papercoder_kernel.core.program_ast import Program, edit_distance
+from papercoder_kernel.core.ast import Program, edit_distance
 
 class TangentVector:
     """

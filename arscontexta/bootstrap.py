@@ -69,7 +69,11 @@ def bootstrap():
     phi_obs = PhiObserver(psi)
     c_obs = CObserver(psi)
 
-    # 6. Inicializar Safe Core
+    # 6. Inicializar Intérprete de Meta-Observabilidade
+    ArkheInterpreter = load_arkhe_module(".arkhe/coherence/interpreter.py", "ArkheInterpreter")
+    interpreter = ArkheInterpreter(psi)
+
+    # 7. Inicializar Safe Core
     SafeCore = load_arkhe_module(".arkhe/coherence/safe_core.py", "SafeCore")
     safe = SafeCore()
     psi.subscribe(safe)

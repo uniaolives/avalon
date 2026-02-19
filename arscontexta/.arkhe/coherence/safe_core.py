@@ -13,20 +13,28 @@ class SafeCore:
         self.armed = True
         self.tripped = False
 
-    def check(self, phi: float, coherence: float) -> bool:
+    def check(self, phi: float, coherence: float, z: float = 3.0) -> bool:
         """
-        Verificação de segurança. Retorna True se seguro, False se kill switch ativado.
+        Verificação de segurança Arkhe(N).
+        Integra a condição de bifurcação de Hopf e o expoente de percolação z.
         """
         if not self.armed:
             return False
 
+        # Verificação do Limiar de Coerência (Bifurcação de Hopf Ψ)
+        if coherence < self.coherence_min:
+            self._trip(f"Coherence collapsed: {coherence} < {self.coherence_min} (Hopf Bifurcation)")
+            return False
+
+        # Verificação de Hesitação (IIT)
         if phi > self.phi_threshold:
             self._trip(f"Phi exceeded: {phi} > {self.phi_threshold}")
             return False
 
-        if coherence < self.coherence_min:
-            self._trip(f"Coherence collapsed: {coherence} < {self.coherence_min}")
-            return False
+        # Verificação do Expoente z (Classe de Universalidade)
+        if z > 5.0: # Transição de primeira ordem iminente (colapso abrupto)
+             self._trip(f"Critical Universality: z={z} (First-order transition risk)")
+             return False
 
         return True
 

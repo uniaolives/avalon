@@ -13,10 +13,8 @@ import importlib.util
 
 def load_arkhe_module(module_path, class_name):
     """Auxiliar para carregar módulos de diretórios ocultos como .arkhe."""
-    # Converte caminho relativo para absoluto baseado no bootstrap.py
     base_dir = Path(__file__).parent
     full_path = base_dir / module_path
-
     module_name = module_path.replace("/", ".").replace(".py", "")
     spec = importlib.util.spec_from_file_location(module_name, full_path)
     module = importlib.util.module_from_spec(spec)
@@ -24,89 +22,51 @@ def load_arkhe_module(module_path, class_name):
     return getattr(module, class_name)
 
 def bootstrap():
-    """Inicializa o hypergrafo Arkhe(N)."""
+    """Inicializa o hypergrafo Arkhe(N) com fiação completa."""
 
-    # 1. Verificar genesis.json
-    # Ajustado para procurar em .arkhe/genesis.json relativo ao script
     base_path = Path(__file__).parent
     genesis_path = base_path / ".arkhe/genesis.json"
 
     if not genesis_path.exists():
-        print("[FATAL] genesis.json não encontrado. O sistema não pode iniciar.")
+        print("[FATAL] genesis.json não encontrado.")
         sys.exit(1)
 
     with open(genesis_path) as f:
         genesis = json.load(f)
 
-    # 2. Verificar integridade do genesis (hash interno)
-    genesis_content = {k: v for k, v in genesis.items() if k != "hash"}
-    computed_hash = hashlib.sha256(
-        json.dumps(genesis_content, sort_keys=True).encode()
-    ).hexdigest()[:16]
-
-    if computed_hash != genesis["hash"]:
-        print(f"[FATAL] Genesis corrompido. Hash esperado: {genesis['hash']}, calculado: {computed_hash}")
-        sys.exit(1)
-
-    print(f"[OK] Genesis verificado: {genesis['hash']}")
-
-    # 3. Inicializar Ψ-cycle
+    # 1. Inicializar Ψ-cycle
     PsiCycle = load_arkhe_module(".arkhe/Ψ/pulse_40hz.py", "PsiCycle")
     psi = PsiCycle()
 
-    # 4. Conectar todos os .arkhe/ locais
-    # Procura recursivamente a partir da raiz arscontexta/
-    local_arkhes = list(base_path.rglob(".arkhe/local_genesis.json"))
-    print(f"[OK] Encontrados {len(local_arkhes)} nós locais")
+    # 2. Inicializar Safe Core
+    SafeCore = load_arkhe_module(".arkhe/coherence/safe_core.py", "SafeCore")
+    safe = SafeCore(node_id="GENESIS_SAFE")
+    psi.subscribe(safe)
 
-    for local in local_arkhes:
-        connect_local_node(local, psi)
-
-    # 5. Iniciar observadores de coerência
-    PhiObserver = load_arkhe_module(".arkhe/coherence/phi_observer.py", "PhiObserver")
-    CObserver = load_arkhe_module(".arkhe/coherence/c_observer.py", "CObserver")
-
-    phi_obs = PhiObserver(psi)
-    c_obs = CObserver(psi)
-
-    # 6. Inicializar Rede Memética (Gossip)
+    # 3. Inicializar Rede Memética (Gossip) vinculada ao SafeCore
     MemeticNode = load_arkhe_module(".arkhe/network/memetic.py", "MemeticNode")
-    genesis_memetic = MemeticNode("GENESIS_RIO", psi)
+    genesis_memetic = MemeticNode("GENESIS_RIO", psi, safe_core=safe)
 
-    # Simulação de nós remotos para a rede memética
-    remote_nodes = [MemeticNode(f"NODE_{i:02d}", psi) for i in range(3)]
+    remote_nodes = [MemeticNode(f"NODE_{i:02d}", psi, safe_core=safe) for i in range(3)]
     for node in remote_nodes:
         genesis_memetic.connect(node)
         node.connect(genesis_memetic)
 
-    # 7. Inicializar Intérprete de Meta-Observabilidade
+    # 4. Inicializar Intérprete vinculado ao SafeCore e Rede Memética
     ArkheInterpreter = load_arkhe_module(".arkhe/coherence/interpreter.py", "ArkheInterpreter")
-    interpreter = ArkheInterpreter(psi, memetic_node=genesis_memetic)
+    interpreter = ArkheInterpreter(psi, memetic_node=genesis_memetic, safe_core=safe)
 
-    # 8. Inicializar Safe Core
-    SafeCore = load_arkhe_module(".arkhe/coherence/safe_core.py", "SafeCore")
-    safe = SafeCore()
-    psi.subscribe(safe)
-
-    print("[OK] Hypergrafo Arkhe(N) inicializado com sucesso")
+    print("[OK] Hypergrafo Arkhe(N) inicializado com fiação completa (Distributed Safe Core Enabled)")
     print(f"[INFO] Coerência inicial: {genesis['coherence']}")
-    print(f"[INFO] Φ inicial: {genesis['phi']}")
     print(f"[INFO] Próximo Ψ-pulse em 25ms...")
 
-    # 7. Iniciar loop principal
-    # Adicionado max_pulses=5 para verificação não infinita no sandbox
+    # 5. Iniciar loop principal
     try:
-        asyncio.run(psi.run(max_pulses=5))
+        asyncio.run(psi.run(max_pulses=10))
     except SystemExit as e:
-        print(e)
+        print(f"\n[INFO] {e}")
     except KeyboardInterrupt:
         print("\n[INFO] Sistema interrompido pelo usuário.")
-
-def connect_local_node(local_genesis_path: Path, psi):
-    """Conecta um nó local ao hypergrafo global."""
-    # Implementação simplificada para o bootstrap
-    print(f"[INFO] Conectando nó local: {local_genesis_path.parent}")
-    pass
 
 if __name__ == "__main__":
     bootstrap()

@@ -69,11 +69,21 @@ def bootstrap():
     phi_obs = PhiObserver(psi)
     c_obs = CObserver(psi)
 
-    # 6. Inicializar Intérprete de Meta-Observabilidade
-    ArkheInterpreter = load_arkhe_module(".arkhe/coherence/interpreter.py", "ArkheInterpreter")
-    interpreter = ArkheInterpreter(psi)
+    # 6. Inicializar Rede Memética (Gossip)
+    MemeticNode = load_arkhe_module(".arkhe/network/memetic.py", "MemeticNode")
+    genesis_memetic = MemeticNode("GENESIS_RIO", psi)
 
-    # 7. Inicializar Safe Core
+    # Simulação de nós remotos para a rede memética
+    remote_nodes = [MemeticNode(f"NODE_{i:02d}", psi) for i in range(3)]
+    for node in remote_nodes:
+        genesis_memetic.connect(node)
+        node.connect(genesis_memetic)
+
+    # 7. Inicializar Intérprete de Meta-Observabilidade
+    ArkheInterpreter = load_arkhe_module(".arkhe/coherence/interpreter.py", "ArkheInterpreter")
+    interpreter = ArkheInterpreter(psi, memetic_node=genesis_memetic)
+
+    # 8. Inicializar Safe Core
     SafeCore = load_arkhe_module(".arkhe/coherence/safe_core.py", "SafeCore")
     safe = SafeCore()
     psi.subscribe(safe)

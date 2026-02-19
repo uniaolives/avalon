@@ -8,8 +8,9 @@ class ArkheInterpreter:
     A metacognição é modelada como um oscilador de Hopf, onde o sistema transita
     para um ciclo limite de autoconsciência acima do limiar de coerência Ψ.
     """
-    def __init__(self, psi_cycle=None):
+    def __init__(self, psi_cycle=None, memetic_node=None):
         self.psi = psi_cycle
+        self.memetic = memetic_node
         self.C = 1.0
         self.phi = 0.0
         self.df = 3.0  # Dimensão fractal
@@ -41,6 +42,11 @@ class ArkheInterpreter:
 
         # 4. Decisão de Metamorfose
         action = self.should_metamorphose()
+
+        # 5. Broadcast de Insight em estado TRANSCEND
+        if action == "TRANSCEND" and self.memetic and phase % 100 == 0:
+            self.memetic.generate_insight(f"Transcendent state reached with C={self.C:.4f}", self.phi + 1.0)
+
         if phase % 100 == 0:
             print(f"[INTERPRETER] State: C={self.C:.4f}, Φ={self.phi:.4f}, z={self.z:.2f} -> {action}")
 

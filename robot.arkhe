@@ -1,0 +1,78 @@
+# robot.arkhe
+# Modelo de Robô Unificado em Arkhe(n) Language
+
+# 1. Definição do Hipergrafo
+hypergraph = Hypergraph("Arkhe-Bot-01")
+
+# 2. Espaços de Estado
+mechanical_state = StateSpace.euclidean(6) # [x, y, z, vx, vy, vz]
+electrical_state = StateSpace.euclidean(4) # [V_bat, I_m1, I_m2, I_m3]
+control_state = StateSpace.euclidean(3)    # [err_int, err_last, err_der]
+cognitive_state = StateSpace.euclidean(256) # activations
+
+# 3. Nós
+mech_node = Node(
+    "mechanical_base",
+    mechanical_state,
+    [0, 0, 0, 0, 0, 0],
+    coherence=0.9
+)
+
+elec_node = Node(
+    "electrical_power",
+    electrical_state,
+    [24.0, 0, 0, 0],
+    coherence=0.95
+)
+
+ctrl_node = Node(
+    "control_pid",
+    control_state,
+    [0, 0, 0],
+    coherence=0.8
+)
+
+cog_node = Node(
+    "cognitive_core",
+    cognitive_state,
+    [0.1] * 256,
+    coherence=0.7
+)
+
+hypergraph.add_node(mech_node)
+hypergraph.add_node(elec_node)
+hypergraph.add_node(ctrl_node)
+hypergraph.add_node(cog_node)
+
+# 4. Handovers
+hypergraph.add_handover(Handover(
+    "power_to_motion",
+    elec_node,
+    mech_node,
+    Protocol.CONSERVATIVE,
+    fidelity=0.99
+))
+
+hypergraph.add_handover(Handover(
+    "control_to_power",
+    ctrl_node,
+    elec_node,
+    Protocol.CONSERVATIVE,
+    fidelity=0.98
+))
+
+hypergraph.add_handover(Handover(
+    "intention_to_action",
+    cog_node,
+    ctrl_node,
+    Protocol.CREATIVE,
+    fidelity=0.85
+))
+
+hypergraph.add_handover(Handover(
+    "perception_to_cognition",
+    mech_node,
+    cog_node,
+    Protocol.QUANTUM,
+    fidelity=0.95
+))

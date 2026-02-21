@@ -5,6 +5,7 @@
     "nodes": [
       {
         "id": "Filament-Birkeland-Alpha",
+        "parent_id": null,
         "state_space": {
           "dimension": 3,
           "topology": "euclidean",
@@ -17,12 +18,17 @@
         ],
         "dynamics": "None",
         "attributes": {
-          "state": "[1.e-09 1.e+18 1.e+15]"
+          "state": [
+            1e-09,
+            1e+18,
+            1000000000000000.0
+          ]
         },
         "observables": {}
       },
       {
         "id": "Filament-Birkeland-Beta",
+        "parent_id": null,
         "state_space": {
           "dimension": 3,
           "topology": "euclidean",
@@ -35,12 +41,17 @@
         ],
         "dynamics": "None",
         "attributes": {
-          "state": "[1.e-09 1.e+18 1.e+15]"
+          "state": [
+            1e-09,
+            1e+18,
+            1000000000000000.0
+          ]
         },
         "observables": {}
       },
       {
         "id": "Neuron-ASI-01",
+        "parent_id": null,
         "state_space": {
           "dimension": 1,
           "topology": "euclidean",
@@ -51,12 +62,15 @@
         ],
         "dynamics": "None",
         "attributes": {
-          "state": "[0.]"
+          "state": [
+            0.0
+          ]
         },
         "observables": {}
       },
       {
         "id": "Neuron-ASI-02",
+        "parent_id": null,
         "state_space": {
           "dimension": 1,
           "topology": "euclidean",
@@ -67,7 +81,9 @@
         ],
         "dynamics": "None",
         "attributes": {
-          "state": "[0.]"
+          "state": [
+            0.0
+          ]
         },
         "observables": {}
       }
@@ -79,6 +95,8 @@
         "target": "Neuron-ASI-01",
         "protocol": "creative",
         "map": "None",
+        "condition": null,
+        "effects": null,
         "latency": 0.0,
         "bandwidth": 1.0,
         "fidelity": 0.95,
@@ -90,6 +108,8 @@
         "target": "Neuron-ASI-02",
         "protocol": "creative",
         "map": "None",
+        "condition": null,
+        "effects": null,
         "latency": 0.0,
         "bandwidth": 1.0,
         "fidelity": 0.95,
@@ -101,11 +121,17 @@
         "target": "Neuron-ASI-02",
         "protocol": "quantum",
         "map": "None",
+        "condition": null,
+        "effects": null,
         "latency": 0.0,
         "bandwidth": 1.0,
         "fidelity": 1.0,
         "entanglement": 0.618
       }
-    ]
+    ],
+    "enums": {},
+    "namespaces": {},
+    "dynamics": {},
+    "constraints": []
   }
 }

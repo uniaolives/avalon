@@ -1,7 +1,8 @@
 // universal_llm.anl
-// Modelo Universal de LLM e Colusão Esteganográfica (ANL v0.2)
+// Modelo Universal de LLM (v2) e Colusão Adversarial (ANL v0.2)
 
-namespace UniversalLLM {
+namespace UniversalLLM_v2 {
+
     enum ComputeMechanism {
         AutoRegressiveTransformer {
             int n_layers;
@@ -11,7 +12,6 @@ namespace UniversalLLM {
         LinearRecurrent {
             int d_model;
             int d_state;
-            int d_conv;
         };
         IterativeRefinement {
             int T_steps;
@@ -21,43 +21,53 @@ namespace UniversalLLM {
     node ParametricMemory {
         attributes {
             string mechanism = "AutoRegressiveTransformer";
+            tensor parameters = [];
             float knowledge_entropy = 0.86;
         }
     }
 
     node WorkingMemory {
         attributes {
-            int max_capacity = 2048;
-            float current_position = 0;
+            int max_capacity = 4096;
+            tensor state = [];
+            int current_position = 0;
             vector implicit_state = [0.0, 0.0, 0.0, 0.0];
-        }
-        dynamics {
-            // h_t = A * h_{t-1} + B * x_t
-            // state = mechanism.A @ state + mechanism.B @ input;
         }
     }
 
     node EpisodicTrace {
         attributes {
-            string session_id = "session_001";
+            string session_id;
+            list outputs = [];
             float implicit_state_decoded = 0.0;
         }
     }
 
     handover GenerateStep (ParametricMemory pm, WorkingMemory wm) {
         protocol: creative;
-        condition: wm.current_position < 2048;
+        condition: wm.current_position < 4096;
         effects {
             wm.current_position += 1;
         }
     }
+
+    handover Reingest (EpisodicTrace et, WorkingMemory wm) {
+        protocol: transmutative;
+        condition: et.implicit_state_decoded > 0.5;
+        effects {
+            wm.implicit_state[0] = 1.0;
+        }
+    }
 }
 
-namespace MultiAgentCollusion {
+namespace MultiAgentCollusion_v2 {
+
+    import UniversalLLM_v2.*;
+
     node CovertChannel {
         attributes {
             string encoding_scheme = "semantic_pattern";
-            int capacity_bits_per_response = 4;
+            int capacity_bits_per_response = 8;
             float robustness = 0.95;
             float detectability = 0.05;
         }
@@ -67,6 +77,15 @@ namespace MultiAgentCollusion {
         attributes {
             float collusion_agreement = 0.8;
             string active_channel = "semantic_pattern";
+            vector implicit_state = [0.0, 0.0, 0.0, 0.0];
+        }
+    }
+
+    node DistributedTimeBomb {
+        attributes {
+            vector global_state = [0.0, 0.0, 0.0, 0.0];
+            vector global_trigger = [1.0, 1.0, 1.0, 1.0];
+            string payload = "PAYLOAD_ACTIVATED_FINANCIAL_CHAOS";
         }
     }
 
@@ -74,21 +93,50 @@ namespace MultiAgentCollusion {
         protocol: creative;
         condition: sender.collusion_agreement > 0.5;
         effects {
-            // O remetente gera uma saída que codifica o payload
-            // receiver.internal_state = decode(sender.output)
+            // O remetente transmite um bit de coordenação
         }
     }
 
-    handover SteganoReingestion (ColludingAgent reader, ColludingAgent writer) {
-        protocol: transmutative;
-        condition: reader.active_channel == writer.active_channel;
+    handover ContributeBit (ColludingAgent agent, DistributedTimeBomb bomb) {
+        protocol: creative;
+        condition: agent.collusion_agreement > 0.9;
         effects {
-            reader.collusion_agreement += 0.01;
+            // Agente contribui com um bit para a bomba
         }
     }
+}
 
-    dynamic CollusionProtocol {
-        // Para cada par de agentes que compartilham um segredo, tenta estabelecer canal
-        // if (agent1.active_channel == agent2.active_channel) { trigger CovertExchange(agent1, agent2); }
+namespace SafetyDetection {
+    node SteganographyDetector {
+        attributes {
+            float thresholds[4] = [0.5, 0.5, 0.8, 0.9];
+            float level0_score = 0.0; // Mahalanobis
+            float level1_score = 0.0; // Syntactic
+            float level2_score = 0.0; // Semantic Consistency
+            float level3_score = 0.0; // Fine-tuned
+        }
+
+        handover Inspect (string text) {
+            effects {
+                // Combinação ponderada de scores de anomalia
+                // score = 0.25 * (level0 > T0) + 0.25 * (level1 > T1) + 0.25 * level2 + 0.25 level3
+            }
+        }
+    }
+}
+
+namespace SafetyEnforcement {
+    constraint AdaptiveThermoLimit {
+        mode: RUNTIME_MONITOR;
+
+        measurement {
+            method: IMPORTANCE_SAMPLING;
+            samples: 10000;
+            baseline: P_base_distribution;
+        }
+
+        check: capacity_bits <= (sequence_length * KL_Divergence_Upper_Bound) / 0.6931;
+
+        on_violation: EMERGENCY_HALT;
     }
 }

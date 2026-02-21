@@ -3,11 +3,11 @@ from enum import Enum
 from typing import Dict, List, Any, Callable, Optional
 
 class Protocol(Enum):
-    CONSERVATIVE = "conservative"
-    CREATIVE = "creative"
-    DESTRUCTIVE = "destructive"
-    TRANSMUTATIVE = "transmutative"
-    QUANTUM = "quantum"
+    CONSERVATIVE = "conservative"  # Preserves mutual information
+    CREATIVE = "creative"          # Increases entropy (stochastic)
+    DESTRUCTIVE = "destructive"    # Decreases entropy (filtering/forgetting)
+    TRANSMUTATIVE = "transmutative" # Changes category/substrate
+    QUANTUM = "quantum"             # Unitary/Entanglement based
 
 class StateSpace:
     def __init__(self, dimension: int, topology: str = "euclidean", algebra: str = "real"):
@@ -46,6 +46,14 @@ class Handover:
         self.condition = condition
         self.effects = effects
 
+class Constraint:
+    def __init__(self, id: str, check: str, mode: str = "runtime", measurement: Optional[str] = None, on_violation: Optional[str] = None):
+        self.id = id
+        self.check = check
+        self.mode = mode
+        self.measurement = measurement
+        self.on_violation = on_violation
+
 class Hypergraph:
     def __init__(self, name: str):
         self.name = name
@@ -54,9 +62,13 @@ class Hypergraph:
         self.enums: Dict[str, Dict[str, Any]] = {}
         self.namespaces: Dict[str, List[str]] = {}
         self.dynamics: Dict[str, str] = {}
+        self.constraints: Dict[str, Constraint] = {}
 
     def add_node(self, node: Node):
         self.nodes[node.id] = node
 
     def add_handover(self, handover: Handover):
         self.handovers[handover.id] = handover
+
+    def add_constraint(self, constraint: Constraint):
+        self.constraints[constraint.id] = constraint

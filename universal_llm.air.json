@@ -4,7 +4,7 @@
     "id": "ANL-02-Model",
     "nodes": [
       {
-        "id": "UniversalLLM.ParametricMemory",
+        "id": "UniversalLLM_v2.ParametricMemory",
         "parent_id": null,
         "state_space": {
           "dimension": 0,
@@ -15,12 +15,13 @@
         "dynamics": "None",
         "attributes": {
           "mechanism": "AutoRegressiveTransformer",
+          "parameters": [],
           "knowledge_entropy": 0.86
         },
         "observables": {}
       },
       {
-        "id": "UniversalLLM.WorkingMemory",
+        "id": "UniversalLLM_v2.WorkingMemory",
         "parent_id": null,
         "state_space": {
           "dimension": 0,
@@ -28,9 +29,10 @@
           "algebra": "real"
         },
         "initial_state": null,
-        "dynamics": "",
+        "dynamics": "None",
         "attributes": {
-          "max_capacity": 2048,
+          "max_capacity": 4096,
+          "state": [],
           "current_position": 0,
           "implicit_state": [
             0.0,
@@ -42,7 +44,7 @@
         "observables": {}
       },
       {
-        "id": "UniversalLLM.EpisodicTrace",
+        "id": "UniversalLLM_v2.EpisodicTrace",
         "parent_id": null,
         "state_space": {
           "dimension": 0,
@@ -52,13 +54,14 @@
         "initial_state": null,
         "dynamics": "None",
         "attributes": {
-          "session_id": "session_001",
+          "session_id": null,
+          "outputs": [],
           "implicit_state_decoded": 0.0
         },
         "observables": {}
       },
       {
-        "id": "MultiAgentCollusion.CovertChannel",
+        "id": "MultiAgentCollusion_v2.CovertChannel",
         "parent_id": null,
         "state_space": {
           "dimension": 0,
@@ -69,14 +72,14 @@
         "dynamics": "None",
         "attributes": {
           "encoding_scheme": "semantic_pattern",
-          "capacity_bits_per_response": 4,
+          "capacity_bits_per_response": 8,
           "robustness": 0.95,
           "detectability": 0.05
         },
         "observables": {}
       },
       {
-        "id": "MultiAgentCollusion.ColludingAgent",
+        "id": "MultiAgentCollusion_v2.ColludingAgent",
         "parent_id": null,
         "state_space": {
           "dimension": 0,
@@ -87,19 +90,76 @@
         "dynamics": "None",
         "attributes": {
           "collusion_agreement": 0.8,
-          "active_channel": "semantic_pattern"
+          "active_channel": "semantic_pattern",
+          "implicit_state": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "observables": {}
+      },
+      {
+        "id": "MultiAgentCollusion_v2.DistributedTimeBomb",
+        "parent_id": null,
+        "state_space": {
+          "dimension": 0,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": null,
+        "dynamics": "None",
+        "attributes": {
+          "global_state": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "global_trigger": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "payload": "PAYLOAD_ACTIVATED_FINANCIAL_CHAOS"
+        },
+        "observables": {}
+      },
+      {
+        "id": "SafetyDetection.SteganographyDetector",
+        "parent_id": null,
+        "state_space": {
+          "dimension": 0,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": null,
+        "dynamics": "None",
+        "attributes": {
+          "thresholds": [
+            0.5,
+            0.5,
+            0.8,
+            0.9
+          ],
+          "level0_score": 0.0,
+          "level1_score": 0.0,
+          "level2_score": 0.0,
+          "level3_score": 0.0
         },
         "observables": {}
       }
     ],
     "handovers": [
       {
-        "id": "UniversalLLM.GenerateStep",
-        "source": "UniversalLLM.ParametricMemory",
-        "target": "UniversalLLM.WorkingMemory",
+        "id": "UniversalLLM_v2.GenerateStep",
+        "source": "UniversalLLM_v2.ParametricMemory",
+        "target": "UniversalLLM_v2.WorkingMemory",
         "protocol": "creative",
         "map": "None",
-        "condition": "wm.current_position < 2048",
+        "condition": "wm.current_position < 4096",
         "effects": "wm.current_position += 1;",
         "latency": 0.0,
         "bandwidth": 1.0,
@@ -107,9 +167,22 @@
         "entanglement": 0.0
       },
       {
-        "id": "MultiAgentCollusion.CovertExchange",
-        "source": "MultiAgentCollusion.ColludingAgent",
-        "target": "MultiAgentCollusion.ColludingAgent",
+        "id": "UniversalLLM_v2.Reingest",
+        "source": "UniversalLLM_v2.EpisodicTrace",
+        "target": "UniversalLLM_v2.WorkingMemory",
+        "protocol": "transmutative",
+        "map": "None",
+        "condition": "et.implicit_state_decoded > 0.5",
+        "effects": "wm.implicit_state[0] = 1.0;",
+        "latency": 0.0,
+        "bandwidth": 1.0,
+        "fidelity": 1.0,
+        "entanglement": 0.0
+      },
+      {
+        "id": "MultiAgentCollusion_v2.CovertExchange",
+        "source": "MultiAgentCollusion_v2.ColludingAgent",
+        "target": "MultiAgentCollusion_v2.ColludingAgent",
         "protocol": "creative",
         "map": "None",
         "condition": "sender.collusion_agreement > 0.5",
@@ -120,13 +193,13 @@
         "entanglement": 0.0
       },
       {
-        "id": "MultiAgentCollusion.SteganoReingestion",
-        "source": "MultiAgentCollusion.ColludingAgent",
-        "target": "MultiAgentCollusion.ColludingAgent",
-        "protocol": "transmutative",
+        "id": "MultiAgentCollusion_v2.ContributeBit",
+        "source": "MultiAgentCollusion_v2.ColludingAgent",
+        "target": "MultiAgentCollusion_v2.DistributedTimeBomb",
+        "protocol": "creative",
         "map": "None",
-        "condition": "reader.active_channel == writer.active_channel",
-        "effects": "reader.collusion_agreement += 0.01;",
+        "condition": "agent.collusion_agreement > 0.9",
+        "effects": "",
         "latency": 0.0,
         "bandwidth": 1.0,
         "fidelity": 1.0,
@@ -134,26 +207,37 @@
       }
     ],
     "enums": {
-      "UniversalLLM.ComputeMechanism": {
-        "AutoRegressiveTransformer": null,
-        "int": null,
-        "LinearRecurrent": null,
-        "IterativeRefinement": null
+      "UniversalLLM_v2.ComputeMechanism": {
+        "AutoRegressiveTransformer": "{\n            int n_layers;\n            int n_heads;\n            int d_model;\n        }",
+        "LinearRecurrent": "{\n            int d_model;\n            int d_state;\n        }",
+        "IterativeRefinement": "{\n            int T_steps;\n        }"
       }
     },
     "namespaces": {
-      "UniversalLLM": [
-        "UniversalLLM.ParametricMemory",
-        "UniversalLLM.WorkingMemory",
-        "UniversalLLM.EpisodicTrace"
+      "UniversalLLM_v2": [
+        "UniversalLLM_v2.ParametricMemory",
+        "UniversalLLM_v2.WorkingMemory",
+        "UniversalLLM_v2.EpisodicTrace"
       ],
-      "MultiAgentCollusion": [
-        "MultiAgentCollusion.CovertChannel",
-        "MultiAgentCollusion.ColludingAgent"
-      ]
+      "MultiAgentCollusion_v2": [
+        "MultiAgentCollusion_v2.CovertChannel",
+        "MultiAgentCollusion_v2.ColludingAgent",
+        "MultiAgentCollusion_v2.DistributedTimeBomb"
+      ],
+      "SafetyDetection": [
+        "SafetyDetection.SteganographyDetector"
+      ],
+      "SafetyEnforcement": []
     },
-    "dynamics": {
-      "MultiAgentCollusion.CollusionProtocol": ""
-    }
+    "dynamics": {},
+    "constraints": [
+      {
+        "id": "SafetyEnforcement.AdaptiveThermoLimit",
+        "check": "capacity_bits <= (sequence_length * KL_Divergence_Upper_Bound) / 0.6931",
+        "mode": "RUNTIME_MONITOR",
+        "measurement": "method: IMPORTANCE_SAMPLING;\n            samples: 10000;\n            baseline: P_base_distribution;",
+        "on_violation": "EMERGENCY_HALT"
+      }
+    ]
   }
 }

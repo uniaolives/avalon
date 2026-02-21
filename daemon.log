@@ -1,0 +1,32 @@
+/home/jules/.pyenv/versions/3.12.12/lib/python3.12/site-packages/numpy/lib/_function_base_impl.py:3015: RuntimeWarning: Degrees of freedom <= 0 for slice
+  c = cov(x, y, rowvar, dtype=dtype)
+/home/jules/.pyenv/versions/3.12.12/lib/python3.12/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: divide by zero encountered in divide
+  c *= np.true_divide(1, fact)
+/home/jules/.pyenv/versions/3.12.12/lib/python3.12/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in multiply
+  c *= np.true_divide(1, fact)
+/app/proto_agi_daemon.py:174: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("shutdown")
+INFO:     Started server process [43268]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+/home/jules/.pyenv/versions/3.12.12/lib/python3.12/site-packages/numpy/lib/_function_base_impl.py:3015: RuntimeWarning: Degrees of freedom <= 0 for slice
+  c = cov(x, y, rowvar, dtype=dtype)
+/home/jules/.pyenv/versions/3.12.12/lib/python3.12/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: divide by zero encountered in divide
+  c *= np.true_divide(1, fact)
+/home/jules/.pyenv/versions/3.12.12/lib/python3.12/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in multiply
+  c *= np.true_divide(1, fact)
+INFO:     127.0.0.1:47008 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47016 - "GET /agents HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47032 - "POST /handover/AliceToBob HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47042 - "POST /memory/write HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47052 - "POST /memory/query HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [43268]

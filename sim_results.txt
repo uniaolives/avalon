@@ -1,0 +1,3 @@
+Rácio médio de compressão: 15.62x
+Redução média de energia: 10.50x
+Erro médio quadrático (MSE): 0.2411

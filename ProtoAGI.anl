@@ -1,0 +1,116 @@
+// ProtoAGI.anl
+// Especificação Unificada da Proto-AGI (Web2 + Web3 + AI + ANL)
+
+namespace ProtoAGI {
+
+    // ==========================================
+    // 1. COMPONENTES FUNDACIONAIS
+    // ==========================================
+
+    node Web2_Service {
+        attributes {
+            string endpoint;                // API URL
+            float data_volume;              // TB/dia
+            string data_type;               // text, image, structured, etc.
+            float latency;                  // ms
+        }
+    }
+
+    node Web3_Node {
+        attributes {
+            string blockchain;               // Ethereum, Solana, etc.
+            float token_balance;             // incentivos
+            // SmartContract[] contracts;
+        }
+    }
+
+    node AI_Agent {
+        attributes {
+            float rationality = 0.85;        // capacidade de decisão
+            bool uses_web2 = true;           // se consome serviços Web2
+            bool uses_web3 = true;           // se interage com blockchain
+        }
+    }
+
+    // ==========================================
+    // 2. INTEGRAÇÃO: MEMÓRIA PARTILHADA E SINCRONIZAÇÃO
+    // ==========================================
+
+    node SharedKnowledgeBase {
+        attributes {
+            float info_flow = 0.0;
+            float capacity = 1000.0;
+        }
+        function write(string agent_id, vector belief) {
+            // escrita de conhecimento
+        }
+        function query(vector goal) -> list {
+            // consulta de ressonância
+        }
+    }
+
+    handover AgentCollaboration (AI_Agent a1, AI_Agent a2) {
+        protocol: asynchronous;
+        attributes {
+            float info_exchanged;
+            string topic;
+        }
+        effects {
+            // a1 escreve conhecimento, a2 lê e atualiza o seu estado
+            // mem.write(a1.id, a1.current_belief);
+            // a2.belief = integrate(a2.belief, mem.query(a2.current_goal));
+        }
+    }
+
+    // ==========================================
+    // 3. MÉTRICAS DE EMERGÊNCIA
+    // ==========================================
+
+    node EmergenceMetrics {
+        attributes {
+            float collective_intelligence = 0.0; // medida agregada de desempenho
+            float integration_phi = 0.0;         // análogo à informação integrada
+            float decentralization_index = 0.0;  // quão distribuída é a cognição
+        }
+        dynamics {
+            // integration_phi = f(mem.info_flow, agent_correlations);
+        }
+    }
+
+    // ==========================================
+    // 4. CONSTITUTIONAL SAFEGUARDS
+    // ==========================================
+
+    constraint NoSingularityWithoutOversight {
+        mode: RUNTIME_MONITOR;
+        check: integration_phi < 0.9;
+        on_violation: EMERGENCY_HALT;
+    }
+
+    constraint DataSovereignty {
+        mode: RUNTIME_MONITOR;
+        check: data_ownership_preserved == true;
+        on_violation: LOG_INCIDENT;
+    }
+
+    // ==========================================
+    // 5. HIPÓTESE FUNDACIONAL
+    // ==========================================
+
+    hypothesis ProtoAGI_Emergence {
+        condition:
+            exists SharedKnowledgeBase mem with
+            number_of_agents >= 10 and
+            web3_incentives_active and
+            web2_data_volume > threshold;
+
+        prediction:
+            after T iterations,
+            EmergenceMetrics.integration_phi > 0.618
+            and collective_intelligence > 2.0 * average(agent_performances);
+
+        falsification:
+            if after 10^6 iterations phi < 0.618 or
+               collective <= 2*average, hypothesis rejected.
+    }
+}

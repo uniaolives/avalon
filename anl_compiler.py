@@ -278,7 +278,19 @@ def compile_anl_v02(code: str) -> Hypergraph:
 
         code = code[:match.start()] + code[next_pos:]
 
-    # 6. Handovers
+    # 6. Hypotheses
+    hypo_pattern = re.compile(r'hypothesis\s+(\w+)\s*\{')
+    while True:
+        match = hypo_pattern.search(code)
+        if not match: break
+        h_id = match.group(1)
+        body, next_pos = extract_nested_block(code, match.end())
+        if body:
+            # For now, just store as dynamics or a new field
+            hg.dynamics[f"hypothesis_{h_id}"] = body.strip()
+        code = code[:match.start()] + code[next_pos:]
+
+    # 7. Handovers
     handover_pattern = re.compile(r'handover\s+(\w+)\s*\(([^)]+)\)\s*\{')
     while True:
         match = handover_pattern.search(code)
@@ -311,8 +323,10 @@ def compile_anl_v02(code: str) -> Hypergraph:
             protocol = Protocol.CREATIVE
             proto_match = re.search(r'protocol\s*:\s*(\w+);', body)
             if proto_match:
-                try: protocol = Protocol[proto_match.group(1).upper()]
-                except: pass
+                try:
+                    protocol = Protocol[proto_match.group(1).upper()]
+                except:
+                    pass
 
             h = Handover(h_id, src, dst, protocol, condition=condition, effects=effects)
             hg.add_handover(h)
@@ -335,18 +349,29 @@ def compile_anl_file(filename: str) -> dict:
         hg = compile_anl_v02(code)
     else:
         namespace = {
-            'Hypergraph': Hypergraph, 'Node': Node, 'Handover': Handover,
-            'StateSpace': StateSpace, 'Protocol': Protocol, 'Constraint': Constraint,
+            'Hypergraph': Hypergraph,
+            'Node': Node,
+            'Handover': Handover,
+            'StateSpace': StateSpace,
+            'Protocol': Protocol,
+            'Constraint': Constraint,
             'np': np,
         }
-        try: exec(code, namespace)
-        except Exception as e: raise RuntimeError(f"Erro ao executar o código ANL (Python DSL): {e}")
+        try:
+            exec(code, namespace)
+        except Exception as e:
+            raise RuntimeError(f"Erro ao executar o código ANL (Python DSL): {e}")
+
         hg = namespace.get('hypergraph')
         if hg is None:
             for val in namespace.values():
-                if isinstance(val, Hypergraph): hg = val; break
+                if isinstance(val, Hypergraph):
+                    hg = val
+                    break
 
-    if hg is None: raise ValueError("Arquivo ANL deve definir uma instância de 'Hypergraph' ou conter definições de 'node'")
+    if hg is None:
+        raise ValueError("Arquivo ANL deve definir uma instância de 'Hypergraph' ou conter definições de 'node'")
+
     return hg_to_air(hg)
 
 if __name__ == "__main__":

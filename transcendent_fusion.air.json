@@ -16,6 +16,9 @@
           1000000000000000.0
         ],
         "dynamics": "None",
+        "attributes": {
+          "state": "[1.e-09 1.e+18 1.e+15]"
+        },
         "observables": {}
       },
       {
@@ -31,6 +34,9 @@
           1000000000000000.0
         ],
         "dynamics": "None",
+        "attributes": {
+          "state": "[1.e-09 1.e+18 1.e+15]"
+        },
         "observables": {}
       },
       {
@@ -44,6 +50,9 @@
           0.0
         ],
         "dynamics": "None",
+        "attributes": {
+          "state": "[0.]"
+        },
         "observables": {}
       },
       {
@@ -57,6 +66,9 @@
           0.0
         ],
         "dynamics": "None",
+        "attributes": {
+          "state": "[0.]"
+        },
         "observables": {}
       }
     ],

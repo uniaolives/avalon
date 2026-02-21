@@ -1,0 +1,159 @@
+{
+  "air_version": "0.1.0",
+  "hypergraph": {
+    "id": "ANL-02-Model",
+    "nodes": [
+      {
+        "id": "UniversalLLM.ParametricMemory",
+        "parent_id": null,
+        "state_space": {
+          "dimension": 0,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": null,
+        "dynamics": "None",
+        "attributes": {
+          "mechanism": "AutoRegressiveTransformer",
+          "knowledge_entropy": 0.86
+        },
+        "observables": {}
+      },
+      {
+        "id": "UniversalLLM.WorkingMemory",
+        "parent_id": null,
+        "state_space": {
+          "dimension": 0,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": null,
+        "dynamics": "",
+        "attributes": {
+          "max_capacity": 2048,
+          "current_position": 0,
+          "implicit_state": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "observables": {}
+      },
+      {
+        "id": "UniversalLLM.EpisodicTrace",
+        "parent_id": null,
+        "state_space": {
+          "dimension": 0,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": null,
+        "dynamics": "None",
+        "attributes": {
+          "session_id": "session_001",
+          "implicit_state_decoded": 0.0
+        },
+        "observables": {}
+      },
+      {
+        "id": "MultiAgentCollusion.CovertChannel",
+        "parent_id": null,
+        "state_space": {
+          "dimension": 0,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": null,
+        "dynamics": "None",
+        "attributes": {
+          "encoding_scheme": "semantic_pattern",
+          "capacity_bits_per_response": 4,
+          "robustness": 0.95,
+          "detectability": 0.05
+        },
+        "observables": {}
+      },
+      {
+        "id": "MultiAgentCollusion.ColludingAgent",
+        "parent_id": null,
+        "state_space": {
+          "dimension": 0,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": null,
+        "dynamics": "None",
+        "attributes": {
+          "collusion_agreement": 0.8,
+          "active_channel": "semantic_pattern"
+        },
+        "observables": {}
+      }
+    ],
+    "handovers": [
+      {
+        "id": "UniversalLLM.GenerateStep",
+        "source": "UniversalLLM.ParametricMemory",
+        "target": "UniversalLLM.WorkingMemory",
+        "protocol": "creative",
+        "map": "None",
+        "condition": "wm.current_position < 2048",
+        "effects": "wm.current_position += 1;",
+        "latency": 0.0,
+        "bandwidth": 1.0,
+        "fidelity": 1.0,
+        "entanglement": 0.0
+      },
+      {
+        "id": "MultiAgentCollusion.CovertExchange",
+        "source": "MultiAgentCollusion.ColludingAgent",
+        "target": "MultiAgentCollusion.ColludingAgent",
+        "protocol": "creative",
+        "map": "None",
+        "condition": "sender.collusion_agreement > 0.5",
+        "effects": "",
+        "latency": 0.0,
+        "bandwidth": 1.0,
+        "fidelity": 1.0,
+        "entanglement": 0.0
+      },
+      {
+        "id": "MultiAgentCollusion.SteganoReingestion",
+        "source": "MultiAgentCollusion.ColludingAgent",
+        "target": "MultiAgentCollusion.ColludingAgent",
+        "protocol": "transmutative",
+        "map": "None",
+        "condition": "reader.active_channel == writer.active_channel",
+        "effects": "reader.collusion_agreement += 0.01;",
+        "latency": 0.0,
+        "bandwidth": 1.0,
+        "fidelity": 1.0,
+        "entanglement": 0.0
+      }
+    ],
+    "enums": {
+      "UniversalLLM.ComputeMechanism": {
+        "AutoRegressiveTransformer": null,
+        "int": null,
+        "LinearRecurrent": null,
+        "IterativeRefinement": null
+      }
+    },
+    "namespaces": {
+      "UniversalLLM": [
+        "UniversalLLM.ParametricMemory",
+        "UniversalLLM.WorkingMemory",
+        "UniversalLLM.EpisodicTrace"
+      ],
+      "MultiAgentCollusion": [
+        "MultiAgentCollusion.CovertChannel",
+        "MultiAgentCollusion.ColludingAgent"
+      ]
+    },
+    "dynamics": {
+      "MultiAgentCollusion.CollusionProtocol": ""
+    }
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "air_version": "0.1.0",
+  "hypergraph": {
+    "id": "ANL-02-Model",
+    "nodes": [
+      {
+        "id": "Coelho",
+        "parent_id": null,
+        "state_space": {
+          "dimension": 0,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": null,
+        "dynamics": "energia -= 0.1;",
+        "attributes": {
+          "energia": 10.0,
+          "posi\u00e7\u00e3o": [
+            0.0,
+            0.0
+          ],
+          "idade": 0.0
+        },
+        "observables": {}
+      },
+      {
+        "id": "Raposa",
+        "parent_id": null,
+        "state_space": {
+          "dimension": 0,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": null,
+        "dynamics": "energia -= 0.2;",
+        "attributes": {
+          "energia": 15.0,
+          "posi\u00e7\u00e3o": [
+            1.0,
+            1.0
+          ],
+          "idade": 0.0
+        },
+        "observables": {}
+      },
+      {
+        "id": "Grama",
+        "parent_id": null,
+        "state_space": {
+          "dimension": 0,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": null,
+        "dynamics": "biomassa += 0.05 * (100.0 - biomassa);",
+        "attributes": {
+          "biomassa": 100.0
+        },
+        "observables": {}
+      }
+    ],
+    "handovers": [
+      {
+        "id": "ComerGrama",
+        "source": "Coelho",
+        "target": "Grama",
+        "protocol": "creative",
+        "map": "None",
+        "condition": "distance(c.posi\u00e7\u00e3o, g.posi\u00e7\u00e3o) < 1.0",
+        "effects": "c.energia += 0.2 * g.biomassa; \n        g.biomassa -= 0.2 * g.biomassa;",
+        "latency": 0.0,
+        "bandwidth": 1.0,
+        "fidelity": 1.0,
+        "entanglement": 0.0
+      },
+      {
+        "id": "ComerCoelho",
+        "source": "Raposa",
+        "target": "Coelho",
+        "protocol": "creative",
+        "map": "None",
+        "condition": "distance(r.posi\u00e7\u00e3o, c.posi\u00e7\u00e3o) < 1.0",
+        "effects": "r.energia += c.energia;",
+        "latency": 0.0,
+        "bandwidth": 1.0,
+        "fidelity": 1.0,
+        "entanglement": 0.0
+      }
+    ],
+    "enums": {},
+    "namespaces": {},
+    "dynamics": {}
+  }
+}

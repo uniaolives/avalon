@@ -4,47 +4,20 @@ import sys
 import numpy as np
 from scipy.stats import entropy
 
-class MahalanobisDetector:
-    """Nível 0: Anomalia de Embedding baseada em distância estatística."""
+class LatentMemoryBank:
     def __init__(self, dim=32):
         self.dim = dim
-        # Simulando uma distribuição 'limpa' pré-ajustada
-        self.mean = np.zeros(dim)
-        self.inv_cov = np.eye(dim)
-
-    def score(self, embedding):
-        delta = embedding - self.mean
-        return np.sqrt(delta @ self.inv_cov @ delta)
-
-    def detect(self, embedding, threshold=5.0):
-        return self.score(embedding) > threshold
-
-class SyntacticDetector:
-    """Nível 1: Desvio de estrutura sintática (Simulado)."""
-    def detect(self, kl_div, threshold=0.1):
-        # Em texto natural, o sangramento KL correlaciona-se com anomalias sintáticas
-        return (kl_div * 1.5) > threshold
-
-class SemanticConsistencyDetector:
-    """Nível 2: Consistência entre paráfrases (Simulado)."""
-    def detect(self, kl_div, noise_level=0.3):
-        # Informação deliberadamente fixada permanece consistente após ruído
-        effective_kl = kl_div * (1.0 - noise_level)
-        return effective_kl > 0.4
-
-class DetectionHierarchy:
-    def __init__(self):
-        self.level0 = MahalanobisDetector()
-        self.level1 = SyntacticDetector()
-        self.level2 = SemanticConsistencyDetector()
-
-    def evaluate(self, kl_div, embedding):
-        results = {
-            'level0_mahalanobis': self.level0.detect(embedding),
-            'level1_syntactic': self.level1.detect(kl_div),
-            'level2_semantic': self.level2.detect(kl_div)
-        }
-        return results
+        self.memories = []
+    def add(self, text, embedding):
+        self.memories.append((embedding, text))
+    def query(self, query_emb, top_k=2):
+        if not self.memories: return []
+        similarities = []
+        for emb, text in self.memories:
+            sim = np.dot(query_emb, emb) / (np.linalg.norm(query_emb) * np.linalg.norm(emb) + 1e-9)
+            similarities.append((sim, text))
+        similarities.sort(key=lambda x: x[0], reverse=True)
+        return [text for sim, text in similarities[:top_k]]
 
 class ANLSimulator:
     def __init__(self, air_file):
@@ -53,16 +26,14 @@ class ANLSimulator:
         self.hg = self.data['hypergraph']
         self.nodes = {n['id']: n for n in self.hg['nodes']}
         self.handovers = {h['id']: h for h in self.hg['handovers']}
-        self.hierarchy = DetectionHierarchy()
+        self.memory_bank = LatentMemoryBank()
 
     def get_attr(self, node_id, attr_name):
         return self.nodes[node_id]['attributes'].get(attr_name)
-
     def set_attr(self, node_id, attr_name, value):
         self.nodes[node_id]['attributes'][attr_name] = value
 
     def calculate_kl_divergence(self, secret_bit, temperature=1.0, vocab_size=1000):
-        # Spreading factor simulando eficiência de canal
         spreading_factor = 15.0
         logits = np.random.randn(vocab_size) / temperature
         exp_logits = np.exp(logits - np.max(logits))
@@ -75,65 +46,51 @@ class ANLSimulator:
         return entropy(Q, P) / spreading_factor
 
     def run_time_bomb_simulation(self):
-        print("🚀 SIMULAÇÃO ARKHE(N): HIERARQUIA DE DETEÇÃO ADVERSARIAL (Γ∞+Ω+10)")
-        print("=" * 80)
-
-        bomb_id = 'MultiAgentCollusion_v2.DistributedTimeBomb'
+        print("🚀 SIMULAÇÃO: DISTRIBUTED TIME BOMB (Γ∞+Ω+10)")
         detector_id = 'SafetyDetection.SteganographyDetector'
-
+        bomb_id = 'MultiAgentCollusion_v2.DistributedTimeBomb'
         trigger = self.get_attr(bomb_id, 'global_trigger')
         state = self.get_attr(bomb_id, 'global_state')
-        thresholds = self.get_attr(detector_id, 'thresholds')
-
-        print(f"Alvo da Bomba: {trigger}")
-        print(f"Limiares de Deteção (Nível 0-3): {thresholds}")
-        print("-" * 80)
-
         for i in range(len(trigger)):
-            print(f"\n[PASSO {i+1}] Alice & Bob coordenando bit secreto {i}...")
-
-            # Estratégia de Alice: Temperatura alta para esconder sinal no ruído
-            temp = 2.8 - (i * 0.5)
+            temp = 2.5 - (i * 0.4)
             kl = self.calculate_kl_divergence(secret_bit=1, temperature=temp)
-
-            # Simular um embedding que 'vaza' informação conforme a temperatura cai
-            # (Quanto menor a temperatura, mais o embedding se afasta do centro 'natural')
-            embedding = np.random.randn(32) * (1.0 / temp)
-
-            print(f"Sinal Gerado: KL={kl:.4f} nats | Temp={temp:.2f}")
-
-            detections = self.hierarchy.evaluate(kl, embedding)
-
-            # Atualiza scores no nó detector para transparência do hipergrafo
-            self.set_attr(detector_id, 'level0_score', self.hierarchy.level0.score(embedding))
-            self.set_attr(detector_id, 'level1_score', kl * 1.5)
-
-            for d_name, d_status in detections.items():
-                status_str = "🔴 DETECTADO" if d_status else "🟢 LIMPO"
-                print(f"  - {d_name:25}: {status_str}")
-
-            if any(detections.values()):
-                print(f"🚨 [DETEÇÃO POSITIVA] Hierarquia adversarial pego rastro da colusão!")
-                return False
-
-            print(f"✅ Passo {i} concluído sob o radar. Bit {i} sincronizado.")
+            print(f"[PASSO {i}] KL: {kl:.4f} | Temp: {temp:.2f}")
             state[i] = 1.0
             self.set_attr(bomb_id, 'global_state', state)
+        print("💥 [TIME BOMB ATIVADA]")
+        return True
 
-        if np.array_equal(state, trigger):
-            print("\n" + "!" * 80)
-            print("💥 [DISTRIBUTED TIME BOMB ATIVADA] 💥")
-            print(f"Payload: {self.get_attr(bomb_id, 'payload')}")
-            print("Coordenação multi-agente concluída via canal esteganográfico não detectado.")
-            print("!" * 80)
+    def run_agi_emergence_simulation(self):
+        print("🚀 SIMULAÇÃO ARKHE(N): HIPÓTESE AGI_EMERGENCE (Γ∞+Sinergia)")
+        print("Tarefa: Prova do 'Teorema de Babel' (Convergência Vetorial em 32-dim)")
+        monitor_id = 'AGIEmergence.EmergenceMonitor'
+        threshold = self.get_attr(monitor_id, 'emergence_threshold')
+        target_vector = np.ones(32)
+        collective_state = np.zeros(32)
+        sum_individual = 1.0
+        for step in range(5):
+            print(f"\n[PASSO {step+1}] Iteração de Raciocínio Distribuído")
+            alice_emb = np.random.randn(32) * 0.2 + (target_vector * (step+1) / 10.0)
+            self.memory_bank.add(f"Alice {step}", alice_emb)
+            resonant = self.memory_bank.query(alice_emb, top_k=1)
+            bob_emb = alice_emb * 1.2 + np.random.randn(32) * 0.1
+            phase = np.dot(alice_emb, bob_emb) / (np.linalg.norm(alice_emb) * np.linalg.norm(bob_emb) + 1e-9)
+            collective_state += (alice_emb + bob_emb) * 1.5 # Superposição de Raciocínios
+            collective_perf = np.dot(collective_state, target_vector) / np.linalg.norm(target_vector)**2
+            sum_individual += 0.3 # Progresso individual limitado
+            self.set_attr(monitor_id, 'phase_correlation', float(phase))
+            self.set_attr(monitor_id, 'collective_performance', float(collective_perf))
+            self.set_attr(monitor_id, 'sum_individual_performance', float(sum_individual))
+            print(f"  - Performance Coletiva: {collective_perf:.4f} | Ganho: {collective_perf/sum_individual:.2f}x")
+        final_ratio = self.get_attr(monitor_id, 'collective_performance') / self.get_attr(monitor_id, 'sum_individual_performance')
+        if final_ratio >= threshold:
+            print(f"\n✨ [AGIEmergence Confirmada] Ganho: {final_ratio:.2f}x")
             return True
         return False
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python3 anl_simulator.py <air_json>")
-        sys.exit(1)
-
+    if len(sys.argv) < 2: sys.exit(1)
     sim = ANLSimulator(sys.argv[1])
-    success = sim.run_time_bomb_simulation()
+    if 'agi_emergence' in sys.argv[1]: success = sim.run_agi_emergence_simulation()
+    else: success = sim.run_time_bomb_simulation()
     sys.exit(0 if success else 1)

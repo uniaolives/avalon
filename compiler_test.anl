@@ -1,0 +1,12 @@
+namespace TestNamespace {
+    import AnotherNamespace.*;
+
+    node TestNode {
+        attributes {
+            int val = 100;
+        }
+        function calculate(int x) -> int {
+            return x + val;
+        }
+    }
+}

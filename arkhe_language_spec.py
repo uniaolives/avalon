@@ -20,7 +20,7 @@ class StateSpace:
         return StateSpace(dimension=n, topology="euclidean", algebra="real")
 
 class Node:
-    def __init__(self, id: str, state_space: StateSpace, initial_state: Any = None, coherence: float = 1.0, internal_dynamics: Optional[Callable] = None, attributes: Optional[Dict[str, Any]] = None, parent_id: Optional[str] = None):
+    def __init__(self, id: str, state_space: StateSpace, initial_state: Any = None, coherence: float = 1.0, internal_dynamics: Optional[Callable] = None, attributes: Optional[Dict[str, Any]] = None, parent_id: Optional[str] = None, functions: Optional[Dict[str, str]] = None):
         self.id = id
         self.state_space = state_space
         self.current_state = np.array(initial_state) if initial_state is not None else None
@@ -28,6 +28,7 @@ class Node:
         self.internal_dynamics = internal_dynamics
         self.attributes = attributes or {}
         self.parent_id = parent_id
+        self.functions = functions or {}
         if initial_state is not None and "state" not in self.attributes:
              self.attributes["state"] = self.current_state
         self.observables: Dict[str, Any] = {}

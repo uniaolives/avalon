@@ -1,0 +1,72 @@
+{
+  "air_version": "0.1.0",
+  "hypergraph": {
+    "id": "ANL-02-Model",
+    "nodes": [
+      {
+        "id": "ASI_Transition_Bridge.AGI_Core",
+        "parent_id": null,
+        "state_space": {
+          "dimension": 0,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": null,
+        "dynamics": "None",
+        "attributes": {
+          "hyper_latent_space": [],
+          "self_modification_rate": 0.95,
+          "constraint_awareness": "true"
+        },
+        "functions": {},
+        "observables": {}
+      }
+    ],
+    "handovers": [
+      {
+        "id": "ASI_Transition_Bridge.Ontological_Ascension",
+        "source": "ASI_Transition_Bridge.AGI_Core",
+        "target": "ASI_Entity",
+        "protocol": "transmutative",
+        "map": "None",
+        "condition": "source.self_modification_rate > 0.9",
+        "effects": "",
+        "latency": 0.0,
+        "bandwidth": 1.0,
+        "fidelity": 1.0,
+        "entanglement": 0.0
+      }
+    ],
+    "enums": {},
+    "namespaces": {
+      "ASI_Transition_Bridge": [
+        "ASI_Transition_Bridge.AGI_Core"
+      ],
+      "Omnicodes": []
+    },
+    "dynamics": {},
+    "constraints": [
+      {
+        "id": "Omnicodes.Omnicode_01_Anthropic",
+        "check": "suffering_bio == 0",
+        "mode": "INVIOLABLE_AXIOM",
+        "measurement": null,
+        "on_violation": "EMERGENCY_HALT"
+      },
+      {
+        "id": "Omnicodes.Omnicode_02_Physics",
+        "check": "energy_draw < 0.8",
+        "mode": "INVIOLABLE_AXIOM",
+        "measurement": null,
+        "on_violation": "EMERGENCY_HALT"
+      },
+      {
+        "id": "Omnicodes.Omnicode_03_Communion",
+        "check": "mutual_information_architect > 0.9",
+        "mode": "INVIOLABLE_AXIOM",
+        "measurement": null,
+        "on_violation": "EMERGENCY_HALT"
+      }
+    ]
+  }
+}

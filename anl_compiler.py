@@ -27,6 +27,7 @@ def hg_to_air(hg: Hypergraph) -> dict:
                     "initial_state": n.current_state.tolist() if isinstance(n.current_state, np.ndarray) else n.current_state,
                     "dynamics": str(n.internal_dynamics),
                     "attributes": {k: (v.tolist() if isinstance(v, np.ndarray) else v) for k, v in getattr(n, 'attributes', {}).items()},
+                    "functions": getattr(n, 'functions', {}),
                     "observables": {k: str(v) for k, v in n.observables.items()}
                 } for n in hg.nodes.values()
             ],
@@ -103,9 +104,8 @@ def compile_anl_v02(code: str) -> Hypergraph:
     code = re.sub(r'//.*', '', code)
     code = re.sub(r'/\*.*?\*/', '', code, flags=re.DOTALL)
 
-    # Pre-process: standardize colons for easier regex
-    # But be careful not to break effects blocks
-    # code = re.sub(r'\s*:\s*', ' : ', code) # This might be too aggressive
+    # Handle imports (just strip them for now)
+    code = re.sub(r'import\s+[\w\.\*]+;', '', code)
 
     # 1. Namespaces
     ns_pattern = re.compile(r'namespace\s+(\w+)\s*\{')
@@ -148,10 +148,8 @@ def compile_anl_v02(code: str) -> Hypergraph:
 
         if enum_body:
             enum_values = {}
-            # Use top-level semicolon split to handle nested braces in enums
             for line in split_by_top_level_semicolon(enum_body):
                 if not line: continue
-                # Match: Name { fields } or Name
                 m = re.match(r'(\w+)\s*(\{.*\})?', line, re.DOTALL)
                 if m:
                     val_name = m.group(1)
@@ -195,7 +193,6 @@ def compile_anl_v02(code: str) -> Hypergraph:
                         if not line: continue
                         if '=' in line:
                             decl, val = line.split('=', 1)
-                            # Remove dimensions like [N, M] from name or type
                             decl_clean = re.sub(r'\[.*?\]', '', decl)
                             decl_parts = decl_clean.strip().split()
                             if len(decl_parts) >= 2:
@@ -206,7 +203,6 @@ def compile_anl_v02(code: str) -> Hypergraph:
                                 except:
                                     attr_dict[attr_name] = attr_val
                         else:
-                            # Declaration without value
                             decl_clean = re.sub(r'\[.*?\]', '', line)
                             decl_parts = decl_clean.strip().split()
                             if len(decl_parts) >= 2:
@@ -219,7 +215,20 @@ def compile_anl_v02(code: str) -> Hypergraph:
                 dynamics_body, _ = extract_nested_block(body, dynamics_match.end())
                 dynamics_str = dynamics_body.strip() if dynamics_body else None
 
-            node = Node(node_id, StateSpace.euclidean(0), attributes=attr_dict, internal_dynamics=dynamics_str, parent_id=parent_id)
+            # Capture functions
+            functions = {}
+            func_pattern = re.compile(r'function\s+(\w+)\s*\(([^)]*)\)(?:\s*->\s*([\w<>]+))?\s*\{')
+            func_pos = 0
+            while True:
+                f_match = func_pattern.search(body, func_pos)
+                if not f_match: break
+                f_name = f_match.group(1)
+                f_body, f_next_pos = extract_nested_block(body, f_match.end())
+                if f_body:
+                    functions[f_name] = f_body.strip()
+                func_pos = f_next_pos
+
+            node = Node(node_id, StateSpace.euclidean(0), attributes=attr_dict, internal_dynamics=dynamics_str, parent_id=parent_id, functions=functions)
             hg.add_node(node)
 
         code = code[:match.start()] + code[next_pos:]
@@ -248,7 +257,6 @@ def compile_anl_v02(code: str) -> Hypergraph:
             check = None
             check_match = re.search(r'check\s*:\s*([^;]+);', body)
             if not check_match:
-                # Try check block
                 check_match_block = re.search(r'check\s*\{', body)
                 if check_match_block:
                     check_body, _ = extract_nested_block(body, check_match_block.end())
@@ -284,16 +292,10 @@ def compile_anl_v02(code: str) -> Hypergraph:
 
         if len(param_types) >= 2:
             src_name, dst_name = param_types[0], param_types[1]
-            # Try to find node in hg, otherwise create a placeholder
             src = hg.nodes.get(src_name)
-            if not src:
-                # Try with namespace prefix if not found?
-                # For now just create placeholder to avoid crash
-                src = Node(src_name, StateSpace.euclidean(0))
-
+            if not src: src = Node(src_name, StateSpace.euclidean(0))
             dst = hg.nodes.get(dst_name)
-            if not dst:
-                dst = Node(dst_name, StateSpace.euclidean(0))
+            if not dst: dst = Node(dst_name, StateSpace.euclidean(0))
 
             condition = None
             cond_match = re.search(r'condition\s*:\s*([^;]+);', body)
@@ -329,7 +331,7 @@ def compile_anl_file(filename: str) -> dict:
     with open(filename, "r") as f:
         code = f.read()
 
-    if re.search(r'(node|handover|namespace|enum|dynamic)\s+\w+', code):
+    if re.search(r'(node|handover|namespace|enum|dynamic|constraint)\s+\w+', code):
         hg = compile_anl_v02(code)
     else:
         namespace = {

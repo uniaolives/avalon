@@ -1,0 +1,73 @@
+{
+  "air_version": "0.1.0",
+  "hypergraph": {
+    "id": "Ecosystem-Sim",
+    "nodes": [
+      {
+        "id": "Rabbit",
+        "state_space": {
+          "dimension": 2,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": [
+          0.0,
+          0.0
+        ],
+        "dynamics": "None",
+        "observables": {}
+      },
+      {
+        "id": "Fox",
+        "state_space": {
+          "dimension": 2,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": [
+          0.0,
+          0.0
+        ],
+        "dynamics": "None",
+        "observables": {}
+      },
+      {
+        "id": "Grass",
+        "state_space": {
+          "dimension": 1,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": [
+          0.0
+        ],
+        "dynamics": "None",
+        "observables": {}
+      }
+    ],
+    "handovers": [
+      {
+        "id": "Eat",
+        "source": "Rabbit",
+        "target": "Grass",
+        "protocol": "conservative",
+        "map": "None",
+        "latency": 0.0,
+        "bandwidth": 1.0,
+        "fidelity": 1.0,
+        "entanglement": 0.0
+      },
+      {
+        "id": "Hunt",
+        "source": "Fox",
+        "target": "Rabbit",
+        "protocol": "conservative",
+        "map": "None",
+        "latency": 0.0,
+        "bandwidth": 1.0,
+        "fidelity": 1.0,
+        "entanglement": 0.0
+      }
+    ]
+  }
+}

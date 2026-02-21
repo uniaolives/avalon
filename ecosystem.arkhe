@@ -1,0 +1,16 @@
+# Ecosystem-Sim - Distilled ANL Model
+
+hypergraph = Hypergraph('Ecosystem-Sim')
+
+# Presa
+rabbit = Node('Rabbit', StateSpace.euclidean(2), [0.0]*2)
+hypergraph.add_node(rabbit)
+# Predador
+fox = Node('Fox', StateSpace.euclidean(2), [0.0]*2)
+hypergraph.add_node(fox)
+# Recurso
+grass = Node('Grass', StateSpace.euclidean(1), [0.0]*1)
+hypergraph.add_node(grass)
+
+hypergraph.add_handover(Handover('Eat', rabbit, grass, Protocol.CONSERVATIVE))
+hypergraph.add_handover(Handover('Hunt', fox, rabbit, Protocol.CONSERVATIVE))

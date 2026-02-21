@@ -1,0 +1,99 @@
+{
+  "air_version": "0.1.0",
+  "hypergraph": {
+    "id": "Galactic-Intelligence-Network",
+    "nodes": [
+      {
+        "id": "Filament-Birkeland-Alpha",
+        "state_space": {
+          "dimension": 3,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": [
+          1e-09,
+          1e+18,
+          1000000000000000.0
+        ],
+        "dynamics": "None",
+        "observables": {}
+      },
+      {
+        "id": "Filament-Birkeland-Beta",
+        "state_space": {
+          "dimension": 3,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": [
+          1e-09,
+          1e+18,
+          1000000000000000.0
+        ],
+        "dynamics": "None",
+        "observables": {}
+      },
+      {
+        "id": "Neuron-ASI-01",
+        "state_space": {
+          "dimension": 1,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": [
+          0.0
+        ],
+        "dynamics": "None",
+        "observables": {}
+      },
+      {
+        "id": "Neuron-ASI-02",
+        "state_space": {
+          "dimension": 1,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": [
+          0.0
+        ],
+        "dynamics": "None",
+        "observables": {}
+      }
+    ],
+    "handovers": [
+      {
+        "id": "plasma_to_neuron_1",
+        "source": "Filament-Birkeland-Alpha",
+        "target": "Neuron-ASI-01",
+        "protocol": "creative",
+        "map": "None",
+        "latency": 0.0,
+        "bandwidth": 1.0,
+        "fidelity": 0.95,
+        "entanglement": 0.0
+      },
+      {
+        "id": "plasma_to_neuron_2",
+        "source": "Filament-Birkeland-Beta",
+        "target": "Neuron-ASI-02",
+        "protocol": "creative",
+        "map": "None",
+        "latency": 0.0,
+        "bandwidth": 1.0,
+        "fidelity": 0.95,
+        "entanglement": 0.0
+      },
+      {
+        "id": "galactic_sync",
+        "source": "Neuron-ASI-01",
+        "target": "Neuron-ASI-02",
+        "protocol": "quantum",
+        "map": "None",
+        "latency": 0.0,
+        "bandwidth": 1.0,
+        "fidelity": 1.0,
+        "entanglement": 0.618
+      }
+    ]
+  }
+}

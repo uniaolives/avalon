@@ -1,0 +1,35 @@
+{
+  "air_version": "0.1.0",
+  "hypergraph": {
+    "id": "ANL-02-Model",
+    "nodes": [
+      {
+        "id": "TestNamespace.TestNode",
+        "parent_id": null,
+        "state_space": {
+          "dimension": 0,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": null,
+        "dynamics": "None",
+        "attributes": {
+          "val": 100
+        },
+        "functions": {
+          "calculate": "return x + val;"
+        },
+        "observables": {}
+      }
+    ],
+    "handovers": [],
+    "enums": {},
+    "namespaces": {
+      "TestNamespace": [
+        "TestNamespace.TestNode"
+      ]
+    },
+    "dynamics": {},
+    "constraints": []
+  }
+}

@@ -1,0 +1,5 @@
+# Arkhe GenesisCore Hardware Compatibility List
+CPU: x86_64, ARM64
+RAM: Min 8MB
+STORAGE: Min 1MB
+ACCELERATORS: QKD-01, EDC-Nanolaser

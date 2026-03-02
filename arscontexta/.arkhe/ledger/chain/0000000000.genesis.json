@@ -1,0 +1,10 @@
+{
+  "block": "\u03a9+0",
+  "axiom": "x\u00b2 = x + 1",
+  "conservation": "C + F = 1",
+  "phi": 0.0,
+  "coherence": 1.0,
+  "timestamp": "2026-02-19T00:00:00Z",
+  "signature": "ed25519:arscontexta_alpha_omega",
+  "hash": "1a6d657ecf39a519"
+}

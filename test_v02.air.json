@@ -1,0 +1,66 @@
+{
+  "air_version": "0.1.0",
+  "hypergraph": {
+    "id": "ANL-02-Model",
+    "nodes": [
+      {
+        "id": "Test.Parent",
+        "parent_id": null,
+        "state_space": {
+          "dimension": 0,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": null,
+        "dynamics": "None",
+        "attributes": {
+          "x": 10
+        },
+        "observables": {}
+      },
+      {
+        "id": "Test.Child",
+        "parent_id": "Parent",
+        "state_space": {
+          "dimension": 0,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": null,
+        "dynamics": "None",
+        "attributes": {
+          "y": 20
+        },
+        "observables": {}
+      }
+    ],
+    "handovers": [
+      {
+        "id": "Test.Move",
+        "source": "Test.Child",
+        "target": "Test.Child",
+        "protocol": "conservative",
+        "map": "None",
+        "condition": "c1.x > 0",
+        "effects": "c2.x = c1.x;\n            c1.x = 0;",
+        "latency": 0.0,
+        "bandwidth": 1.0,
+        "fidelity": 1.0,
+        "entanglement": 0.0
+      }
+    ],
+    "enums": {
+      "Test.Color": {
+        "Red": null,
+        "Green": null,
+        "Blue": null
+      }
+    },
+    "namespaces": {
+      "Test": [
+        "Test.Parent",
+        "Test.Child"
+      ]
+    }
+  }
+}

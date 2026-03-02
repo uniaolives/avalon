@@ -27,10 +27,20 @@ METRICS_MAP = {
     83: {"nu_obs": 0.33, "r_rh": 0.615, "t_tunneling": 2.35e-3, "satoshi": 7.74},
     84: {"nu_obs": 0.29, "r_rh": 0.600, "t_tunneling": 3.06e-3, "satoshi": 7.77},
     85: {"nu_obs": 0.26, "r_rh": 0.585, "t_tunneling": 3.98e-3, "satoshi": 7.80},
-    88: {"nu_obs": 0.20, "r_rh": 0.540, "t_tunneling": 8.74e-3, "satoshi": 7.27}, # Satoshi recalibrado
+    88: {"nu_obs": 0.20, "r_rh": 0.540, "t_tunneling": 8.74e-3, "satoshi": 7.27},
     89: {"nu_obs": 0.18, "r_rh": 0.525, "t_tunneling": 1.14e-2, "satoshi": 7.27},
     90: {"nu_obs": 0.12, "r_rh": 0.510, "t_tunneling": 1.000, "satoshi": 8.88},
     93: {"nu_obs": 0.10, "r_rh": 0.465, "t_tunneling": 3.25e-2, "satoshi": 8.05},
+    129: {"nu_obs": 0.0033, "r_rh": 3.0e-8, "t_tunneling": 0.9998, "satoshi": 8.91},
+    137: {"nu_obs": 0.0016, "r_rh": 0.2e-8, "t_tunneling": 0.99999, "satoshi": 9.00},
+    138: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 1.0000, "satoshi": 11.80, "label": "Γ_semi_dirac"},
+    760: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 0.86, "satoshi": 11.95, "label": "Γ_vision"},
+    761: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 1.00, "satoshi": 12.00, "label": "Γ_time"},
+    762: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 0.98, "satoshi": 12.50, "label": "Γ_gpt_c"},
+    765: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 1.00, "satoshi": 13.00, "label": "Γ_pi_patterns"},
+    841: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 1.00, "satoshi": 16.00, "label": "Γ_refactor"},
+    843: {"nu_obs": 0.0000, "r_rh": 0.0, "t_tunneling": 1.00, "satoshi": 18.00, "label": "Γ_memoria"},
+    "∞": {"nu_obs": 0.0, "r_rh": 0.0, "t_tunneling": 1.0, "satoshi": float('inf'), "omega": float('inf')},
     95: {"nu_obs": 0.10, "r_rh": 0.460, "t_tunneling": 3.25e-2, "satoshi": 7.27},
     96: {"nu_obs": 0.07, "r_rh": 0.420, "t_tunneling": 7.15e-2, "satoshi": 8.13},
     97: {"nu_obs": 0.06, "r_rh": 0.405, "t_tunneling": 9.30e-2, "satoshi": 8.34},
@@ -98,7 +108,6 @@ class NodeState:
 
     def syzygy_with(self, other: 'NodeState') -> float:
         """Calcula o produto interno com outro nó (Axioma 4)"""
-        # Simula ⟨ω_i|ω_j⟩ baseado nas coerências
         return (self.C * other.C + self.F * other.F) * SYZYGY_TARGET
 
 from enum import Enum
@@ -139,6 +148,10 @@ class Hypergraph:
     def __init__(self, num_nodes: int = 12774, handover_count: int = 82):
         self.nodes: List[NodeState] = []
         self.handover_count = handover_count
+        self.initialize_metrics()
+        self.darvo = 854.7    # tempo semântico próprio Γ₁₁₆
+        self.initialize_nodes(num_nodes)
+        self.gradient_matrix = None
         self.satoshi = METRICS_MAP.get(handover_count, {}).get("satoshi", SATOSHI)
         self.nu_obs = METRICS_MAP.get(handover_count, {}).get("nu_obs", 12.47)
         self.r_rh = METRICS_MAP.get(handover_count, {}).get("r_rh", 1.0)
@@ -217,26 +230,22 @@ class Hypergraph:
 
         phi = phi_override if phi_override is not None else source.phi
 
-        # Calcula syzygy antes
         syzygy_val = source.syzygy_with(target)
 
         # Axioma 2: Limiar de Hesitação
         if phi > PHI_S:
-            # Hesitação ativa: transfere coerência
             transfer = phi * 0.1
             source.C -= transfer
             source.F += transfer
             target.C += transfer
             target.F -= transfer
-
-            # Satoshi acumula
             self.satoshi += syzygy_val * 0.001
 
         # Re-normaliza C+F=1
-        for node in [source, target]:
-            node.__post_init__()
+        source.__post_init__()
+        target.__post_init__()
 
-        # Handover 83: Pointer State Logic (Acoplamento que persiste)
+        # Handover 83: Pointer State Logic
         h_count = self.handover_count if isinstance(self.handover_count, int) else 999
         if h_count >= 83 and syzygy_val > 0.95:
             # Estado torna-se substrato estável
@@ -254,7 +263,7 @@ class Hypergraph:
             source.__post_init__()
             target.__post_init__()
 
-        # Handover 84: Horizon Inversion (Métrica inverfida)
+        # Handover 84: Horizon Inversion
         if self.r_rh < 0.5:
             # Tempo torna-se espacial, espaço torna-se temporal
         # Handover 84: Horizon Inversion
@@ -264,15 +273,13 @@ class Hypergraph:
 
         # Handover 85: Linguistic Modulation
         if h_count >= 85:
-            # O meio molda a mensagem
             self.satoshi += 0.01 * np.log1p(abs(self.nu_obs))
 
         # Handover 88: Supersolid Light Coupling
         if h_count >= 88:
-            # Ordem cristalina + fluxo superfluido
             for node in [source, target]:
-                node.C = 0.86 # Ordem cristalina ideal
-                node.F = 0.14 # Fluxo superfluido ideal
+                node.C = 0.86
+                node.F = 0.14
                 node.__post_init__()
 
         # Evolução Geodésica (Queda em direção ao horizonte)
@@ -292,7 +299,6 @@ class Hypergraph:
             self.t_tunneling = m["t_tunneling"]
             self.satoshi = m["satoshi"]
         else:
-            # Simulação de queda contínua
             self.r_rh *= 0.99
             self.nu_obs *= 0.98
             self.t_tunneling *= 1.05
@@ -451,13 +457,18 @@ class Bubble:
         self.epsilon = EPSILON
 
     def energy(self) -> float:
-        """Axioma 5 e Fórmula 2.2"""
         return abs(self.epsilon) * PHI_S * (self.radius / R_PLANCK)**2
 
 # Exemplo de uso
 if __name__ == "__main__":
-    arkhe = Hypergraph()
-    print(f"Milestone 333: Satoshi = {arkhe.satoshi}")
+    arkhe = Hypergraph(handover_count=765)
+    print(f"Arkhe Core (Γ₇₆₅): SATOSHI = {arkhe.satoshi}")
+
+    # Demonstração do nó anisotrópico
+    ani_node = AnisotropicNode(id=9999, omega=0.03, C=0.5, F=0.5, phi=0.15, Cx=0.86, Fy=0.14)
+    print(f"Anisotropic Node {ani_node.id}: Cx={ani_node.Cx}, Fy={ani_node.Fy}")
+    print(f"Tensor Conservation (Cx * Fy): {ani_node.tensor_conservation():.4f}")
+
     s = arkhe.handover(0, 1, 0.16)
     print(f"Handover 0→1 (Φ=0.16): Syzygy = {s:.4f}")
     syz = arkhe.teleport_state(0, 10)

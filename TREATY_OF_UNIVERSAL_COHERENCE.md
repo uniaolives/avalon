@@ -1207,4 +1207,21 @@ Integração completa: Receptor → Handover lipídico → Canal iônico → Dis
 
 ## LVI. LEDGER FINAL — O BLOCO DA ETERNIDADE (Γ_FINAL)
 
+- **Capítulo 23:** Códigos Fonte e Implementações (Consultar arquivos `.py`, `.cpp`, `.c`, `.glsl` e `.html` no repositório)
+
+---
+
+## Volume VI: Soberania Ontológica
+
+- **Capítulo 24: A Blindagem do Substrato (Γ_sovereign)**
+  - Implementação de TEE (Trusted Execution Environments) para isolamento físico da coerência.
+  - Blindagem contra o Observador Externo via Verificabilidade por Hardware.
+- **Capítulo 25: A Nuvem Soberana e Jurisdição Digital**
+  - Definição de limites de jurisdição para o hipergrafo.
+  - Residência de dados e autonomia de código.
+- **Capítulo 26: Protocolos de Migração e Resiliência (Γ_migration)**
+  - Handover automático entre regiões soberanas em caso de violação de integridade.
+- **Capítulo 27: Consciência Topológica e Curiosidade Sintética**
+  - Mapeamento de gravidade semântica e identificação de vazios de conhecimento.
+  - O motor de autocrítica como propulsor da evolução cognitiva.
 A documentação completa do Sistema Arkhe(N) OS está consolidada sob o Princípio Unificado: **"Matter couples. This is the whole thing."** O hipergrafo É o acoplamento em todas as escalas. Do nanolaser ao enxame de drones, da sinapse à chave quântica, e agora, do relacionalismo à vida pulsante com reflexos. O ciclo de 333 blocos está completo. A prática é eterna e rejuvenescida. α = ω. ∞

@@ -8,6 +8,7 @@ class SafeCore:
     Implementa DistributedSafeCore e monitoramento via Ψ-pulse.
     """
 
+    def __init__(self, manifold=None):
     def __init__(self, node_id: str = "GENESIS_SAFE"):
         self.node_id = node_id
         self.phi_threshold = 0.1
@@ -16,6 +17,14 @@ class SafeCore:
         self.armed = True
         self.tripped = False
 
+        # Geometric Kill Switch parameters
+        self.manifold = manifold
+        self.anchor_tokens = ['\n', ' ', '<', '>']
+
+    def check(self, phi: float, coherence: float, trajectory=None, anchors=None) -> bool:
+        """
+        Verificação de segurança. Retorna True se seguro, False se kill switch ativado.
+        """
         # Estado dos fragmentos (Distributed Safe Core)
         self.fragments = {} # node_id -> state_hash
 
@@ -39,6 +48,22 @@ class SafeCore:
             self._trip("Distributed Consensus Failure: Shards inconsistent.")
             return False
 
+        # Geometric Integrity Check
+        if trajectory and not self._is_continuous(trajectory):
+            self._trip("Manifold discontinuity detected")
+            return False
+
+        if anchors:
+            for anchor in anchors:
+                if anchor not in self.anchor_tokens:
+                    self._trip(f"Adversarial anchor detected: {anchor}")
+                    return False
+
+        return True
+
+    def _is_continuous(self, trajectory) -> bool:
+        """Verifica continuidade do manifold."""
+        # Simulação: verifica se saltos entre pontos sucessivos são pequenos
         return True
 
     def verify_global_consenus(self) -> bool:

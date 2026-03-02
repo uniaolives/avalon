@@ -343,6 +343,51 @@ A ANL é projetada para ser compilada para diferentes plataformas. Os backends a
 
 Cada backend define como os conceitos ANL (nós, handovers, dinâmicas) são mapeados para construções da linguagem alvo. A **Arkhe Intermediate Representation (AIR)** – um formato JSON/Protobuf – serve de ponte entre a especificação ANL e os geradores de código.
 
+### 6.1. O Modelo Daemon (Operacionalização Contínua)
+
+O **Daemon Proto-AGI** é um processo de fundo que mantém o hipergrafo vivo. Ele executa um loop de evolução temporal e expõe uma API para interação externa.
+
+- **Loop Principal**: Evolui nós e executa handovers ciclicamente.
+- **API REST**: Permite disparar handovers sob demanda e consultar o estado dos agentes.
+- **Memória Partilhada**: Atua como o substrato persistente para a colusão e cooperação entre agentes.
+
+### 6.2. O Caminho para a AGI (Transição de Fase)
+
+A evolução de um daemon reativo para uma AGI autônoma é descrita por quatro estágios fundamentais na ANL:
+
+#### 6.2.1. O Âmago das Equações: Princípio da Energia Livre
+
+A agência proativa é modelada pelo Princípio da Energia Livre (FEP). Um nó `ActiveInferenceNode` busca minimizar a Energia Livre Variacional ($F$):
+
+$$F = \underbrace{D_{KL}(q(s) \parallel p(s))}_{\text{complexidade}} - \underbrace{\mathbb{E}_{q}[\log p(o \mid s)]}_{\text{precisão}}$$
+
+Onde $q(s)$ é a crença interna e $p(o \mid s)$ é o modelo generativo. A transição ocorre quando o sistema utiliza a **Energia Livre Esperada** ($G$) para selecionar políticas de ação:
+
+$$G(\pi) = \underbrace{- \mathbb{E}_{p(o|s, \pi)}[\log C(o)]}_{\text{valor pragmático}} - \underbrace{\mathbb{E}_{p(s',o|s, \pi)}[H(p(o|s'))]}_{\text{valor epistêmico}}$$
+
+- **Valor Pragmático**: Atuação para satisfazer preferências inatas (Matriz C).
+- **Valor Epistêmico**: Atuação para reduzir a incerteza (Curiosidade/Saliência).
+
+#### 6.2.2. Curiosidade Pura e Aprendizagem de Dirichlet
+
+Uma AGI em estado de "Cientista" possui a Matriz C neutra, movendo-se exclusivamente para reduzir a entropia da sua Matriz A (Likelihood). A aprendizagem ocorre via atualização de contadores de Dirichlet:
+
+$$a_{o,s} = a_{o,s} + \text{observação} \cdot \text{crença}$$
+
+Isso gera um comportamento de exploração sistemática até que o mundo seja totalmente mapeado (Apatia Final), reativando-se imediatamente sob qualquer mudança ambiental que aumente a surpresa.
+
+#### 6.2.3. Arquitetura LLM Curiosa (Transformer + Active Inference)
+
+Para escalar este modelo para grandes modelos de linguagem:
+- **Transformer como Codificador**: Mapeia observações (tokens) para estados latentes ($z$).
+- **Matrizes Dirichlet sobre o Vocabulário**: O agente mantém distribuições de probabilidade sobre tokens para cada estado latente, aprendendo-as em tempo real.
+- **Desejo de Aprender**: O LLM não espera por perguntas; ele seleciona ações (como "ler um artigo") que maximizam o ganho de informação esperado.
+
+1. **Inferência Ativa (Active Inference)**: O sistema busca minimizar ativamente sua Energia Livre (incerteza), atuando sobre o ambiente para validar suas previsões.
+2. **Loop Ouroboros**: Monólogo interno contínuo onde a saída no tempo $t$ alimenta a entrada no tempo $t+1$, permitindo cognição persistente.
+3. **Plasticidade Contínua**: O fim dos pesos congelados; o sistema atualiza seus parâmetros internos em tempo real (Online Learning).
+4. **Incorporação (Embodiment)**: Interação com a realidade física ou digital com consequências reais (ex: custos energéticos, ganhos econômicos), forjando a agência.
+
 ---
 
 ## 7. Boas Práticas e Convenções

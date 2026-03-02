@@ -1,0 +1,107 @@
+// ============================================================================
+// SixGARROW.anl – AI-Native 6G Network Specification
+// Based on the 6GARROW project vision (EuCNC & 6G Summit 2025)
+// ============================================================================
+
+namespace SixGARROW {
+
+    // ==========================================
+    // 1. COMPONENTES FÍSICOS E LÓGICOS (NÓS)
+    // ==========================================
+
+    node UE {
+        attributes {
+            string ue_id;
+            float battery_level;               // 0..1 (Alvo: +50-60% EE)
+            float computational_capacity;       // GFLOPS
+            tensor semantic_latent_space[D];   // Espaço de embeddings local
+            bool ai_capable;                   // Suporte a Modelos Locais
+        }
+        dynamics {
+            // Consumo de energia acoplado à fidelidade semântica
+            battery_level -= energy_cost(semantic_latent_space.precision);
+        }
+    }
+
+    node AINative_RAN {
+        attributes {
+            float ai_compute_power;            // > 1 Trilhão de parâmetros (AIaaS)
+            float spectral_efficiency;         // > 10x CSI Compression
+            float latency_pdcp_layer;          // Alvo: < 1ms (AI Round Trip)
+        }
+        // Integração nativa de IA acima da camada PDCP para reduzir latência
+    }
+
+    node CoreNetwork {
+        attributes {
+            float function_consumption;        // Alvo: -30-50% Energy Reduction
+            bool predictive_placement;         // AI managing CN function activation
+        }
+    }
+
+    node SemanticPlane {
+        attributes {
+            float compression_factor;          // Alvo: > 8x vs IEEE 754
+            string task_context;               // "gesture", "sensing", "broadband"
+        }
+        // Define o "significado" sobre o "bit"
+    }
+
+    // ==========================================
+    // 2. HANDOVERS (INTERAÇÕES INTELIGENTES)
+    // ==========================================
+
+    handover SemanticTransmission (UE tx, AINative_RAN rx, SemanticPlane sp) {
+        protocol: GOAL_ORIENTED;
+        condition: tx.battery_level > threshold;
+        effects {
+            // Transmissão via embeddings em vez de bit-level accuracy
+            rx.receive_knowledge = sp.map(tx.semantic_latent_space);
+            assert task_accuracy(rx.receive_knowledge) > 0.95;
+        }
+    }
+
+    handover AIaaS_Offload (UE device, AINative_RAN network) {
+        protocol: COMPUTE_SHARING;
+        condition: device.local_inference_cost > network.offload_cost;
+        effects {
+            // Acesso a modelos de 1T+ parâmetros via rede
+            device.result = network.compute_ai_task(device.data);
+        }
+    }
+
+    // ==========================================
+    // 3. RESTRIÇÕES CONSTITUCIONAIS (REGULAÇÃO)
+    // ==========================================
+
+    constraint EU_Regulatory_Compliance {
+        check:
+            compliance(EU_AI_Act) == TRUE AND
+            compliance(Cyber_Resilience_Act) == TRUE AND
+            compliance(EU_Data_Act) == TRUE;
+
+        on_violation: HALT_AND_AUDIT;
+    }
+
+    // ==========================================
+    // 4. RESILIÊNCIA GLOBAL (ARKHE(N) 0.2+)
+    // ==========================================
+
+    node Global_RAN {
+        attributes {
+            float geo_latency_offset; // Delta t based on distance
+            float semantic_confidence_threshold = 0.85;
+        }
+    }
+
+    handover Resilient_Link (UE tx, Global_RAN rx, SemanticPlane sp) {
+        protocol: HYBRID_ADAPTIVE;
+        effects {
+            // Fallback to Shannon if semantic confidence is low
+            kappa = sp.calculate_confidence(tx.embedding);
+            if (kappa < rx.semantic_confidence_threshold) {
+                switch_to_shannon_fallback();
+            }
+        }
+    }
+}

@@ -5,6 +5,7 @@
     "nodes": [
       {
         "id": "Coelho",
+        "parent_id": null,
         "state_space": {
           "dimension": 0,
           "topology": "euclidean",
@@ -24,6 +25,7 @@
       },
       {
         "id": "Raposa",
+        "parent_id": null,
         "state_space": {
           "dimension": 0,
           "topology": "euclidean",
@@ -43,6 +45,7 @@
       },
       {
         "id": "Grama",
+        "parent_id": null,
         "state_space": {
           "dimension": 0,
           "topology": "euclidean",
@@ -83,6 +86,11 @@
         "fidelity": 1.0,
         "entanglement": 0.0
       }
+    ],
+    "enums": {},
+    "namespaces": {},
+    "dynamics": {},
+    "constraints": []
     ]
   }
 }

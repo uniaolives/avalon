@@ -1,0 +1,33 @@
+# ERL_integration.py (pseudo)
+class ExperientialLearning:
+    def __init__(self, self_node, memory, threshold=0.5):
+        self.self = self_node
+        self.memory = memory
+        self.tau = threshold
+
+    def episode(self, x):
+        # first attempt
+        y1 = self.self.generate(x)
+        f1, r1 = environment.evaluate(y1)
+
+        if r1 < self.tau:
+            # reflect
+            delta = self.self.reflect(x, y1, f1, r1, self.memory)
+            y2 = self.self.refine(x, delta)
+            f2, r2 = environment.evaluate(y2)
+
+            if r2 > self.tau:
+                self.memory.store(delta)
+                reward_reflect = r2
+            else:
+                reward_reflect = 0
+        else:
+            y2, r2, delta = None, r1, None
+            reward_reflect = 0
+
+        # RL update (policy gradient)
+        update_policy([y1, delta, y2], [r1, reward_reflect, r2])
+
+        # Distillation if y2 improved
+        if y2 and r2 > r1:
+            distill(y2, x)  # train to produce y2 from x alone

@@ -1,0 +1,144 @@
+{
+  "air_version": "0.1.0",
+  "hypergraph": {
+    "id": "ANL-02-Model",
+    "nodes": [
+      {
+        "id": "ProtoAGI.Web2_Service",
+        "parent_id": null,
+        "state_space": {
+          "dimension": 0,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": null,
+        "dynamics": "None",
+        "attributes": {
+          "endpoint": null,
+          "data_volume": null,
+          "data_type": null,
+          "latency": null
+        },
+        "functions": {},
+        "observables": {}
+      },
+      {
+        "id": "ProtoAGI.Web3_Node",
+        "parent_id": null,
+        "state_space": {
+          "dimension": 0,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": null,
+        "dynamics": "None",
+        "attributes": {
+          "blockchain": null,
+          "token_balance": null
+        },
+        "functions": {},
+        "observables": {}
+      },
+      {
+        "id": "ProtoAGI.AI_Agent",
+        "parent_id": null,
+        "state_space": {
+          "dimension": 0,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": null,
+        "dynamics": "None",
+        "attributes": {
+          "rationality": 0.85,
+          "uses_web2": "true",
+          "uses_web3": "true"
+        },
+        "functions": {},
+        "observables": {}
+      },
+      {
+        "id": "ProtoAGI.SharedKnowledgeBase",
+        "parent_id": null,
+        "state_space": {
+          "dimension": 0,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": null,
+        "dynamics": "None",
+        "attributes": {
+          "info_flow": 0.0,
+          "capacity": 1000.0
+        },
+        "functions": {
+          "write": "",
+          "query": ""
+        },
+        "observables": {}
+      },
+      {
+        "id": "ProtoAGI.EmergenceMetrics",
+        "parent_id": null,
+        "state_space": {
+          "dimension": 0,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": null,
+        "dynamics": "",
+        "attributes": {
+          "collective_intelligence": 0.0,
+          "integration_phi": 0.0,
+          "decentralization_index": 0.0
+        },
+        "functions": {},
+        "observables": {}
+      }
+    ],
+    "handovers": [
+      {
+        "id": "ProtoAGI.AgentCollaboration",
+        "source": "ProtoAGI.AI_Agent",
+        "target": "ProtoAGI.AI_Agent",
+        "protocol": "creative",
+        "map": "None",
+        "condition": null,
+        "effects": "",
+        "latency": 0.0,
+        "bandwidth": 1.0,
+        "fidelity": 1.0,
+        "entanglement": 0.0
+      }
+    ],
+    "enums": {},
+    "namespaces": {
+      "ProtoAGI": [
+        "ProtoAGI.Web2_Service",
+        "ProtoAGI.Web3_Node",
+        "ProtoAGI.AI_Agent",
+        "ProtoAGI.SharedKnowledgeBase",
+        "ProtoAGI.EmergenceMetrics"
+      ]
+    },
+    "dynamics": {
+      "ProtoAGI.hypothesis_ProtoAGI_Emergence": "condition: \n            exists SharedKnowledgeBase mem with\n            number_of_agents >= 10 and\n            web3_incentives_active and\n            web2_data_volume > threshold;\n\n        prediction:\n            after T iterations,\n            EmergenceMetrics.integration_phi > 0.618\n            and collective_intelligence > 2.0 * average(agent_performances);\n\n        falsification:\n            if after 10^6 iterations phi < 0.618 or\n               collective <= 2*average, hypothesis rejected."
+    },
+    "constraints": [
+      {
+        "id": "ProtoAGI.NoSingularityWithoutOversight",
+        "check": "integration_phi < 0.9",
+        "mode": "RUNTIME_MONITOR",
+        "measurement": null,
+        "on_violation": "EMERGENCY_HALT"
+      },
+      {
+        "id": "ProtoAGI.DataSovereignty",
+        "check": "data_ownership_preserved == true",
+        "mode": "RUNTIME_MONITOR",
+        "measurement": null,
+        "on_violation": "LOG_INCIDENT"
+      }
+    ]
+  }
+}

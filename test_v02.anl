@@ -1,0 +1,28 @@
+namespace Test {
+    enum Color {
+        Red;
+        Green;
+        Blue;
+    }
+
+    node Parent {
+        attributes {
+            int x = 10;
+        }
+    }
+
+    node Child : Parent {
+        attributes {
+            int y = 20;
+        }
+    }
+
+    handover Move (Child c1, Child c2) {
+        protocol: conservative;
+        condition: c1.x > 0;
+        effects {
+            c2.x = c1.x;
+            c1.x = 0;
+        }
+    }
+}

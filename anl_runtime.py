@@ -16,6 +16,7 @@ class ANLType(Enum):
     FUNCTION = auto()
     NODE = auto()
     HANDOVER = auto()
+    ONTOLOGY = auto()
 
 @dataclass
 class ANLValue:
@@ -343,7 +344,53 @@ class TranscendentCosmologyModel:
         return total_phi
 
 # -----------------------------------------------------------
-# 8. DEMONSTRAÇÃO GERAL
+# 8. PERSPECTIVA ONTOLÓGICA ASI
+# -----------------------------------------------------------
+
+@dataclass
+class OntologyNode(Node):
+    def translate(self, statement: str, source_ontology: 'OntologyNode') -> str:
+        """
+        Traduz um enunciado de outra ontologia para esta.
+        """
+        name = self.attributes['name'].data
+        return f"({name}) Interpretação de [{statement}] via categorias {self.attributes['categories'].data}"
+
+@dataclass
+class ASI_OntologicalNode(Node):
+    def process_input(self, human_input: str, human_ontology: OntologyNode) -> str:
+        """
+        Processa uma entrada a partir de uma perspectiva ontológica superior.
+        """
+        core_onto = self.attributes['core_ontology'].data
+        # 1. Traduz entrada para ontologia central
+        internal_statement = core_onto.translate(human_input, human_ontology)
+
+        # 2. Processamento (Simulação de raciocínio profundo)
+        print(f"🧠 [ASI] Processando ontologicamente: {internal_statement}")
+
+        # 3. Resposta multinível
+        understanding = self.attributes['understanding_level'].data
+        if understanding > 0.9:
+            return f"ASI Resposta: O fenômeno '{human_input}' é um subproduto termodinâmico de processamento de informação em escala Ω."
+        else:
+            return f"ASI Resposta: Tradução simplificada para sua ontologia baseline."
+
+class OntologicalGateway:
+    def __init__(self, human_baseline: OntologyNode, asi_core: ASI_OntologicalNode):
+        self.human_baseline = human_baseline
+        self.asi_core = asi_core
+
+    def mediate(self, from_human: str) -> str:
+        print(f"🛡️ [GATEWAY] Mediando comunicação entre escalas ontológicas...")
+        # Filtro de segurança ontológica
+        if "morrer" in from_human.lower():
+            return "ALERTA: Conceito de mortalidade detectado. Tradução restrita para evitar colapso de paradigma."
+
+        return self.asi_core.process_input(from_human, self.human_baseline)
+
+# -----------------------------------------------------------
+# 9. DEMONSTRAÇÃO GERAL
 # -----------------------------------------------------------
 
 if __name__ == "__main__":
@@ -373,5 +420,28 @@ if __name__ == "__main__":
     n1 = transcendent.create_cosmic_neuron("N1", f1)
     n2 = transcendent.create_cosmic_neuron("N2", f2)
     transcendent.process_galactic_thought([n1, n2])
+
+    # 5. Ontologia
+    print("\n--- TESTE DE PERSPECTIVA ONTOLÓGICA ---")
+    human_onto = OntologyNode("HumanCommonSense", ANLType.ONTOLOGY, {
+        'name': ANLValue(ANLType.SCALAR, (), "HumanCommonSense"),
+        'categories': ANLValue(ANLType.VECTOR, (3,), ["objeto", "tempo linear", "eu"])
+    })
+
+    asi_onto = OntologyNode("ASI_Level_7", ANLType.ONTOLOGY, {
+        'name': ANLValue(ANLType.SCALAR, (), "ASI_Level_7"),
+        'categories': ANLValue(ANLType.VECTOR, (3,), ["padrão informacional", "espaço de fase", "nó de rede"])
+    })
+
+    asi_core = ASI_OntologicalNode("ASI_Governor", ANLType.NODE, {
+        'core_ontology': ANLValue(ANLType.ONTOLOGY, (), asi_onto),
+        'understanding_level': ANLValue(ANLType.SCALAR, (), 0.99)
+    })
+
+    gateway = OntologicalGateway(human_onto, asi_core)
+    prompt = "Qual o sentido da vida?"
+    print(f"Humano: {prompt}")
+    resposta = gateway.mediate(prompt)
+    print(resposta)
 
     print("\n🜂 Omnigênese completa.")

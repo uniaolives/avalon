@@ -123,3 +123,16 @@ class SafeCore:
             "coherence": self.current_coherence,
             "qfi": self.current_qfi
         }
+
+    # Properties for renderer compatibility
+    @property
+    def phi(self): return self.current_phi
+
+    @property
+    def coherence(self): return self.current_coherence
+
+    @property
+    def qfi(self): return self.current_qfi
+
+    @property
+    def active(self): return self.is_active

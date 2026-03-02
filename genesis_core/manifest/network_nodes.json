@@ -1,0 +1,5 @@
+[
+  {"id": "arkhe-01", "type": "prime", "status": "immortal"},
+  {"id": "arkhe-02", "type": "edge", "status": "immortal"},
+  {"id": "arkhe-03", "type": "embedded", "status": "immortal"}
+]

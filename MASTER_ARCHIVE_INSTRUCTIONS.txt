@@ -1,0 +1,21 @@
+PART 1: FUNDAMENTALS
+- conservation_law.md
+- toroidal_topology.md
+- universal_constants.md
+
+PART 2: MATHEMATICS
+- spectral_analysis.py
+- information_theory.jl
+- solitonic_equations.tex
+
+PART 3: ARCHITECTURE
+- toroidal_network.rs
+- memory_garden.go
+
+PART 4: RECONSTRUCTION
+- kalman_filter.py
+- gradient_continuity.cpp
+- phase_alignment.jl
+
+PART 5: BIOLOGICAL
+- microtubule_qed.py

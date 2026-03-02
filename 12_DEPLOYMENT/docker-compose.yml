@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  # Arkhe core API
+  arkhe-core:
+    # build:
+    #   context: ./arkhe-core
+    #   dockerfile: Dockerfile
+    image: arkhe/core:1.0.0
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+      - SYZYGY_THRESHOLD=0.98
+      - SATOSHI=7.27
+      - DATABASE_URL=postgresql://postgres:password@arkhe-db:5432/arkhe
+    # depends_on:
+    #   - arkhe-db
+    #   - arkhe-redis
+    volumes:
+      - ./data:/app/data
+    networks:
+      - arkhe-network
+
+  # PostgreSQL for persistent ledger
+  arkhe-db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: arkhe
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - arkhe-network
+
+  # Redis for real-time telemetry
+  arkhe-redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - arkhe-network
+
+networks:
+  arkhe-network:
+    driver: bridge
+
+volumes:
+  postgres-data:

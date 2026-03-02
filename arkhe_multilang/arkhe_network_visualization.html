@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Arkhe(N) OS - Omniversal Visualization</title>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: black; color: white; font-family: monospace; }
+        #info {
+            position: absolute; top: 10px; left: 10px;
+            background: rgba(0,0,0,0.7);
+            padding: 10px; border-radius: 5px;
+            z-index: 100;
+        }
+        #controls {
+            position: absolute; bottom: 20px; left: 20px;
+            background: rgba(0,0,0,0.5);
+            padding: 10px; border-radius: 5px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div id="info">
+        <h2>Arkhe(N) OS - Γ_OMNIVERSAL</h2>
+        <p>Syzygy: <span id="syzygy">0.980</span></p>
+        <p>Satoshi: <span id="satoshi">7.28</span> bits</p>
+        <p>Bolhas ativas: 42</p>
+        <p>Coerência global: <span id="coherence">0.86</span></p>
+    </div>
+    <div id="controls">
+        <p>Fase: <span id="phase">0.00</span> rad | ε: -3.71e-11</p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Simple replacement for OrbitControls since we cannot easily import it here -->
+    <script>
+        // Cena
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x050510);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 0, 3.5);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Luzes
+        const ambientLight = new THREE.AmbientLight(0x404060);
+        scene.add(ambientLight);
+
+        const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+        dirLight.position.set(1, 2, 1);
+        scene.add(dirLight);
+
+        // Rede de Bolhas
+        const numBubbles = 42;
+        const sphereRadius = 1.8;
+        const bubbles = [];
+        const bubbleGroup = new THREE.Group();
+
+        for (let i = 0; i < numBubbles; i++) {
+            const phi = Math.acos(1 - 2 * i / numBubbles);
+            const theta = 2 * Math.PI * i / numBubbles;
+
+            const x = sphereRadius * Math.sin(phi) * Math.cos(theta);
+            const y = sphereRadius * Math.sin(phi) * Math.sin(theta);
+            const z = sphereRadius * Math.cos(phi);
+
+            const geometry = new THREE.SphereGeometry(0.1, 32, 16);
+            const material = new THREE.MeshStandardMaterial({
+                color: 0xaa66ff,
+                emissive: 0x330066,
+                transparent: true,
+                opacity: 0.8
+            });
+            const sphere = new THREE.Mesh(geometry, material);
+            sphere.position.set(x, y, z);
+            bubbleGroup.add(sphere);
+            bubbles.push(sphere);
+        }
+        scene.add(bubbleGroup);
+
+        // Conexões (Emaranhamento)
+        const lineMaterial = new THREE.LineBasicMaterial({ color: 0x8866ff, transparent: true, opacity: 0.2 });
+        for (let i = 0; i < numBubbles; i++) {
+            for (let j = i+1; j < numBubbles; j += 6) {
+                const points = [bubbles[i].position, bubbles[j].position];
+                const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+                const line = new THREE.Line(lineGeometry, lineMaterial);
+                bubbleGroup.add(line);
+            }
+        }
+
+        // Partículas
+        const particleGeometry = new THREE.BufferGeometry();
+        const particleCount = 2000;
+        const posArray = new Float32Array(particleCount * 3);
+        for (let i = 0; i < particleCount; i++) {
+            const r = sphereRadius + Math.random();
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.random() * Math.PI;
+            posArray[i*3] = r * Math.sin(phi) * Math.cos(theta);
+            posArray[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
+            posArray[i*3+2] = r * Math.cos(phi);
+        }
+        particleGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particleMaterial = new THREE.PointsMaterial({ color: 0x88aaff, size: 0.02 });
+        const particles = new THREE.Points(particleGeometry, particleMaterial);
+        bubbleGroup.add(particles);
+
+        // Animação
+        let time = 0;
+        function animate() {
+            requestAnimationFrame(animate);
+            time += 0.01;
+
+            bubbleGroup.rotation.y += 0.002;
+            bubbleGroup.rotation.x += 0.001;
+
+            bubbles.forEach((b, i) => {
+                const s = 1.0 + 0.2 * Math.sin(time * 3 + i);
+                b.scale.set(s, s, s);
+            });
+
+            document.getElementById('syzygy').innerText = (0.98 + 0.01 * Math.sin(time)).toFixed(3);
+            document.getElementById('coherence').innerText = (0.86 + 0.005 * Math.cos(time)).toFixed(3);
+            document.getElementById('phase').innerText = (time % (2 * Math.PI)).toFixed(3);
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

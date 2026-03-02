@@ -8,6 +8,11 @@ class Protocol(Enum):
     DESTRUCTIVE = "destructive"    # Decreases entropy (filtering/forgetting)
     TRANSMUTATIVE = "transmutative" # Changes category/substrate
     QUANTUM = "quantum"             # Unitary/Entanglement based
+    CONSERVATIVE = "conservative"
+    CREATIVE = "creative"
+    DESTRUCTIVE = "destructive"
+    TRANSMUTATIVE = "transmutative"
+    QUANTUM = "quantum"
 
 class StateSpace:
     def __init__(self, dimension: int, topology: str = "euclidean", algebra: str = "real"):
@@ -21,6 +26,7 @@ class StateSpace:
 
 class Node:
     def __init__(self, id: str, state_space: StateSpace, initial_state: Any = None, coherence: float = 1.0, internal_dynamics: Optional[Callable] = None, attributes: Optional[Dict[str, Any]] = None, parent_id: Optional[str] = None, functions: Optional[Dict[str, str]] = None):
+    def __init__(self, id: str, state_space: StateSpace, initial_state: Any = None, coherence: float = 1.0, internal_dynamics: Optional[Callable] = None, attributes: Optional[Dict[str, Any]] = None):
         self.id = id
         self.state_space = state_space
         self.current_state = np.array(initial_state) if initial_state is not None else None

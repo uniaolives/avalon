@@ -1,6 +1,7 @@
 # papercoder_kernel/lie/group.py
 from typing import Callable, Optional, List
 from papercoder_kernel.core.program_ast import Program
+from papercoder_kernel.core.ast import Program
 from papercoder_kernel.lie.algebra import VectorField
 
 class Diffeomorphism:

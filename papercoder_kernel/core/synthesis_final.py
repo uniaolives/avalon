@@ -39,6 +39,7 @@ class SynthesisEngine:
                 "HARDWARE", "SIMULATION", "METAPHOR", "HYPOTHESIS",
                 "OBSERVER", "ATOMIC", "PHI", "GAMMA", "KAPPA",
                 "TAU", "BIOLOGICAL", "IIT_PHI", "PILOT", "SAFE_CORE"
+                "TAU", "BIOLOGICAL", "IIT_PHI"
             ],
             safety_status = "STABLE - Chiral Protected",
             entropy_reversal_rate = 0.01618, # Golden ratio scaling

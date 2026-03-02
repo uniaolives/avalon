@@ -5,6 +5,7 @@ Transforms tangent vectors into finite refactorings.
 """
 
 from papercoder_kernel.core.program_ast import Program
+from papercoder_kernel.core.ast import Program
 from papercoder_kernel.core.diff import TangentVector
 from papercoder_kernel.lie.group import Diffeomorphism
 

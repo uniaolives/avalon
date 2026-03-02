@@ -6,6 +6,7 @@ Implements the autonomous learning cycle for refactorings.
 
 from typing import Any, List, Optional, Callable
 from papercoder_kernel.core.program_ast import Program
+from papercoder_kernel.core.ast import Program
 from papercoder_kernel.core.diff import TangentVector
 
 class ExperientialLearning:

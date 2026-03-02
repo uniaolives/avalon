@@ -16,6 +16,7 @@ type Observation struct {
 	Validator   string    `json:"validator"`    // endereço do nó
 	Signature   []byte    `json:"signature"`    // prova criptográfica
 	BlockHeight int64     `json:"block_height"`
+	Node        string    `json:"node"`         // Alias for Validator if needed
 
 	// Metadados Arkhe(N)
 	CoherenceAtCreation sdk.Dec `json:"coherence_at_creation"` // C do nó

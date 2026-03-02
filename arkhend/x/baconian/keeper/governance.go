@@ -58,6 +58,8 @@ func (k *Keeper) ProcessVote(ctx sdk.Context, instanceID string, voter string, d
 		return fmt.Errorf("instance not found")
 	}
 
+	// In a real implementation, we would check if instance.Status allows voting
+
 	// Calcular poder de voto baseado em coerência do nó
 	nodeCoherence := k.coherenceProvider.GetNodeCoherence(ctx, voter)
 	phiPower := nodeCoherence // peso direto da coerência

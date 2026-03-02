@@ -95,3 +95,32 @@ func TestIdolIDGeneration(t *testing.T) {
 		t.Errorf("Expected unique IDs, got both as %s", id1)
 	}
 }
+
+func TestGovernanceResolution(t *testing.T) {
+	cp := coherence.Module{}
+	hb := handover.Module{}
+	gk := gov.Module{}
+	k := NewKeeper(cp, hb, gk)
+	ctx := sdk.Context{}
+
+	instance := &types.PrerogativeInstance{
+		ID:         "ind-1",
+		Confidence: 0.9,
+		Status:     types.StatusVoting,
+	}
+	k.instances[instance.ID] = *instance
+
+	// Voter 1: Accept, Power 0.9
+	// Voter 2: Accept, Power 0.8
+	// Voter 3: Reject, Power 0.7
+	// Total: 2.4. Accept: 1.7. Ratio: 1.7/2.4 = 0.708 >= 0.618
+
+	k.ProcessVote(ctx, "ind-1", "v1", true, "Great")
+	k.ProcessVote(ctx, "ind-1", "v2", true, "Good")
+	k.ProcessVote(ctx, "ind-1", "v3", false, "Bad")
+
+	updated, _ := k.GetPrerogativeInstance(ctx, "ind-1")
+	if updated.Status != types.StatusAccepted {
+		t.Errorf("Expected StatusAccepted, got %v", updated.Status)
+	}
+}

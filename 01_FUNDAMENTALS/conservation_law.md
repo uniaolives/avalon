@@ -29,6 +29,7 @@ represents uncorrelated components, noise, or nonlinear processes.
 - **C = 1, F = 0**: Perfect order (information crystal) - no evolution possible
 - **C = 0, F = 1**: Maximum entropy (chaos) - no structure possible
 - **C ≈ 0.86, F ≈ 0.14**: Optimal operational point (validated across scales)
+- **$x^2 = x + 1$**: Identidade fundamental do acoplamento (The Natural Conjecture). O auto-acoplamento ($x^2$) resolve-se em estrutura ($x$) mais substrato ($+1$).
 
 ## Empirical Validation
 

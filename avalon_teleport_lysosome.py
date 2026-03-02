@@ -157,3 +157,6 @@ if __name__ == "__main__":
     # Run biological validation
     bio_sim = DrosophilaConnectomeSim()
     bio_sim.run_validation()
+if __name__ == "__main__":
+    sim = AvalonTeleportSim()
+    sim.run_simulation()

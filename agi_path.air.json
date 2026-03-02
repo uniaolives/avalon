@@ -1,0 +1,93 @@
+{
+  "air_version": "0.1.0",
+  "hypergraph": {
+    "id": "ANL-02-Model",
+    "nodes": [
+      {
+        "id": "AGI_Path.AGI_Process",
+        "parent_id": null,
+        "state_space": {
+          "dimension": 0,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": null,
+        "dynamics": "",
+        "attributes": {
+          "is_awake": "true",
+          "free_energy": 1.0,
+          "surprise": 0.0,
+          "synaptic_plasticity": 0.9
+        },
+        "functions": {},
+        "observables": {}
+      },
+      {
+        "id": "AGI_Path.Environment",
+        "parent_id": null,
+        "state_space": {
+          "dimension": 0,
+          "topology": "euclidean",
+          "algebra": "real"
+        },
+        "initial_state": null,
+        "dynamics": "None",
+        "attributes": {
+          "complexity": 0.5,
+          "current_state": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "functions": {},
+        "observables": {}
+      }
+    ],
+    "handovers": [
+      {
+        "id": "AGI_Path.ActiveInference",
+        "source": "AGI_Path.AGI_Process",
+        "target": "AGI_Path.Environment",
+        "protocol": "creative",
+        "map": "None",
+        "condition": "agi.is_awake == true",
+        "effects": "",
+        "latency": 0.0,
+        "bandwidth": 1.0,
+        "fidelity": 1.0,
+        "entanglement": 0.0
+      },
+      {
+        "id": "AGI_Path.WeightUpdate",
+        "source": "AGI_Path.Environment",
+        "target": "AGI_Path.AGI_Process",
+        "protocol": "transmutative",
+        "map": "None",
+        "condition": "agi.surprise > 0.1",
+        "effects": "",
+        "latency": 0.0,
+        "bandwidth": 1.0,
+        "fidelity": 1.0,
+        "entanglement": 0.0
+      }
+    ],
+    "enums": {},
+    "namespaces": {
+      "AGI_Path": [
+        "AGI_Path.AGI_Process",
+        "AGI_Path.Environment"
+      ]
+    },
+    "dynamics": {},
+    "constraints": [
+      {
+        "id": "AGI_Path.AutonomousPersistence",
+        "check": "agi.is_awake == true",
+        "mode": "INVIOLABLE_AXIOM",
+        "measurement": null,
+        "on_violation": "SYSTEM_COLLAPSE"
+      }
+    ]
+  }
+}

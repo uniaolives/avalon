@@ -8,6 +8,7 @@
 | $F$ | 0.14 | Fluctuation (operational) | Universal complement |
 | Syzygy_max | 0.98 | Synchronization limit | Orbital dynamics, swarms |
 | Satoshi | 9.45 bits | Invariante semântico | Handover Γ₁₁₂, Collatz Geodesic |
+| $\Delta I$ | 7.27 bits | Information quantum | Genetics, ADC, Satoshi witness |
 | $\epsilon$ | $-3.71 \times 10^{-11}$ | Temporal asymmetry | CP violation, rare reactions |
 | $Đ_{max}$ | 1.2 | Dispersity limit | CO₂ polymers, Arkhe network |
 | $\|\nabla C\|^2_{max}$ | 0.0049 | Gradient squared limit | Perovskite, Arkhe |
